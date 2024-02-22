@@ -1,7 +1,38 @@
 import { useState } from "react"
+import './App.css'
+
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  currency: string;
+  discountQuantity: number;
+  discountPercent: number;
+  upsellProductId: number | null;
+};
+
+
+interface ProductItemProps {
+  product : Product;
+}
+
+function ProductItem({product}: ProductItemProps){
+  return (
+    <>
+      {product.name}
+      &emsp;
+      {product.price}
+      &nbsp;
+      {product.currency}
+      <p>{product.description}</p>
+    </>
+  )
+}
+
 
 function App() {
-    const products = [
+  const [products] = useState<Product[]>([
     { 
     id: "apple-bag",
     name: "Apple bag, 5 pieces",
@@ -11,7 +42,7 @@ function App() {
     discountQuantity: 2,
     discountPercent: 10,
     upsellProductId: null
-    },
+  },
     {
     id: "banana",
     name: "Banana bag",
@@ -41,7 +72,10 @@ function App() {
     discountQuantity: 3,
     discountPercent: 15,
     upsellProductId: null
-    }];
+    }
+  
+  ]);
+
     const [basket, setBasket] =
         useState(Array(products.length).fill(null));
     function handleAmountChange(index: number, amount: number){
@@ -63,36 +97,36 @@ function App() {
 
     const totalQuantity = basket.reduce((total, quantity) => total + quantity, 0);
     const totalPrice = calculateTotalPrice();
-    return (
-        <div>
-            {products.map((product, index) => (
-                <div key={product.id} className="cartItem">
-                    <div className="description">
-                        <p>
-                            {product.name} {product.price} {product.currency}
-                        </p>
-                        <CartItem
-                            value={basket[index]}
-                            onDecrement={() => handleAmountChange(index, -1)}
-                            onIncrement={() => handleAmountChange(index, 1)}
-                        />
-                        <p>
-                            localTotalPrice: {calculateLocalTotalPrice(index)}
-                        </p>
-                    </div>
-                </div>
-            ))}
 
+    const productBoxItems = products.map((product, index) => (
+      <div id= "productBox">
+          <p>
+            <ProductItem key={product.id} product={product}/>
+          </p>
+          <CartItem
+              value={basket[index]}
+              onDecrement={() => handleAmountChange(index, -1)}
+              onIncrement={() => handleAmountChange(index, 1)}
+          />
+          <p>
+              localTotalPrice: {calculateLocalTotalPrice(index)}
+          </p>
+      </div>
+    ));
+
+    return (
+        <>
+            {productBoxItems}
             {/* Display the total quantity */}
             <p>Total Quantity: {totalQuantity}</p>
             <p>Total Price: {totalPrice}</p>
-        </div>
+        </>
     );
 }
 
-function CartItem({value, onIncrement, onDecrement}) {
+function CartItem({value, onIncrement, onDecrement}:any /* YES ANY, just for now*/) {
     return (
-        <div>
+        <>
             <button className="increase" onClick={onIncrement}>
                 +
             </button>
@@ -100,7 +134,7 @@ function CartItem({value, onIncrement, onDecrement}) {
             <button className="decrease" onClick={onDecrement} disabled={value <= 0}>
                 -
             </button>
-        </div>
+        </>
     );
 }
 
