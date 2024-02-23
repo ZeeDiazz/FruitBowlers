@@ -109,7 +109,7 @@ function App() {
               onIncrement={() => handleAmountChange(index, 1)}
           />
           <p>
-              localTotalPrice: {calculateLocalTotalPrice(index)}
+              localTotalPrice: {calculateLocalTotalPrice(index)} {product.currency}
           </p>
       </div>
     ));
@@ -119,7 +119,7 @@ function App() {
             {productBoxItems}
             {/* Display the total quantity */}
             <p>Total Quantity: {totalQuantity}</p>
-            <p>Total Price: {totalPrice}</p>
+            <p>Total Price: {totalPrice} &nbsp; {products[0].currency}</p>
         </>
     );
 }
