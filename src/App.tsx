@@ -77,12 +77,16 @@ function App() {
   ]);
 
     const [basket, setBasket] =
-        useState(Array(products.length).fill(null));
-    function handleAmountChange(index: number, amount: number){
+        useState(Array(products.length).fill(1));
+    function handleAmountChange(index: number, amount: number | null){
         const newBasket = basket.slice();
-        newBasket[index] += amount
+        if(amount === null){
+            newBasket[index] = null;
+        }else{
+            newBasket[index] += amount
+        }
         setBasket(newBasket);
-        console.log('cartItem was clicked')
+        console.log(basket);
     }
     const calculateLocalTotalPrice = (index: number) => {
         return basket[index] * products[index].price;
@@ -99,20 +103,23 @@ function App() {
     const totalPrice = calculateTotalPrice();
 
     const productBoxItems = products.map((product, index) => (
-      <div id= "productBox">
-          <p>
-            <ProductItem key={product.id} product={product}/>
-          </p>
-          <CartItem
-              value={basket[index]}
-              onDecrement={() => handleAmountChange(index, -1)}
-              onIncrement={() => handleAmountChange(index, 1)}
-          />
-          <p>
-              localTotalPrice: {calculateLocalTotalPrice(index)} {product.currency}
-          </p>
-      </div>
-    ));
+        basket[index] != null &&( // only render product if its in the basket
+          <div id= "productBox">
+              <p>
+                <ProductItem key={product.id} product={product}/>
+              </p>
+              <CartItem
+                  value={basket[index]}
+                  onDecrement={() => handleAmountChange(index, -1)}
+                  onIncrement={() => handleAmountChange(index, 1)}
+                  onRemove={() => handleAmountChange(index,null)}
+              />
+              <p>
+                  localTotalPrice: {calculateLocalTotalPrice(index)} {product.currency}
+              </p>
+          </div>
+        )
+        ));
 
     return (
         <>
@@ -124,7 +131,7 @@ function App() {
     );
 }
 
-function CartItem({value, onIncrement, onDecrement}:any /* YES ANY, just for now*/) {
+function CartItem({value, onIncrement, onDecrement, onRemove}:any /* YES ANY, just for now*/) {
     return (
         <>
             <button className="increase" onClick={onIncrement}>
@@ -133,6 +140,10 @@ function CartItem({value, onIncrement, onDecrement}:any /* YES ANY, just for now
             <span>{value}</span>
             <button className="decrease" onClick={onDecrement} disabled={value <= 0}>
                 -
+            </button>
+
+            <button className="remove" onClick={onRemove}>
+                %
             </button>
         </>
     );
