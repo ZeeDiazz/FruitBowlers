@@ -1,4 +1,4 @@
-import { useState } from "react"
+import {useState } from "react"
 import './App.css'
 
 interface Product {
@@ -20,6 +20,7 @@ interface ProductItemProps {
 function ProductItem({product}: ProductItemProps){
   return (
     <>
+      {getImage(product)}
       {product.name}
       &emsp;
       {product.price}
@@ -30,48 +31,47 @@ function ProductItem({product}: ProductItemProps){
   )
 }
 
-
 function App() {
   const [products] = useState<Product[]>([
     { 
-    id: "apple-bag",
-    name: "Apple bag, 5 pieces",
-    price: 20,
-    description: "There are 5 apples in one bag",
-    currency: "DKK",
-    discountQuantity: 2,
-    discountPercent: 10,
-    upsellProductId: null
-  },
-    {
-    id: "banana",
-    name: "Banana bag",
-    price: 15,
-    description: 'One eco banana is approximately 105g. There are 5 bananas in one bag',
-    currency: 'DKK',
-    discountQuantity: 5,
-    discountPercent: 10,
-    upsellProductId: null
+      id: "apple-bag",
+      name: "Apple bag, 5 pieces",
+      price: 20,
+      description: "There are 5 apples in one bag",
+      currency: "DKK",
+      discountQuantity: 2,
+      discountPercent: 10,
+      upsellProductId: null
     },
     {
-    id: 'lemon-bag',
-    name: 'Lemon bag, 6 pieces',
-    price: 15,
-    description: 'One eco lemon bag is approximately 500g.',
-    currency: 'DKK',
-    discountQuantity: 4,
-    discountPercent: 10,
-    upsellProductId: null
+      id: "banana-bag",
+      name: "Banana bag",
+      price: 15,
+      description: 'One eco banana is approximately 105g. There are 5 bananas in one bag',
+      currency: 'DKK',
+      discountQuantity: 5,
+      discountPercent: 10,
+      upsellProductId: null
     },
     {
-    id: 'strawberries',
-    name: 'Strawberries',
-    price: 35,
-    description: '300g, eco, danish strawberries',
-    currency: 'DKK',
-    discountQuantity: 3,
-    discountPercent: 15,
-    upsellProductId: null
+      id: 'lemon-bag',
+      name: 'Lemon bag, 6 pieces',
+      price: 15,
+      description: 'One eco lemon bag is approximately 500g.',
+      currency: 'DKK',
+      discountQuantity: 4,
+      discountPercent: 10,
+      upsellProductId: null
+    },
+    {
+      id: 'strawberries',
+      name: 'Strawberries',
+      price: 35,
+      description: '300g, eco, danish strawberries',
+      currency: 'DKK',
+      discountQuantity: 3,
+      discountPercent: 15,
+      upsellProductId: null
     }
   
   ]);
@@ -113,20 +113,28 @@ function App() {
                   onDecrement={() => handleAmountChange(index, -1)}
                   onIncrement={() => handleAmountChange(index, 1)}
                   onRemove={() => handleAmountChange(index,null)}
-              />
-              <p>
-                  localTotalPrice: {calculateLocalTotalPrice(index)} {product.currency}
-              </p>
+              />  
           </div>
         )
         ));
 
     return (
         <>
-            {productBoxItems}
-            {/* Display the total quantity */}
-            <p>Total Quantity: {totalQuantity}</p>
-            <p>Total Price: {totalPrice} &nbsp; {products[0].currency}</p>
+            {/*Should move titleName another place*/}
+            <div id= "titleName">
+              <h1>Fruit Bowlers</h1>
+              <div id= "line"></div>
+            </div>
+            
+                {productBoxItems}
+              {/* Display the total quantity */}
+              {/* Should move TotalBox some place else*/}
+              
+                <div id = "totalBox">
+                  <h2>Total</h2>
+                <p>Total Quantity: {totalQuantity}</p>
+                <p>Total Price: {totalPrice} &nbsp; {products[0].currency}</p>
+                </div>
         </>
     );
 }
@@ -147,6 +155,16 @@ function CartItem({value, onIncrement, onDecrement, onRemove}:any /* YES ANY, ju
             </button>
         </>
     );
+}
+
+function getImage(product : Product){
+  return (
+    <>
+    <img
+        src= {`/images/${product.id}.png`} alt= {product.id} className="img"
+      />
+    </>
+  )
 }
 
 
