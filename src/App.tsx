@@ -125,8 +125,16 @@ function App() {
               <h1>Fruit Bowlers</h1>
               <div id= "line"></div>
             </div>
-            
+            <div id= "basket">
+                <div className="title-container">
+                <img
+                        src= {`/images/stage1.png`}
+                       className="stage1"
+                        />
+                <h2>Basket</h2>
+                </div>
                 {productBoxItems}
+            </div>
               {/* Display the total quantity */}
               {/* Should move TotalBox some place else*/}
               
@@ -161,7 +169,9 @@ function getImage(product : Product){
   return (
     <>
     <img
-        src= {`/images/${product.id}.png`} alt= {product.id} className="img"
+        src= {`/images/${product.id}.png`}
+        alt= {product.id}
+        className="img"
       />
     </>
   )
