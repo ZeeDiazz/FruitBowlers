@@ -150,12 +150,13 @@ function App() {
 function CartItem({value, onIncrement, onDecrement, onRemove}:any /* YES ANY, just for now*/) {
     return (
         <>
+           <button className="decrease" onClick={onDecrement} disabled={value <= 1}>
+                -
+            </button>
+
+            <span>{value}</span>
             <button className="increase" onClick={onIncrement}>
                 +
-            </button>
-            <span>{value}</span>
-            <button className="decrease" onClick={onDecrement} disabled={value <= 0}>
-                -
             </button>
 
             <button className="remove" onClick={onRemove}>
