@@ -1,6 +1,7 @@
 import {useState } from "react"
 import './App.css'
 import './product.tsx'
+import stage2 from './StageTwo.tsx'
 
 
 function ProductItem({product}: ProductItemProps){
@@ -119,6 +120,7 @@ function App() {
             <div className="title-container">
               <img
                   src= {`/images/stage1.png`}
+                  alt= "Step 1"
                   className="stage1"
               />
               <h2>Basket</h2>
@@ -129,11 +131,15 @@ function App() {
           </div>
             {/* Display the total quantity */}
             {/* Should move TotalBox some place else*/}
-              <div id = "totalBox">
-                <h2>Total</h2>
-                <p>Total Quantity: {totalQuantity}</p>
-                <p>Total Price: {totalPrice} &nbsp; {products[0].currency}</p>
-              </div>
+          <div id = "totalBox">
+              <h2>Total</h2>
+              <p>Total Quantity: {totalQuantity}</p>
+              <p>Total Price: {totalPrice} &nbsp; {products[0].currency}</p>
+          </div>
+
+          <div id= "basket">
+              {stage2()}
+          </div>
       </>
   );
 }

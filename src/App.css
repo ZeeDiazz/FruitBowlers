@@ -41,8 +41,9 @@
 }
 .title-container{
   display: grid;
-  grid-template-columns: 11% auto;
+  grid-template-columns: 9% auto;
 }
+
 
 
 
