@@ -21,12 +21,18 @@ function ProductItem({product}: ProductItemProps){
   return (
     <>
       {getImage(product)}
-      {product.name}
+      <div id = "nameTag">
+        {product.name}
+      </div>
       &emsp;
-      {product.price}
-      &nbsp;
-      {product.currency}
-      <p>{product.description}</p>
+      <div id = "priceTag">
+        {product.price}
+        &nbsp;
+        {product.currency}
+      </div>
+      <div id = "desc">
+        <p>{product.description}</p>
+      </div>
     </>
   )
 }
@@ -76,94 +82,95 @@ function App() {
   
   ]);
 
-    const [basket, setBasket] =
-        useState(Array(products.length).fill(1));
-    function handleAmountChange(index: number, amount: number | null){
-        const newBasket = basket.slice();
-        if(amount === null){
-            newBasket[index] = null;
-        }else{
-            newBasket[index] += amount
-        }
-        setBasket(newBasket);
-        console.log(basket);
-    }
-    const calculateLocalTotalPrice = (index: number) => {
-        return basket[index] * products[index].price;
-    };
-    const calculateTotalPrice = () => {
-        let totalPrice = 0;
-        for (let i = 0; i < basket.length; i++) {
-            totalPrice += calculateLocalTotalPrice(i);
-        }
-        return totalPrice;
-    };
+  const [basket, setBasket] =
+      useState(Array(products.length).fill(1));
+  function handleAmountChange(index: number, amount: number | null){
+      const newBasket = basket.slice();
+      if(amount === null){
+          newBasket[index] = null;
+      }else{
+          newBasket[index] += amount
+      }
+      setBasket(newBasket);
+      console.log(basket);
+  }
+  const calculateLocalTotalPrice = (index: number) => {
+      return basket[index] * products[index].price;
+  };
+  const calculateTotalPrice = () => {
+      let totalPrice = 0;
+      for (let i = 0; i < basket.length; i++) {
+          totalPrice += calculateLocalTotalPrice(i);
+      }
+      return totalPrice;
+  };
 
-    const totalQuantity = basket.reduce((total, quantity) => total + quantity, 0);
-    const totalPrice = calculateTotalPrice();
+  const totalQuantity = basket.reduce((total, quantity) => total + quantity, 0);
+  const totalPrice = calculateTotalPrice();
 
-    const productBoxItems = products.map((product, index) => (
-        basket[index] != null &&( // only render product if its in the basket
-          <div id= "productBox">
-              <p>
-                <ProductItem key={product.id} product={product}/>
-              </p>
-              <CartItem
-                  value={basket[index]}
-                  onDecrement={() => handleAmountChange(index, -1)}
-                  onIncrement={() => handleAmountChange(index, 1)}
-                  onRemove={() => handleAmountChange(index,null)}
-              />  
+  const productBoxItems = products.map((product, index) => (
+      basket[index] != null &&( // only render product if its in the basket
+        <div id= "productBox">
+            <p>
+              <ProductItem key={product.id} product={product}/>
+            </p>
+            <div id= "adjustable">
+            <CartItem
+                value={basket[index]}
+                onDecrement={() => handleAmountChange(index, -1)}
+                onIncrement={() => handleAmountChange(index, 1)}
+                onRemove={() => handleAmountChange(index,null)}
+            />  
+            </div>
+        </div>
+      )
+  ));
+
+  return (
+      <>
+          {/*Should move titleName another place*/}
+          <div id= "titleName">
+            <h1>Fruit Bowlers</h1>
+            <div id= "line"></div>
           </div>
-        )
-        ));
+          <div id= "basket">
+            <div className="title-container">
+              <img
+                  src= {`/images/stage1.png`}
+                  className="stage1"
+              />
+              <h2>Basket</h2>
+            </div>
 
-    return (
-        <>
-            {/*Should move titleName another place*/}
-            <div id= "titleName">
-              <h1>Fruit Bowlers</h1>
-              <div id= "line"></div>
-            </div>
-            <div id= "basket">
-                <div className="title-container">
-                <img
-                        src= {`/images/stage1.png`}
-                       className="stage1"
-                        />
-                <h2>Basket</h2>
-                </div>
-                {productBoxItems}
-            </div>
-              {/* Display the total quantity */}
-              {/* Should move TotalBox some place else*/}
-              
-                <div id = "totalBox">
-                  <h2>Total</h2>
+            {productBoxItems}
+
+          </div>
+            {/* Display the total quantity */}
+            {/* Should move TotalBox some place else*/}
+              <div id = "totalBox">
+                <h2>Total</h2>
                 <p>Total Quantity: {totalQuantity}</p>
                 <p>Total Price: {totalPrice} &nbsp; {products[0].currency}</p>
-                </div>
-        </>
-    );
+              </div>
+      </>
+  );
 }
 
 function CartItem({value, onIncrement, onDecrement, onRemove}:any /* YES ANY, just for now*/) {
-    return (
-        <>
-           <button className="decrease" onClick={onDecrement} disabled={value <= 1}>
-                -
-            </button>
-
-            <span>{value}</span>
-            <button className="increase" onClick={onIncrement}>
-                +
-            </button>
-
-            <button className="remove" onClick={onRemove}>
-                %
-            </button>
-        </>
-    );
+  return (
+    <>
+      <button className="decrease" onClick={onDecrement} disabled={value <= 1}>
+        -
+      </button>
+      <span>{value}</span>
+      <button className="increase" onClick={onIncrement}>
+        +
+      </button>
+      <button className="remove" onClick={onRemove}>
+        %
+      </button>
+    </>
+  );
 }
 
 function getImage(product : Product){

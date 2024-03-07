@@ -49,9 +49,26 @@
 .img{
   height: 60px;
   width: 70px;
+  float: left;
 }
+
 .stage1{
   height: 60px;
   width: 70px;
-margin-top: auto;
+  margin-top: auto;
+}
+
+#nameTag{
+  float: left;
+  font-size: 20px;
+}
+#priceTag{
+  float: right;
+}
+#desc{
+  color: rgb(121, 121, 121);
+}
+
+#adjustable{
+  float: right;
 }
