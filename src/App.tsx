@@ -1,21 +1,7 @@
 import {useState } from "react"
 import './App.css'
+import './product.tsx'
 
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  description: string;
-  currency: string;
-  discountQuantity: number;
-  discountPercent: number;
-  upsellProductId: number | null;
-};
-
-
-interface ProductItemProps {
-  product : Product;
-}
 
 function ProductItem({product}: ProductItemProps){
   return (
@@ -78,8 +64,7 @@ function App() {
       discountQuantity: 3,
       discountPercent: 15,
       upsellProductId: null
-    }
-  
+    },
   ]);
 
   const [basket, setBasket] =
@@ -129,10 +114,7 @@ function App() {
   return (
       <>
           {/*Should move titleName another place*/}
-          <div id= "titleName">
-            <h1>Fruit Bowlers</h1>
-            <div id= "line"></div>
-          </div>
+          {menu()}
           <div id= "basket">
             <div className="title-container">
               <img
@@ -182,6 +164,15 @@ function getImage(product : Product){
         className="img"
       />
     </>
+  )
+}
+
+function menu(){
+  return(
+    <div id= "titleName">
+      <h1>Fruit Bowlers</h1>
+      <div id= "line"></div>
+    </div>
   )
 }
 
