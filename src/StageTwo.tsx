@@ -23,12 +23,14 @@ export default function stage2(){
 
 
         const streetNumberString = formJson.streetnumber;
+if(!validateStreet(streetNumberString)){
+    form.reset()
 
-         if(!validateStreet(streetNumberString)){
-             form.reset();
-             console.log("Invalid SteetNumber")
+    console.log("invalid zip code")
 
-         }
+
+}
+
 
 
     }
@@ -82,18 +84,19 @@ export default function stage2(){
 function checkboxes() {
     return(
         <>
-            {/*Checkbox: <input type="checkbox" name="myCheckbox" />*/}
+           <input type="checkbox" name="Delivery Address" defaultChecked={true} />
+            <br/>
+            <p>Send to billing address</p>
 
         </>
     )
 }
  function validateStreet(street){
-    let bool=0
+let bool =0
     fetchData(street,bool)
-     if(bool=1)
-         return true
-     else
-         return false
+
+     return bool
+
 
 }
  function fetchData(street,bool){
@@ -108,16 +111,64 @@ function checkboxes() {
         })
         .then(data => {
             console.log(data);
-            if(data.nr==1){
-                bool=1
-            }
+            bool=1
+
         })
         .catch(error => {
-            console.error('Invalid zip code:', error);
+            if (error.message === 'Network response was not ok') {
+                console.warn('Network response was not ok:', error);
+                // Handle the error accordingly or ignore it
+            } else {
+                console.error('Invalid zip code:', error);
+            }
         });
 
 }
 
 function devliveryAdress() {
+    return(
+        <>
+            <div className="title-container">
+                {/*need to add a new pic for step 2*/}
+                <img
+                    src={`/images/stage1.png`}
+                    alt="Step 2"
+                    className="stage2"
+                />
+                <h2>Address</h2>
+            </div>
+            <form    method="post" >
+                <div id="inputBox">
+                    <input name="Name"  type="text"
+                           placeholder="First Name" required/>
+                    <br/>
+                    <input name="LastName" type="text" placeholder="Last Name" required/>
+                    <br/>
+                    <input type = "email" name="Email" placeholder="Email" required/>
+                    <br/>
+                    <div className="addressBox">
+                        <br/>
+                        <input name="streetnumber" type="number" placeholder="Street number" required/>
+                        <br/>
+                        <input type="number" name="Zipcode" placeholder="ZipCode" required/>
+                        <input name="City" placeholder="City" required/>
+                        <br/>
+                        {/*<input name="Country" placeholder="Country" required/>*/}
+                        <select name="Country" id="country">
+                            <option value="Danmark">Danmark</option>
+                        </select>
+                    </div>
+                    <br/>
+                    <div id="phoneBox">
+                        <input name="Landcode" placeholder="Landcode" required/>
+                        <input type= "tel" name="Telephone" placeholder="Telephone" required/>
+                    </div>
+                    <input type="submit" value="Continue To Payment" id="button" />
 
+                </div>
+            </form>
+
+
+        </>
+    )
 }
