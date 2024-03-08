@@ -16,7 +16,7 @@ export default function stage2() {
         // Or you can work with it as a plain object:
         const formJson = Object.fromEntries(formData.entries());
 
-        const streetNumberString = formJson.streetnumber;
+        const streetNumberString = formJson.nr.toString();
         if (!validateStreet(streetNumberString)) {
             form.reset()
             console.log("invalid zip code")
@@ -45,9 +45,9 @@ export default function stage2() {
                     <br/>
                     <div className="addressBox">
                         <br/>
-                        <input name="streetnumber" type="number" placeholder="Street number" required/>
+                        <input name="streetName" type="text" placeholder="Street Name" required/>
                         <br/>
-                        <input type="number" name="Zipcode" placeholder="ZipCode" required/>
+                        <input name="Zipcode" type="number" placeholder="ZipCode" required/>
                         <input name="City" placeholder="City" required/>
                         <br/>
                         <input name="Country" placeholder="Country" required/>
@@ -78,14 +78,14 @@ function checkboxes() {
     )
 }
 
-function validateStreet(street) {
+function validateStreet(zipcode:string) {
     let bool = 0
-    fetchData(street, bool)
+    fetchData(zipcode, bool)
     return bool
 }
 
-function fetchData(street, bool) {
-    const dataFosyningenApi = "https://api.dataforsyningen.dk/postnumre/" + street
+function fetchData(zipCode:string, bool) {
+    const dataFosyningenApi = "https://api.dataforsyningen.dk/postnumre/" + zipCode
 
     fetch(dataFosyningenApi)
         .then(response => {
