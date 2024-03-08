@@ -1,42 +1,29 @@
 import './StageTwo.css'
 
-export default function stage2(){
+export default function stage2() {
     //const formRef = useRef(null);
-
-
-
-
     function handleSubmit(e) {
         // Prevent the browser from reloading the page
         e.preventDefault();
 
         // Read the form data
-
         const form = e.target;
         const formData = new FormData(form);
 
         // You can pass formData as a fetch body directly:
-      //  fetch('/some-api', { method: form.method, body: formData });
+        //  fetch('/some-api', { method: form.method, body: formData });
 
         // Or you can work with it as a plain object:
         const formJson = Object.fromEntries(formData.entries());
 
-
         const streetNumberString = formJson.streetnumber;
-if(!validateStreet(streetNumberString)){
-    form.reset()
-
-    console.log("invalid zip code")
-
-
-}
-
-
-
+        if (!validateStreet(streetNumberString)) {
+            form.reset()
+            console.log("invalid zip code")
+        }
     }
 
-
-    return(
+    return (
         <>
             <div className="title-container">
                 {/*need to add a new pic for step 2*/}
@@ -47,14 +34,14 @@ if(!validateStreet(streetNumberString)){
                 />
                 <h2>Address</h2>
             </div>
-            <form    method="post" onSubmit={handleSubmit}>
+            <form method="post" onSubmit={handleSubmit}>
                 <div id="inputBox">
-                    <input name="Name"  type="text"
+                    <input name="Name" type="text"
                            placeholder="First Name" required/>
                     <br/>
                     <input name="LastName" type="text" placeholder="Last Name" required/>
                     <br/>
-                    <input type = "email" name="Email" placeholder="Email" required/>
+                    <input type="email" name="Email" placeholder="Email" required/>
                     <br/>
                     <div className="addressBox">
                         <br/>
@@ -68,7 +55,7 @@ if(!validateStreet(streetNumberString)){
                     <br/>
                     <div id="phoneBox">
                         <input name="Landcode" placeholder="Landcode" required/>
-                        <input type= "tel" name="Telephone" placeholder="Telephone" required/>
+                        <input type="tel" name="Telephone" placeholder="Telephone" required/>
                     </div>
                     <input type="submit" value="Continue To Payment" id="button"/>
                 </div>
@@ -78,29 +65,27 @@ if(!validateStreet(streetNumberString)){
             {devliveryAdress()}
         </>
     )
-
 }
 
 function checkboxes() {
-    return(
+    return (
         <>
-           <input type="checkbox" name="Delivery Address" defaultChecked={true} />
+            <input type="checkbox" name="Delivery Address" defaultChecked={true}/>
             <br/>
             <p>Send to billing address</p>
 
         </>
     )
 }
- function validateStreet(street){
-let bool =0
-    fetchData(street,bool)
 
-     return bool
-
-
+function validateStreet(street) {
+    let bool = 0
+    fetchData(street, bool)
+    return bool
 }
- function fetchData(street,bool){
-    const dataFosyningenApi = "https://api.dataforsyningen.dk/postnumre/"+street
+
+function fetchData(street, bool) {
+    const dataFosyningenApi = "https://api.dataforsyningen.dk/postnumre/" + street
 
     fetch(dataFosyningenApi)
         .then(response => {
@@ -111,7 +96,7 @@ let bool =0
         })
         .then(data => {
             console.log(data);
-            bool=1
+            bool = 1
 
         })
         .catch(error => {
@@ -126,7 +111,7 @@ let bool =0
 }
 
 function devliveryAdress() {
-    return(
+    return (
         <>
             <div className="title-container">
                 {/*need to add a new pic for step 2*/}
@@ -137,14 +122,14 @@ function devliveryAdress() {
                 />
                 <h2>Address</h2>
             </div>
-            <form    method="post" >
+            <form method="post">
                 <div id="inputBox">
-                    <input name="Name"  type="text"
+                    <input name="Name" type="text"
                            placeholder="First Name" required/>
                     <br/>
                     <input name="LastName" type="text" placeholder="Last Name" required/>
                     <br/>
-                    <input type = "email" name="Email" placeholder="Email" required/>
+                    <input type="email" name="Email" placeholder="Email" required/>
                     <br/>
                     <div className="addressBox">
                         <br/>
@@ -161,9 +146,9 @@ function devliveryAdress() {
                     <br/>
                     <div id="phoneBox">
                         <input name="Landcode" placeholder="Landcode" required/>
-                        <input type= "tel" name="Telephone" placeholder="Telephone" required/>
+                        <input type="tel" name="Telephone" placeholder="Telephone" required/>
                     </div>
-                    <input type="submit" value="Continue To Payment" id="button" />
+                    <input type="submit" value="Continue To Payment" id="button"/>
 
                 </div>
             </form>
