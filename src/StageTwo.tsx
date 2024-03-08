@@ -7,34 +7,36 @@ export default function stage2(){
                 {/*need to add a new pic for step 2*/}
                 <img
                     src={`/images/stage1.png`}
-                    alt= "Step 2"
+                    alt="Step 2"
                     className="stage2"
                 />
                 <h2>Address</h2>
             </div>
-            <div id="inputBox">
-                <input name="Name" placeholder="First Name"/>
-
-                <br/>
-                <input name="LastName" placeholder="Last Name"/>
-                <br/>
-                <input name="Email" placeholder="Email"/>
-                <br/>
-                <div className="addressBox">
+            <form>
+                <div id="inputBox">
+                    <input name="Name" type="text" placeholder="First Name" required/>
                     <br/>
-                    <input name="streetnumber" placeholder="Street number"/>
+                    <input name="LastName" type="text" placeholder="Last Name" required/>
                     <br/>
-                    <input name="Zipcode" placeholder="ZipCode"/>
-                    <input name="City" placeholder="City"/>
+                    <input name="Email" placeholder="Email" required/>
                     <br/>
-                    <input name="Country" placeholder="Country"/>
+                    <div className="addressBox">
+                        <br/>
+                        <input name="streetnumber" placeholder="Street number" required/>
+                        <br/>
+                        <input name="Zipcode" placeholder="ZipCode" required/>
+                        <input name="City" placeholder="City" required/>
+                        <br/>
+                        <input name="Country" placeholder="Country" required/>
+                    </div>
+                    <br/>
+                    <div id="phoneBox">
+                        <input name="Landcode" placeholder="Landcode" required/>
+                        <input name="Telephone" placeholder="Telephone" required/>
+                    </div>
+                    <input type="submit" value="Continue To Payment" id="button"/>
                 </div>
-                <br/>
-                <div id="phoneBox">
-                    <input name="Landcode" placeholder="Landcode"/>
-                    <input name="Telephone" placeholder="Telephone"/>
-                </div>
-            </div>
+            </form>
             {checkboxes()}
 
             {devliveryAdress()}
@@ -44,7 +46,11 @@ export default function stage2(){
 }
 
 function checkboxes() {
+    return(
+        <>
 
+        </>
+    )
 }
 
 function devliveryAdress() {

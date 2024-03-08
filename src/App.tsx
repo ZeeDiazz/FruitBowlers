@@ -132,9 +132,11 @@ function App() {
             {/* Display the total quantity */}
             {/* Should move TotalBox some place else*/}
           <div id = "totalBox">
+              <div id = "totalBoxText">
               <h2>Total</h2>
               <p>Total Quantity: {totalQuantity}</p>
               <p>Total Price: {totalPrice} &nbsp; {products[0].currency}</p>
+              </div>
           </div>
 
           <div id= "basket">
