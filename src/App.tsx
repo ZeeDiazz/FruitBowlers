@@ -1,4 +1,4 @@
-import {useState } from "react"
+import {useRef, useState} from "react"
 import './App.css'
 import './product.tsx'
 import stage2 from './StageTwo.tsx'
@@ -141,6 +141,7 @@ function App() {
 
           <div id= "basket">
               {stage2()}
+
           </div>
       </>
   );

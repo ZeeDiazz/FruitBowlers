@@ -14,6 +14,8 @@
 }
 #button{
     float:right;
+    border-radius: 5px;
+    width: 50px;
 }
 
 .title-container{

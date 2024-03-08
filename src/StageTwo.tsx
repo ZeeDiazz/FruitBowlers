@@ -1,6 +1,39 @@
 import './StageTwo.css'
 
 export default function stage2(){
+    //const formRef = useRef(null);
+
+
+
+
+    function handleSubmit(e) {
+        // Prevent the browser from reloading the page
+        e.preventDefault();
+
+        // Read the form data
+
+        const form = e.target;
+        const formData = new FormData(form);
+
+        // You can pass formData as a fetch body directly:
+      //  fetch('/some-api', { method: form.method, body: formData });
+
+        // Or you can work with it as a plain object:
+        const formJson = Object.fromEntries(formData.entries());
+
+
+        const streetNumberString = formJson.streetnumber;
+
+         if(!validateStreet(streetNumberString)){
+             form.reset();
+             console.log("Invalid SteetNumber")
+
+         }
+
+
+    }
+
+
     return(
         <>
             <div className="title-container">
@@ -12,19 +45,20 @@ export default function stage2(){
                 />
                 <h2>Address</h2>
             </div>
-            <form>
+            <form    method="post" onSubmit={handleSubmit}>
                 <div id="inputBox">
-                    <input name="Name" type="text" placeholder="First Name" required/>
+                    <input name="Name"  type="text"
+                           placeholder="First Name" required/>
                     <br/>
                     <input name="LastName" type="text" placeholder="Last Name" required/>
                     <br/>
-                    <input name="Email" placeholder="Email" required/>
+                    <input type = "email" name="Email" placeholder="Email" required/>
                     <br/>
                     <div className="addressBox">
                         <br/>
-                        <input name="streetnumber" placeholder="Street number" required/>
+                        <input name="streetnumber" type="number" placeholder="Street number" required/>
                         <br/>
-                        <input name="Zipcode" placeholder="ZipCode" required/>
+                        <input type="number" name="Zipcode" placeholder="ZipCode" required/>
                         <input name="City" placeholder="City" required/>
                         <br/>
                         <input name="Country" placeholder="Country" required/>
@@ -32,7 +66,7 @@ export default function stage2(){
                     <br/>
                     <div id="phoneBox">
                         <input name="Landcode" placeholder="Landcode" required/>
-                        <input name="Telephone" placeholder="Telephone" required/>
+                        <input type= "tel" name="Telephone" placeholder="Telephone" required/>
                     </div>
                     <input type="submit" value="Continue To Payment" id="button"/>
                 </div>
@@ -48,9 +82,40 @@ export default function stage2(){
 function checkboxes() {
     return(
         <>
+            {/*Checkbox: <input type="checkbox" name="myCheckbox" />*/}
 
         </>
     )
+}
+ function validateStreet(street){
+    let bool=0
+    fetchData(street,bool)
+     if(bool=1)
+         return true
+     else
+         return false
+
+}
+ function fetchData(street,bool){
+    const dataFosyningenApi = "https://api.dataforsyningen.dk/postnumre/"+street
+
+    fetch(dataFosyningenApi)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            if(data.nr==1){
+                bool=1
+            }
+        })
+        .catch(error => {
+            console.error('Invalid zip code:', error);
+        });
+
 }
 
 function devliveryAdress() {

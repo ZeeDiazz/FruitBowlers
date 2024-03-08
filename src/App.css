@@ -19,7 +19,7 @@
 }
 .title-container{
   display: grid;
-  grid-template-columns: 9% auto;
+  grid-template-columns: 15% auto;
 }
 #titleName{
   text-align: center;
