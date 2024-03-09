@@ -5,6 +5,6 @@ import App from "./App";
 describe(App.name, () => {
     it("should render", () => {
         render(<App />);
-        expect(screen.getByLabelText("Fruit Bowlers")).toBeInTheDocument();
+        expect(screen.getByText("Fruit Bowlers")).toBeInTheDocument();
     });
 });

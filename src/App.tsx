@@ -95,10 +95,8 @@ function App() {
 
   const productBoxItems = products.map((product, index) => (
       basket[index] != null &&( // only render product if its in the basket
-        <div id= "productBox">
-            <p>
-              <ProductItem key={product.id} product={product}/>
-            </p>
+        <div id= "productBox" key={product.id}>
+            <ProductItem product={product}/>
             <div id= "adjustable">
             <CartItem
                 value={basket[index]}
