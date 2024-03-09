@@ -73,3 +73,7 @@
 #adjustable{
   float: right;
 }
+
+#upgradeButton{
+  margin: 4px;
+}

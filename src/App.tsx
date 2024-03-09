@@ -112,17 +112,18 @@ function App() {
         <div id= "productBox" key={product.id}>
             <ProductItem product={product}/>
             <div id= "adjustable">
+
+                {hasUpgradeOption(product, products) && (
+                    <button style={{float:"left"}} onClick={() => handleUpgradeClick(product)}>
+                        Upgrade?
+                    </button>
+                )}
             <CartItem
                 value={basket[index]}
                 onDecrement={() => handleAmountChange(index, -1)}
                 onIncrement={() => handleAmountChange(index, 1)}
                 onRemove={() => handleAmountChange(index,null)}
             />
-                {hasUpgradeOption(product, products) && (
-                    <button onClick={() => handleUpgradeClick(product)}>
-                        Upgrade?
-                    </button>
-                )}
             </div>
         </div>
       )
