@@ -65,6 +65,16 @@ function App() {
       discountPercent: 15,
       upsellProductId: null
     },
+    {
+      id: 'non-eco strawberries',
+      name: 'Strawberries',
+      price: 25,
+      description: '300g, non-eco, strawberries',
+      currency: 'DKK',
+      discountQuantity: 4,
+      discountPercent: 10,
+      upsellProductId: null
+      }
   ]);
 
   const [basket, setBasket] =
@@ -147,7 +157,7 @@ function CartItem({value, onIncrement, onDecrement, onRemove}:any /* YES ANY, ju
         +
       </button>
       <button className="remove" onClick={onRemove}>
-        %
+        [X]
       </button>
     </>
   );
