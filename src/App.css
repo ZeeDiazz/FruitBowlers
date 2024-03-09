@@ -18,9 +18,10 @@
 #line{
   height: 2px;
   background-color: black;
-  width: 98%;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 10px;
 }
 
 #totalBox{

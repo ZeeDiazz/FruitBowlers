@@ -103,7 +103,11 @@ function App() {
   const totalQuantity = basket.reduce((total, quantity) => total + quantity, 0);
   const totalPrice = calculateTotalPrice();
 
-  const productBoxItems = products.map((product, index) => (
+    function handleUpgradeClick(product: Product) {
+
+    }
+
+    const productBoxItems = products.map((product, index) => (
       basket[index] != null &&( // only render product if its in the basket
         <div id= "productBox" key={product.id}>
             <ProductItem product={product}/>
@@ -113,7 +117,12 @@ function App() {
                 onDecrement={() => handleAmountChange(index, -1)}
                 onIncrement={() => handleAmountChange(index, 1)}
                 onRemove={() => handleAmountChange(index,null)}
-            />  
+            />
+                {hasUpgradeOption(product, products) && (
+                    <button onClick={() => handleUpgradeClick(product)}>
+                        Upgrade?
+                    </button>
+                )}
             </div>
         </div>
       )
@@ -146,10 +155,33 @@ function App() {
   );
 }
 
-function CartItem({value, onIncrement, onDecrement, onRemove}:any /* YES ANY, just for now*/) {
-  return (
-    <>
-      <button className="decrease" onClick={onDecrement} disabled={value <= 1}>
+const hasUpgradeOption = (product: Product, products: Product[]): boolean => {
+    const moreExpensiveProduct = findMoreExpensiveProduct(product.name, products);
+
+    return moreExpensiveProduct !== null && moreExpensiveProduct.price > product.price;
+};
+
+// Function to find the more expensive product with the same name
+const findMoreExpensiveProduct = (productName: string, products: Product[]): Product | null => {
+    const productsWithSameName = products.filter(
+        (product) => product.name === productName
+    );
+
+    if (productsWithSameName.length <= 1) {
+        return null; // No more expensive alternative found
+    }
+
+    return productsWithSameName.reduce((moreExpensiveProduct, currentProduct) =>
+        moreExpensiveProduct.price > currentProduct.price ? moreExpensiveProduct : currentProduct
+    );
+};
+
+
+function CartItem({value, onIncrement, onDecrement, onRemove}: any /* YES ANY, just for now*/) {
+    return (
+        <>
+
+        <button className="decrease" onClick={onDecrement} disabled={value <= 1}>
         -
       </button>
       <span>{value}</span>
@@ -157,7 +189,7 @@ function CartItem({value, onIncrement, onDecrement, onRemove}:any /* YES ANY, ju
         +
       </button>
       <button className="remove" onClick={onRemove}>
-        [X]
+        x
       </button>
     </>
   );
