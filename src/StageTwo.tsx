@@ -1,25 +1,36 @@
 import './StageTwo.css'
+import {useState} from "react";
 
 export default function stage2() {
-    //const formRef = useRef(null);
+    const [validZip, setValidZip] = useState(false);
     function handleSubmit(e) {
-        // Prevent the browser from reloading the page
         e.preventDefault();
-
-        // Read the form data
         const form = e.target;
+
         const formData = new FormData(form);
+        const zipCode = formData.get('Zipcode').toString();
 
-        // You can pass formData as a fetch body directly:
-        //  fetch('/some-api', { method: form.method, body: formData });
-
-        // Or you can work with it as a plain object:
-        const formJson = Object.fromEntries(formData.entries());
-
-        const streetNumberString = formJson.nr.toString();
-        if (!validateStreet(streetNumberString)) {
+        validateZipCode(zipCode);
+        if(validZip){
             form.reset()
-            console.log("invalid zip code")
+        }
+    }
+
+    /* Learned from lecture and https://www.valentinog.com/blog/await-react/*/
+    async function validateZipCode(zipcode:string) {
+        try {
+            const response = await fetch(`https://api.dataforsyningen.dk/postnumre/${zipcode}`);
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            const { nr, navn } = await response.json();
+            console.log('Valid Zip Code');
+            console.log(`Zip Code: ${nr}, City: ${navn}`);
+            setValidZip(true);
+        } catch (error) {
+            console.log('Unvalid Zip Code');
+            console.log(error);
+            setValidZip(false);
         }
     }
 
@@ -45,24 +56,23 @@ export default function stage2() {
                     <br/>
                     <div className="addressBox">
                         <br/>
-                        <input name="streetName" type="text" placeholder="Street Name" required/>
+                        <input name="Country" type="text" value="Danmark" disabled/>
                         <br/>
                         <input name="Zipcode" type="number" placeholder="ZipCode" required/>
                         <input name="City" placeholder="City" required/>
                         <br/>
-                        <input name="Country" placeholder="Country" required/>
+                        <input name="streetName" type="text" placeholder="Street Name" required/>
+
                     </div>
                     <br/>
                     <div id="phoneBox">
-                        <input name="Landcode" placeholder="Landcode" required/>
+                    <input name="Landcode" placeholder="Landcode" required/>
                         <input type="tel" name="Telephone" placeholder="Telephone" required/>
                     </div>
                     <input type="submit" value="Continue To Payment" id="button"/>
                 </div>
             </form>
             {checkboxes()}
-
-            {devliveryAdress()}
         </>
     )
 }
@@ -73,55 +83,13 @@ function checkboxes() {
             <input type="checkbox" name="Delivery Address" defaultChecked={true}/>
             <br/>
             <p>Send to billing address</p>
-
+            {devliveryAdress()}
         </>
     )
 }
-
-function validateStreet(zipcode:string) {
-    let bool = 0
-    fetchData(zipcode, bool)
-    return bool
-}
-
-function fetchData(zipCode:string, bool) {
-    const dataFosyningenApi = "https://api.dataforsyningen.dk/postnumre/" + zipCode
-
-    fetch(dataFosyningenApi)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-            bool = 1
-
-        })
-        .catch(error => {
-            if (error.message === 'Network response was not ok') {
-                console.warn('Network response was not ok:', error);
-                // Handle the error accordingly or ignore it
-            } else {
-                console.error('Invalid zip code:', error);
-            }
-        });
-
-}
-
 function devliveryAdress() {
     return (
         <>
-            <div className="title-container">
-                {/*need to add a new pic for step 2*/}
-                <img
-                    src={`/images/stage1.png`}
-                    alt="Step 2"
-                    className="stage2"
-                />
-                <h2>Address</h2>
-            </div>
             <form method="post">
                 <div id="inputBox">
                     <input name="Name" type="text"
@@ -133,15 +101,12 @@ function devliveryAdress() {
                     <br/>
                     <div className="addressBox">
                         <br/>
-                        <input name="streetnumber" type="number" placeholder="Street number" required/>
+                        <input name="Country" type="text" value="Danmark" disabled/>
                         <br/>
-                        <input type="number" name="Zipcode" placeholder="ZipCode" required/>
+                        <input name="Zipcode" type="number" placeholder="ZipCode" required/>
                         <input name="City" placeholder="City" required/>
                         <br/>
-                        {/*<input name="Country" placeholder="Country" required/>*/}
-                        <select name="Country" id="country">
-                            <option value="Danmark">Danmark</option>
-                        </select>
+                        <input name="streetName" type="text" placeholder="Street Name" required/>
                     </div>
                     <br/>
                     <div id="phoneBox">
@@ -152,8 +117,6 @@ function devliveryAdress() {
 
                 </div>
             </form>
-
-
         </>
     )
 }
