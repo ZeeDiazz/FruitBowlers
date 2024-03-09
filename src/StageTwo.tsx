@@ -4,7 +4,8 @@ import {useRef, useState} from "react";
 export default function stage2() {
     const zipCodeRef = useRef(null);
 
-    const [validZip, setValidZip,diffDeliveryAddress] = useState(false);
+    const [validZip, setValidZip] = useState(false);
+    let [diff,diffDeliveryAddress] = useState(false);
     function handleSubmit(e) {
         e.preventDefault();
         const form = e.target;
@@ -83,33 +84,36 @@ export default function stage2() {
                     <input type="submit" value="Continue To Payment" id="button"/>
                 </div>
             </form>
-            {checkboxes(diffDeliveryAddress)}
+            {
+                checkboxes(diffDeliveryAddress,diff)
+            }
         </>
     )
 }
 
-function checkboxes(diffDeliveryAddress) {
+function checkboxes(diffDeliveryAddress,diff) {
     return (
         <>
-            <input type="checkbox" name="Delivery Address" value="yes" checked
-            onClick={() => {
-                if (diffDeliveryAddress) {
-                    diffDeliveryAddress=!diffDeliveryAddress
-            } else {
-                    diffDeliveryAddress=!diffDeliveryAddress
-                }
+            <input type="checkbox" name="Delivery Address" value="yes"  defaultChecked={true}
+            onChange={() => {
+
+
+                    diffDeliveryAddress(!diff);
+
+                console.log(diff)
+
             }}
             />
             <br/>
             <p>Send to billing address</p>
 
-            {devliveryAdress(diffDeliveryAddress)}
+            {devliveryAdress(diff)}
 
         </>
     )
 }
-function devliveryAdress(diffDeliveryAddress) {
-    if(diffDeliveryAddress){
+function devliveryAdress(diff) {
+    if(diff){
     return (
         <>
             <form method="post">
