@@ -4,7 +4,7 @@ import {useRef, useState} from "react";
 export default function stage2() {
     const zipCodeRef = useRef(null);
 
-    const [validZip, setValidZip] = useState(false);
+    const [validZip, setValidZip,diffDeliveryAddress] = useState(false);
     function handleSubmit(e) {
         e.preventDefault();
         const form = e.target;
@@ -25,7 +25,7 @@ export default function stage2() {
 
         }
     }
-
+    /* Learned from lecture and https://www.valentinog.com/blog/await-react/*/
     async function validateZipCode(zipcode:string) {
         try {
             const response = await fetch(`https://api.dataforsyningen.dk/postnumre/${zipcode}`);
@@ -57,7 +57,7 @@ export default function stage2() {
             <form method="post" onSubmit={handleSubmit}>
                 <div id="inputBox">
                     <input name="Name" type="text"
-                           placeholder="First Name" required/>
+                           placeholder="First Name"  autoFocus required/>
                     <br/>
                     <input name="LastName" type="text" placeholder="Last Name" required/>
                     <br/>
@@ -83,22 +83,33 @@ export default function stage2() {
                     <input type="submit" value="Continue To Payment" id="button"/>
                 </div>
             </form>
-            {checkboxes()}
+            {checkboxes(diffDeliveryAddress)}
         </>
     )
 }
 
-function checkboxes() {
+function checkboxes(diffDeliveryAddress) {
     return (
         <>
-            <input type="checkbox" name="Delivery Address" defaultChecked={true}/>
+            <input type="checkbox" name="Delivery Address" value="yes" checked
+            onClick={() => {
+                if (diffDeliveryAddress) {
+                    diffDeliveryAddress=!diffDeliveryAddress
+            } else {
+                    diffDeliveryAddress=!diffDeliveryAddress
+                }
+            }}
+            />
             <br/>
             <p>Send to billing address</p>
-            {devliveryAdress()}
+
+            {devliveryAdress(diffDeliveryAddress)}
+
         </>
     )
 }
-function devliveryAdress() {
+function devliveryAdress(diffDeliveryAddress) {
+    if(diffDeliveryAddress){
     return (
         <>
             <form method="post">
@@ -129,5 +140,6 @@ function devliveryAdress() {
                 </div>
             </form>
         </>
-    )
+    )}
+
 }
