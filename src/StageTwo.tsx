@@ -1,7 +1,9 @@
 import './StageTwo.css'
-import {useState} from "react";
+import {useRef, useState} from "react";
 
 export default function stage2() {
+    const zipCodeRef = useRef(null);
+
     const [validZip, setValidZip] = useState(false);
     function handleSubmit(e) {
         e.preventDefault();
@@ -9,14 +11,21 @@ export default function stage2() {
 
         const formData = new FormData(form);
         const zipCode = formData.get('Zipcode').toString();
+        const zipCodeInput = zipCodeRef.current;
+
 
         validateZipCode(zipCode);
-        if(validZip){
+        if(!validZip){
             form.reset()
+            //https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement/setCustomValidity
+            //Here we found how to add custom validy messages
+            zipCodeInput.setCustomValidity('Invalid Zipcode');
+            zipCodeInput.reportValidity();
+
+
         }
     }
 
-    /* Learned from lecture and https://www.valentinog.com/blog/await-react/*/
     async function validateZipCode(zipcode:string) {
         try {
             const response = await fetch(`https://api.dataforsyningen.dk/postnumre/${zipcode}`);
@@ -58,7 +67,9 @@ export default function stage2() {
                         <br/>
                         <input name="Country" type="text" value="Danmark" disabled/>
                         <br/>
-                        <input name="Zipcode" type="number" placeholder="ZipCode" required/>
+                        <input name="Zipcode" type="number" placeholder="ZipCode"
+                               ref={zipCodeRef}
+                        />
                         <input name="City" placeholder="City" required/>
                         <br/>
                         <input name="streetName" type="text" placeholder="Street Name" required/>
