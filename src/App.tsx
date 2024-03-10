@@ -59,24 +59,24 @@ function App() {
       id: 'strawberries',
       name: 'Strawberries',
       price: 35,
-      description: '300g, eco, danish strawberries',
+      description: '300g, organic, danish strawberries',
       currency: 'DKK',
       discountQuantity: 3,
       discountPercent: 15,
       upsellProductId: null
     },
     {
-      id: 'non-eco strawberries',
+      id: 'non-organic strawberries',
       name: 'Strawberries',
       price: 25,
-      description: '300g, non-eco, strawberries',
+      description: '300g, non-organic, strawberries',
       currency: 'DKK',
       discountQuantity: 4,
       discountPercent: 10,
       upsellProductId: null
       }
   ]);
-
+//We set the amount of each item to be 1 here. We should maybe connect it to a users fictional basket instead?
   const [basket, setBasket] =
       useState(Array(products.length).fill(1));
   function handleAmountChange(index: number, amount: number | null){
@@ -107,18 +107,33 @@ function App() {
         const remainingAmountForDiscount = 300 - totalPrice;
 
         if (totalPrice < 300) {
-            return `Get 10% discount when buying for ${remainingAmountForDiscount} more!`;
+            return `Get 10% discount when buying for ${remainingAmountForDiscount} DKK more!`;
         } else {
             return 'You get 10% discount!';
         }
     }
-    function handleUpgradeClick() {
+    function handleUpgradeClick( oldProduct: Product, newProduct: Product | null) {
+        const index = products.findIndex((product) => product.id === oldProduct.id);
+        const currentAmount = basket[index];
 
+        console.log(`Upgrade ${oldProduct.name} to ${newProduct?.name} at index ${index.valueOf()} with amount ${currentAmount}`);
+        setBasket(prevBasket => {
+            const newBasket = [...prevBasket];
+            // Decrease the amount of the old product
+            newBasket[index] = null;
+            // Increase the amount of the new product
+            if (newProduct) {
+                const newProductIndex = products.findIndex((product) => product.id === newProduct.id);
+                newBasket[newProductIndex] += currentAmount;
+            }
+            return newBasket;
+        });
     }
+
     interface UpgradeButtonProps {
         product: Product;
         products: Product[];
-        handleUpgradeClick: (product: Product) => void;
+        handleUpgradeClick: (index: number, amount: number) => void;
     }
 
     const UpgradeButton: React.FC<UpgradeButtonProps> = ({ product, products, handleUpgradeClick }) => {
@@ -129,8 +144,8 @@ function App() {
                 {hasUpgrade && (
                     <button
                         style={{ float: "left", marginRight: "10px" }}
-                        onClick={() => handleUpgradeClick(product)}>
-                        Eco available! Change for {priceDifference} DKK a piece?
+                        onClick={() => handleUpgradeClick(products.indexOf(product), 1)}>
+                        Organic available! Change for {priceDifference} DKK a piece?
                     </button>
                 )}
             </>
@@ -145,8 +160,9 @@ function App() {
                 <UpgradeButton
                     product={product}
                     products={products}
-                    handleUpgradeClick={handleUpgradeClick}
+                    handleUpgradeClick={() => handleUpgradeClick( product, hasUpgradeOption(product, products).moreExpensiveOption)}
                 />
+
             <CartItem
                 value={basket[index]}
                 onDecrement={() => handleAmountChange(index, -1)}
@@ -187,15 +203,19 @@ function App() {
 }
 
 //If there is a more expensive product with the same name in the product-list.
-const hasUpgradeOption = (product: Product, products: Product[]): { hasUpgrade: boolean, priceDifference: number } => {
+const hasUpgradeOption = (product: Product, products: Product[]): {
+    moreExpensiveOption: Product | null;
+    hasUpgrade: boolean, priceDifference: number
+} => {
     const moreExpensiveProduct = findMoreExpensiveProduct(product.name, products);
 
     if (moreExpensiveProduct !== null && moreExpensiveProduct.price > product.price) {
         const priceDifference = moreExpensiveProduct.price - product.price;
-        return { hasUpgrade: true, priceDifference: priceDifference };
+        return { hasUpgrade: true, priceDifference: priceDifference, moreExpensiveOption: moreExpensiveProduct };
     }
-    return { hasUpgrade: false, priceDifference: 0 };
+    return { hasUpgrade: false, priceDifference: 0, moreExpensiveOption: null };
 };
+
 
 // Function to find the more expensive product with the same name
 const findMoreExpensiveProduct = (productName: string, products: Product[]): Product | null => {
