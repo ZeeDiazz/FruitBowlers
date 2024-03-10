@@ -103,25 +103,50 @@ function App() {
   const totalQuantity = basket.reduce((total, quantity) => total + quantity, 0);
   const totalPrice = calculateTotalPrice();
 
-    function handleUpgradeClick(product: Product) {
+    function getDiscountMessage(): string {
+        const remainingAmountForDiscount = 300 - totalPrice;
+
+        if (totalPrice < 300) {
+            return `Get 10% discount when buying for ${remainingAmountForDiscount} more!`;
+        } else {
+            return 'You get 10% discount!';
+        }
+    }
+    function handleUpgradeClick() {
 
     }
+    interface UpgradeButtonProps {
+        product: Product;
+        products: Product[];
+        handleUpgradeClick: (product: Product) => void;
+    }
+
+    const UpgradeButton: React.FC<UpgradeButtonProps> = ({ product, products, handleUpgradeClick }) => {
+        const { hasUpgrade, priceDifference } = hasUpgradeOption(product, products);
+
+        return (
+            <>
+                {hasUpgrade && (
+                    <button
+                        style={{ float: "left", marginRight: "10px" }}
+                        onClick={() => handleUpgradeClick(product)}>
+                        Eco available! Change for {priceDifference} DKK a piece?
+                    </button>
+                )}
+            </>
+        );
+    };
 
     const productBoxItems = products.map((product, index) => (
-      basket[index] != null &&( // only render product if its in the basket
+      basket[index] != null &&( // only render product if it's in the basket
         <div id= "productBox" key={product.id}>
             <ProductItem product={product}/>
             <div id= "adjustable">
-
-                    {hasUpgradeOption(product, products) && (
-                        <button
-                            style={{ float: "left", marginRight: "10px" }}
-                            onClick={() => handleUpgradeClick(product)}>
-                            Organic available! Change for {product.price} DKK.
-                        </button>
-                    )}
-                
-
+                <UpgradeButton
+                    product={product}
+                    products={products}
+                    handleUpgradeClick={handleUpgradeClick}
+                />
             <CartItem
                 value={basket[index]}
                 onDecrement={() => handleAmountChange(index, -1)}
@@ -155,15 +180,21 @@ function App() {
                 <h2>Total</h2>
                 <p>Total Quantity: {totalQuantity}</p>
                 <p>Total Price: {totalPrice} &nbsp; {products[0].currency}</p>
+                  {getDiscountMessage()}
               </div>
       </>
   );
 }
 
-const hasUpgradeOption = (product: Product, products: Product[]): boolean => {
+//If there is a more expensive product with the same name in the product-list.
+const hasUpgradeOption = (product: Product, products: Product[]): { hasUpgrade: boolean, priceDifference: number } => {
     const moreExpensiveProduct = findMoreExpensiveProduct(product.name, products);
 
-    return moreExpensiveProduct !== null && moreExpensiveProduct.price > product.price;
+    if (moreExpensiveProduct !== null && moreExpensiveProduct.price > product.price) {
+        const priceDifference = moreExpensiveProduct.price - product.price;
+        return { hasUpgrade: true, priceDifference: priceDifference };
+    }
+    return { hasUpgrade: false, priceDifference: 0 };
 };
 
 // Function to find the more expensive product with the same name
@@ -171,16 +202,13 @@ const findMoreExpensiveProduct = (productName: string, products: Product[]): Pro
     const productsWithSameName = products.filter(
         (product) => product.name === productName
     );
-
     if (productsWithSameName.length <= 1) {
         return null; // No more expensive alternative found
     }
-
     return productsWithSameName.reduce((moreExpensiveProduct, currentProduct) =>
         moreExpensiveProduct.price > currentProduct.price ? moreExpensiveProduct : currentProduct
     );
 };
-
 
 function CartItem({value, onIncrement, onDecrement, onRemove}: any /* YES ANY, just for now*/) {
     return (
