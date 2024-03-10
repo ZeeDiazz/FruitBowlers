@@ -113,11 +113,15 @@ function App() {
             <ProductItem product={product}/>
             <div id= "adjustable">
 
-                {hasUpgradeOption(product, products) && (
-                    <button style={{float:"left"}} onClick={() => handleUpgradeClick(product)}>
-                        Upgrade?
-                    </button>
-                )}
+                    {hasUpgradeOption(product, products) && (
+                        <button
+                            style={{ float: "left", marginRight: "10px" }}
+                            onClick={() => handleUpgradeClick(product)}>
+                            Organic available! Change for {product.price} DKK.
+                        </button>
+                    )}
+                
+
             <CartItem
                 value={basket[index]}
                 onDecrement={() => handleAmountChange(index, -1)}
