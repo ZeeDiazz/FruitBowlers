@@ -18,6 +18,12 @@
     width: 50px;
 }
 
+#invalidZip{
+    color: red;
+    padding: 0px 12px;
+    margin: 10px;
+}
+
 .title-container{
     display: grid;
     grid-template-columns: 9% auto;

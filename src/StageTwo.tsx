@@ -1,55 +1,59 @@
 import './StageTwo.css'
-import {useRef, useState} from "react";
+import { useState} from "react";
 
 export default function stage2() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const zipCodeRef = useRef(null);
+    //const zipCodeRef = useRef(null);
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [validZip, setValidZip] = useState(false);
+    //const [validZip, setValidZip] = useState(false);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [hasError, setHasError] = useState(false);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [text, setText] = useState('');
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [diff,diffDeliveryAddress] = useState(false);
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
+        try {
+            let isValid = true;
+            e.preventDefault();
+            const form = e.target;
 
-        e.preventDefault();
-        const form = e.target;
+            const formData = new FormData(form);
+            const zipCode = formData.get('Zipcode').toString();
 
-        const formData = new FormData(form);
-        const zipCode = formData.get('Zipcode').toString();
-        const cityName = formData.get('City').toString();
+            //const zipCodeInput = zipCodeRef.current;
 
-        const zipCodeInput = zipCodeRef.current;
-
-        validateZipCode(zipCode, cityName);
-        if(!validZip){
-            form.reset();
-            //https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement/setCustomValidity
-            //Here we found how to add custom validy messages
-            zipCodeInput.setCustomValidity('Invalid Zipcode');
-            zipCodeInput.reportValidity();
+            isValid = await validateZipCode(zipCode);
+            //setValidZip(isValid);
+            setHasError(!isValid);
+            //ifstatement is 1 behind
+            /*if(hasError){
+                form.reset();
+            }*/
+        } catch (error) {
+            // Handle any errors here
         }
     }
     /* Learned from lecture and https://www.valentinog.com/blog/await-react/*/
-    async function validateZipCode(zipcode:string, cityName:string) {
-
+    async function validateZipCode(zipcode:string) {
         try {
             const response = await fetch(`https://api.dataforsyningen.dk/postnumre/${zipcode}`);
             if (!response.ok ) {
                 throw Error(response.statusText);
             }
             const { nr, navn } = await response.json();
-            if(navn == cityName){
-                console.log('Valid Zip Code');
-                console.log(`Zip Code: ${nr}, City: ${navn}`);
-            }
-            else {
-                throw Error(response.statusText);
-            }
-            setValidZip(true);
 
+            console.log('Valid Zip Code');
+            console.log(`Zip Code: ${nr}, City: ${navn}`);
+            //setValidZip(true);
+            setText(navn);
+            return true;
         } catch (error) {
             console.log('Unvalid Zip Code');
             console.log(error);
-            setValidZip(false);
+            //setValidZip(false);
+            setText();
+            return false;
         }
     }
 
@@ -77,19 +81,21 @@ export default function stage2() {
                         <br/>
                         <input name="Country" type="text" value="Danmark" disabled/>
                         <br/>
-                        <input name="Zipcode" type="number" placeholder="ZipCode"
-                               ref={zipCodeRef} required
-                        />
-                        <input name="City" placeholder="City"
-                               required/>
+                        {hasError && <p id="invalidZip">*Invalid Zipcode</p>}
+                        <input name="Zipcode" type="number" placeholder="ZipCode" onChange={e => validateZipCode(e.target.value.toString())} required/>
+
+                        {/*<input name="Zipcode" type="number" placeholder="ZipCode"
+                            ref={zipCodeRef} required
+                        />*/}
+                        <input name="City" placeholder="City" value={text} required/>
                         <br/>
                         <input name="streetName" type="text" placeholder="Street Name" required/>
 
                     </div>
                     <br/>
                     <div id="phoneBox">
-                    <input name="Landcode" placeholder="Landcode" required/>
-                        <input type="tel" name="Telephone" placeholder="Telephone" required/>
+                    <input name="Landcode" placeholder="Landcode" value="+45" disabled/>
+                        <input type="number" name="Telephone" placeholder="Telephone" required/>
                     </div>
                     <input type="submit" value="Continue To Payment" id="button"/>
                 </div>
@@ -106,12 +112,8 @@ function checkboxes(diffDeliveryAddress,diff:boolean) {
         <>
             <input type="checkbox" name="Delivery Address" value="yes"  defaultChecked={true}
             onChange={() => {
-
-
                     diffDeliveryAddress(!diff);
-
                 console.log(diff)
-
             }}
             />
             <br/>
