@@ -170,9 +170,9 @@ function App() {
                 product={product}
                 totalAmount = {calculateLocalTotalPrice(index)}
             />
+            {product.quantity < product.discountQuantity && <p>Buy {product.discountQuantity} for a discount</p>}
+            {product.quantity >= product.discountQuantity && <p>{product.discountPercent}% discount</p>}
             <div id="quantityBox">
-                {product.quantity < product.discountQuantity && <p>Buy {product.discountQuantity} for a discount</p>}
-                {product.quantity >= product.discountQuantity && <p>{product.discountPercent}% discount applied!</p>}
                 <UpgradeButton
                     product={product}
                     products={products}
