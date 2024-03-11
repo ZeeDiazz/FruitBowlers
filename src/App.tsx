@@ -282,7 +282,7 @@ function getDiscountMessage(totalPriceDiscount: number): string {
     console.log("price given to the function " + totalPriceDiscount);
     const remainingAmountForDiscount = 300 - totalPriceDiscount;
     if (totalPriceDiscount < 300) {
-        return `Get 10% discount when buying for ${remainingAmountForDiscount} more!`;
+        return `Get 10% discount when buying for ${remainingAmountForDiscount} DKK more!`;
     } else {
         return 'You get 10% discount!';
     }
