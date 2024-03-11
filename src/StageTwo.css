@@ -29,7 +29,8 @@
     grid-template-columns: 9% auto;
 }
 .stage2{
-    height: 60px;
-    width: 70px;
-    margin-top: auto;
+    height: 50px;
+    width: 50px;
+    margin-top: 10px;
+    margin-left: 10px;
 }

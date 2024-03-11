@@ -62,7 +62,7 @@ export default function stage2() {
             <div className="title-container">
                 {/*need to add a new pic for step 2*/}
                 <img
-                    src={`/images/stage1.png`}
+                    src={"images/stage2-fat.png"}
                     alt="Step 2"
                     className="stage2"
                 />
@@ -159,4 +159,3 @@ function devliveryAdress(diff:boolean) {
     )}
 
 }
-//Hej med dig

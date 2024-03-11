@@ -116,10 +116,10 @@ function App() {
       <>
           {/*Should move titleName another place*/}
           {menu()}
-          <div id= "basket">
+          <div id = "basket">
             <div className="title-container">
               <img
-                  src= {`/images/stage1.png`}
+                  src= {`/images/stage1-fat.png`}
                   alt= "Step 1"
                   className="stage1"
               />
