@@ -37,7 +37,7 @@ function App() {
         discountQuantity: 2,
         discountPercent: 10,
         upsellProductId: null,
-        totalPrice: 20,
+        totalPrice: 25,
         quantity: 1,
     },
     {
