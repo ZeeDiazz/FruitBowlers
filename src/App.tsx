@@ -3,7 +3,7 @@ import './App.css'
 import './product.tsx'
 
 
-function ProductItem({product}: ProductItemProps){
+function ProductItem({product, totalAmount}: ProductItemProps){
   return (
     <>
       {getImage(product)}
@@ -14,7 +14,7 @@ function ProductItem({product}: ProductItemProps){
       <div id = "priceTag">
         {"Total amount: "}
         &nbsp;
-        {product.totalPrice}
+        {totalAmount}
         &nbsp;
         {product.currency}
       </div>
@@ -166,7 +166,10 @@ function App() {
     const productBoxItems = products.map((product, index) => (
         products[index].quantity != 0 &&(
         <div id= "productBox" key={product.id}>
-            <ProductItem product={product}/>
+            <ProductItem
+                product={product}
+                totalAmount = {calculateLocalTotalPrice(index)}
+            />
             <div id="quantityBox">
                 <UpgradeButton
                     product={product}
