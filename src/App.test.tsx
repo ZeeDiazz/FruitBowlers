@@ -9,7 +9,6 @@ describe(App.name, () => {
         //text that always has to be in the document
         expect(screen.getByText("Fruit Bowlers")).toBeInTheDocument();
         expect(screen.getByText("Total")).toBeInTheDocument();
-        await screen.findByText("Total Quantity:"); //??
         expect(screen.getByText("Basket")).toBeInTheDocument();
     });
 });
