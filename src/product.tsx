@@ -13,4 +13,5 @@ interface Product {
 
 interface ProductItemProps {
     product : Product;
+    totalAmount: number;
 }
