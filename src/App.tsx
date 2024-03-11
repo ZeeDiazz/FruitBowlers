@@ -26,7 +26,7 @@ function ProductItem({product}: ProductItemProps){
 }
 
 function App() {
-  const [products,setBasket] = useState<Product[]>([
+  const [products,setProduct] = useState<Product[]>([
     { 
         id: "apple-bag",
         name: "Apple bag, 5 pieces",
@@ -72,8 +72,8 @@ function App() {
         discountQuantity: 3,
         discountPercent: 15,
         upsellProductId: null,
-        totalPrice: 35,
-        quantity: 1,
+        totalPrice: 0,
+        quantity: 0,
     },
     {
       id: 'non-organic strawberries',
@@ -114,29 +114,29 @@ function App() {
           product.quantity = 0;
       } else {
           product.quantity += newQuantity;
-          product.totalPrice += product.price; // if quantity input ever is changed, product.price * quantity is added to totalPrice
+          product.totalPrice += newQuantity * product.price; // if quantity input ever is changed, product.price * quantity is added to totalPrice
       }
 
-      setBasket(newProducts);
+      setProduct(newProducts);
     }
   const totalQuantity = products.reduce((acc, product) => acc + product.quantity, 0);
   const totalPriceDiscounted = calculateTotalPrice();
   const totalPriceNoDiscount = products.reduce((acc, product) => acc + product.totalPrice, 0);
 
 
-    function handleUpgradeClick( oldProduct: Product, newProduct: Product | null) {
-        const index = products.findIndex((product) => product.id === oldProduct.id);
-        const currentAmount = basket[index];
-
-        console.log(`Upgrade ${oldProduct.name} to ${newProduct?.name} at index ${index.valueOf()} with amount ${currentAmount}`);
-        setBasket(prevBasket => {
+    function handleUpgradeClick( oldProduct: Product, newProduct: Product | null, index: number) {
+        const quantity = products[index].quantity;
+        console.log("quantity of old product: " + quantity);
+        console.log(`Upgrade ${oldProduct.name} to ${newProduct?.name} at index ${index.valueOf()} with amount ${quantity}`);
+        setProduct(prevBasket => {
             const newBasket = [...prevBasket];
             // Decrease the amount of the old product
-            newBasket[index] = null;
+            newBasket[index].quantity = 0;
             // Increase the amount of the new product
             if (newProduct) {
                 const newProductIndex = products.findIndex((product) => product.id === newProduct.id);
-                newBasket[newProductIndex] += currentAmount;
+                newBasket[newProductIndex].quantity = quantity;
+                newBasket[newProductIndex].totalPrice = quantity * newProduct.price;
             }
             return newBasket;
         });
@@ -168,14 +168,15 @@ function App() {
         products[index].quantity != 0 &&(
         <div id= "productBox" key={product.id}>
             <ProductItem product={product}/>
-            <div id= "adjustable">
+            <div id="quantityBox">
                 <UpgradeButton
                     product={product}
                     products={products}
-                    handleUpgradeClick={() => handleUpgradeClick( product, hasUpgradeOption(product, products).moreExpensiveOption)}
+                    handleUpgradeClick={() => handleUpgradeClick(product, hasUpgradeOption(product, products).moreExpensiveOption, index)}
                 />
 
-                <button className="decrease" onClick={() => handleQuantityChange(index, -1)} disabled={product.quantity <= 1}>
+                <button className="decrease" onClick={() => handleQuantityChange(index, -1)}
+                        disabled={product.quantity <= 1}>
                     -
                 </button>
                 <span>{product.quantity}</span>
@@ -187,25 +188,25 @@ function App() {
                 </button>
             </div>
         </div>
-      )
-  ));
+        )
+    ));
 
-  return (
-      <>
-          {/*Should move titleName another place*/}
-          {menu()}
-          <div id= "basket">
-            <div className="title-container">
-              <img
-                  src= {`/images/stage1.png`}
-                  className="stage1"
-              />
-              <h2>Basket</h2>
+    return (
+        <>
+            {/*Should move titleName another place*/}
+            {menu()}
+            <div id="basket">
+                <div className="title-container">
+                    <img
+                        src={`/images/stage1.png`}
+                        className="stage1"
+                    />
+                    <h2>Basket</h2>
+                </div>
+
+                {productBoxItems}
+
             </div>
-
-            {productBoxItems}
-
-          </div>
             {/* Display the total quantity */}
             {/* Should move TotalBox some place else*/}
               <div id = "totalBox">
