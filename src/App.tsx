@@ -104,6 +104,8 @@ function App() {
 
   function calculateLocalTotalPrice(index: number): number{
       if(products[index].quantity >= products[index].discountQuantity){
+          console.log("product: " + products[index].name +"id "+products[index].id + " has a discount of " + products[index].discountPercent + "%");
+          console.log("total price: " + products[index].totalPrice);
           return products[index].totalPrice * (1 - products[index].discountPercent / 100);
       }
     return products[index].totalPrice;
