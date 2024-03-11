@@ -103,15 +103,7 @@ function App() {
   const totalQuantity = basket.reduce((total, quantity) => total + quantity, 0);
   const totalPrice = calculateTotalPrice();
 
-    function getDiscountMessage(): string {
-        const remainingAmountForDiscount = 300 - totalPrice;
 
-        if (totalPrice < 300) {
-            return `Get 10% discount when buying for ${remainingAmountForDiscount} DKK more!`;
-        } else {
-            return 'You get 10% discount!';
-        }
-    }
     function handleUpgradeClick( oldProduct: Product, newProduct: Product | null) {
         const index = products.findIndex((product) => product.id === oldProduct.id);
         const currentAmount = basket[index];
@@ -196,7 +188,6 @@ function App() {
                 <h2>Total</h2>
                 <p>Total Quantity: {totalQuantity}</p>
                 <p>Total Price: {totalPrice} &nbsp; {products[0].currency}</p>
-                  {getDiscountMessage()}
               </div>
       </>
   );
