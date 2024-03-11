@@ -12,7 +12,9 @@ function ProductItem({product}: ProductItemProps){
       </div>
       &emsp;
       <div id = "priceTag">
-        {product.price}
+        {"Total amount: "}
+        &nbsp;
+        {product.totalPrice}
         &nbsp;
         {product.currency}
       </div>
@@ -24,46 +26,54 @@ function ProductItem({product}: ProductItemProps){
 }
 
 function App() {
-  const [products] = useState<Product[]>([
+  const [products,setBasket] = useState<Product[]>([
     { 
-      id: "apple-bag",
-      name: "Apple bag, 5 pieces",
-      price: 20,
-      description: "There are 5 apples in one bag",
-      currency: "DKK",
-      discountQuantity: 2,
-      discountPercent: 10,
-      upsellProductId: null
+        id: "apple-bag",
+        name: "Apple bag, 5 pieces",
+        price: 20,
+        description: "There are 5 apples in one bag",
+        currency: "DKK",
+        discountQuantity: 2,
+        discountPercent: 10,
+        upsellProductId: null,
+        totalPrice: 20,
+        quantity: 1,
     },
     {
-      id: "banana-bag",
-      name: "Banana bag",
-      price: 15,
-      description: 'One eco banana is approximately 105g. There are 5 bananas in one bag',
-      currency: 'DKK',
-      discountQuantity: 5,
-      discountPercent: 10,
-      upsellProductId: null
+        id: "banana-bag",
+        name: "Banana bag",
+        price: 15,
+        description: 'One eco banana is approximately 105g. There are 5 bananas in one bag',
+        currency: 'DKK',
+        discountQuantity: 5,
+        discountPercent: 10,
+        upsellProductId: null,
+        totalPrice: 75,
+        quantity: 5,
     },
     {
-      id: 'lemon-bag',
-      name: 'Lemon bag, 6 pieces',
-      price: 15,
-      description: 'One eco lemon bag is approximately 500g.',
-      currency: 'DKK',
-      discountQuantity: 4,
-      discountPercent: 10,
-      upsellProductId: null
+        id: 'lemon-bag',
+        name: 'Lemon bag, 6 pieces',
+        price: 15,
+        description: 'One eco lemon bag is approximately 500g.',
+        currency: 'DKK',
+        discountQuantity: 4,
+        discountPercent: 10,
+        upsellProductId: null,
+        totalPrice: 30,
+        quantity: 2,
     },
     {
-      id: 'strawberries',
-      name: 'Strawberries',
-      price: 35,
-      description: '300g, organic, danish strawberries',
-      currency: 'DKK',
-      discountQuantity: 3,
-      discountPercent: 15,
-      upsellProductId: null
+        id: 'strawberries',
+        name: 'Strawberries',
+        price: 35,
+        description: '300g, eco, danish strawberries',
+        currency: 'DKK',
+        discountQuantity: 3,
+        discountPercent: 15,
+        upsellProductId: null,
+        totalPrice: 35,
+        quantity: 1,
     },
     {
       id: 'non-organic strawberries',
@@ -73,35 +83,45 @@ function App() {
       currency: 'DKK',
       discountQuantity: 4,
       discountPercent: 10,
-      upsellProductId: null
+      upsellProductId: null,
+        totalPrice: 25,
+        quantity: 1,
       }
   ]);
-//We set the amount of each item to be 1 here. We should maybe connect it to a users fictional basket instead?
-  const [basket, setBasket] =
-      useState(Array(products.length).fill(1));
-  function handleAmountChange(index: number, amount: number | null){
-      const newBasket = basket.slice();
-      if(amount === null){
-          newBasket[index] = null;
-      }else{
-          newBasket[index] += amount
+
+  function calculateLocalTotalPrice(index: number){
+      if(products[index].quantity >= products[index].discountQuantity){
+          return products[index].totalPrice * (1 - products[index].discountPercent / 100);
       }
-      setBasket(newBasket);
-      console.log(basket);
+    return products[index].totalPrice;
   }
-  const calculateLocalTotalPrice = (index: number) => {
-      return basket[index] * products[index].price;
-  };
-  const calculateTotalPrice = () => {
+  function calculateTotalPrice(){
       let totalPrice = 0;
-      for (let i = 0; i < basket.length; i++) {
+      for (let i = 0; i < products.length; i++) {
           totalPrice += calculateLocalTotalPrice(i);
       }
-      return totalPrice;
-  };
+      if(totalPrice < 300){
+          return totalPrice;
+      }else{
+          return totalPrice * 0.9;
+      }
+  }
+  function handleQuantityChange(index: number, newQuantity: number){
+      const newProducts = products.slice();
+      const product = newProducts[index];
 
-  const totalQuantity = basket.reduce((total, quantity) => total + quantity, 0);
-  const totalPrice = calculateTotalPrice();
+      if (newQuantity === 0) {
+          product.quantity = 0;
+      } else {
+          product.quantity += newQuantity;
+          product.totalPrice += product.price; // if quantity input ever is changed, product.price * quantity is added to totalPrice
+      }
+
+      setBasket(newProducts);
+    }
+  const totalQuantity = products.reduce((acc, product) => acc + product.quantity, 0);
+  const totalPriceDiscounted = calculateTotalPrice();
+  const totalPriceNoDiscount = products.reduce((acc, product) => acc + product.totalPrice, 0);
 
 
     function handleUpgradeClick( oldProduct: Product, newProduct: Product | null) {
@@ -145,7 +165,7 @@ function App() {
     };
 
     const productBoxItems = products.map((product, index) => (
-      basket[index] != null &&( // only render product if it's in the basket
+        products[index].quantity != 0 &&(
         <div id= "productBox" key={product.id}>
             <ProductItem product={product}/>
             <div id= "adjustable">
@@ -155,12 +175,16 @@ function App() {
                     handleUpgradeClick={() => handleUpgradeClick( product, hasUpgradeOption(product, products).moreExpensiveOption)}
                 />
 
-            <CartItem
-                value={basket[index]}
-                onDecrement={() => handleAmountChange(index, -1)}
-                onIncrement={() => handleAmountChange(index, 1)}
-                onRemove={() => handleAmountChange(index,null)}
-            />
+                <button className="decrease" onClick={() => handleQuantityChange(index, -1)} disabled={product.quantity <= 1}>
+                    -
+                </button>
+                <span>{product.quantity}</span>
+                <button className="increase" onClick={() => handleQuantityChange(index, 1)}>
+                    +
+                </button>
+                <button className="remove" onClick={() => handleQuantityChange(index, 0)}>
+                    remove
+                </button>
             </div>
         </div>
       )
@@ -187,7 +211,8 @@ function App() {
               <div id = "totalBox">
                 <h2>Total</h2>
                 <p>Total Quantity: {totalQuantity}</p>
-                <p>Total Price: {totalPrice} &nbsp; {products[0].currency}</p>
+                <p>Total Price: {totalPriceDiscounted} &nbsp; {products[0].currency}</p>
+                <p>Total Price before discount: {totalPriceNoDiscount} &nbsp; {products[0].currency}</p>
               </div>
       </>
   );
@@ -221,7 +246,8 @@ const findMoreExpensiveProduct = (productName: string, products: Product[]): Pro
     );
 };
 
-function CartItem({value, onIncrement, onDecrement, onRemove}: any /* YES ANY, just for now*/) {
+/*
+function CartItem({value, onIncrement, onDecrement, onRemove}: any) {
     return (
         <>
 
@@ -233,11 +259,13 @@ function CartItem({value, onIncrement, onDecrement, onRemove}: any /* YES ANY, j
         +
       </button>
       <button className="remove" onClick={onRemove}>
-        x
+        %
       </button>
     </>
   );
 }
+*/
+
 
 function getImage(product : Product){
   return (

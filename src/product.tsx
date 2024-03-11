@@ -7,6 +7,8 @@ interface Product {
     discountQuantity: number;
     discountPercent: number;
     upsellProductId: number | null;
+    totalPrice: number;
+    quantity: number;
 }
 
 interface ProductItemProps {
