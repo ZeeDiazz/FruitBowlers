@@ -1,6 +1,7 @@
-import {useState } from "react"
+import {useState} from "react"
 import './App.css'
 import './product.tsx'
+import stage2 from './StageTwo.tsx'
 
 
 function ProductItem({product, totalAmount}: ProductItemProps){
@@ -215,25 +216,34 @@ function App() {
     return (
         <>
             {menu()}
-            <div id="basket">
+            <div id = "basket">
                 <div className="title-container">
                     <img
-                        src={`/images/stage1.png`}
+                        src= {`/images/stage1-fat.png`}
+                        alt= "Step 1"
                         className="stage1"
                     />
                     <h2>Basket</h2>
                 </div>
+
                 {productBoxItems}
+
+            </div>
+            <div id = "totalBox">
+                <div id = "totalBoxText">
+                    <h2>Total</h2>
+                    <p>Total Quantity: {totalQuantity}</p>
+                    {getDiscountMessage(totalPriceDiscounted)}
+                    <p>Total Price: {totalPriceDiscounted} &nbsp; {products[0].currency}</p>
+                </div>
             </div>
 
-            <div id = "totalBox">
-                <h2>Total</h2>
-                <p>Total Quantity: {totalQuantity}</p>
-                  {getDiscountMessage(totalPriceDiscounted)}
-                <p>Total Price: {totalPriceDiscounted} &nbsp; {products[0].currency}</p>
+            <div id= "basket">
+                {stage2()}
+
             </div>
-      </>
-  );
+        </>
+    );
 }
 
 //If there is a more expensive product with the same name in the product-list.

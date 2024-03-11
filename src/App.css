@@ -1,18 +1,40 @@
 #productBox{
-  background-color: rgb(245, 245, 245);
   width: 85%;
-  border: 2px solid black;
+  /*border: 1px solid black;*/
+  border: 1px solid #ced4da;
+  box-shadow: 0 0 4px #00000019;
   padding: 10px;
   margin: 10px;
   float: left;
   border-radius: 15px;
   horiz-align: center;
-
 }
-
-
+#basket{
+  width: 60%;
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 15px;
+  float: left;
+  horiz-align: center;
+  margin: 15px;
+}
+.title-container{
+  display: grid;
+  grid-template-columns: 15% auto;
+}
 #titleName{
   text-align: center;
+}
+
+#totalBox{
+  width: 25%;
+  border: 2px solid rgb(0, 0, 0);
+  float: right;
+  border-radius: 15px;
+  margin: 15px;
+}
+/*Maybe we don't need totalBoxText*/
+#totalBoxText {
+  padding: 10px;
 }
 
 #line{
@@ -24,29 +46,6 @@
   margin-bottom: 10px;
 }
 
-#totalBox{
-  width: 25%;
-  border: 2px solid black;
-  float: right;
-  border-radius: 15px;
-
-
-}
-
-#basket{
-  width: 70%;
-  border: 2px solid black;
-  border-radius: 15px;
-  float: left;
-  horiz-align: center;
-}
-.title-container{
-  display: grid;
-  grid-template-columns: 11% auto;
-}
-
-
-
 .img{
   height: 60px;
   width: 70px;
@@ -54,9 +53,10 @@
 }
 
 .stage1{
-  height: 60px;
-  width: 70px;
+  height: 50px;
+  width: 50px;
   margin-top: auto;
+  margin-left: 10px;
 }
 
 #nameTag{
