@@ -47,6 +47,7 @@ export default function stage2() {
         }
     }
 
+
     function checkboxes(diffDeliveryAddress, diff: boolean) {
         return (
             <>
@@ -148,7 +149,8 @@ export default function stage2() {
                         <input type="digits" name="Telephone"
                                minLength={8} maxLength={8} placeholder="Telephone" required/>
                     </div>
-                    <input type="submit" value="Continue To Payment" id="button"/>
+                    {!diff && <input id ="submit" type="submit" value="Continue To Payment" id="button"/>}
+
 
                 </div>
             </form>
