@@ -57,7 +57,7 @@ export default function stage2() {
                        }}
                 />
                 <br/>
-                <p>Send to delivery address</p>
+                <p>Send to billing address</p>
 
                 {devliveryAdress(diff)}
 
@@ -124,6 +124,10 @@ export default function stage2() {
                     <input name="LastName" type="text" placeholder="Last Name" required/>
                     <br/>
                     <input type="email" name="Email" placeholder="Email" required/>
+                    <br/>
+
+                    <input name="companyName" type="text" placeholder="*(Optional) Company Name"/>
+                    <input type="digits" name="VATnum" minLength={8} maxLength={8} placeholder="*(Optional) Company VAT"/>
                     <br/>
                     <div className="addressBox">
                         <br/>
