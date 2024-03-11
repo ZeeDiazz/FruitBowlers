@@ -297,7 +297,7 @@ function getDiscountMessage(totalPriceDiscount: number): string {
 function menu(){
   return(
     <div id= "titleName">
-      <h1>Fruit Bowlers</h1>
+      <img src="images/LOGO.png" alt="Fruit Bowlers" />
       <div id= "line"/>
     </div>
   )
