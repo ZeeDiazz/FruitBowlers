@@ -121,7 +121,6 @@ function App() {
     }
   const totalQuantity = products.reduce((acc, product) => acc + product.quantity, 0);
   const totalPriceDiscounted = calculateTotalPrice();
-  const totalPriceNoDiscount = products.reduce((acc, product) => acc + product.totalPrice, 0);
 
 
     function handleUpgradeClick( oldProduct: Product, newProduct: Product | null, index: number) {
@@ -212,8 +211,8 @@ function App() {
               <div id = "totalBox">
                 <h2>Total</h2>
                 <p>Total Quantity: {totalQuantity}</p>
+                  {getDiscountMessage(totalPriceDiscounted)}
                 <p>Total Price: {totalPriceDiscounted} &nbsp; {products[0].currency}</p>
-                <p>Total Price before discount: {totalPriceNoDiscount} &nbsp; {products[0].currency}</p>
               </div>
       </>
   );
@@ -279,7 +278,15 @@ function getImage(product : Product){
     </>
   )
 }
-
+function getDiscountMessage(totalPriceDiscount: number): string {
+    console.log("price given to the function " + totalPriceDiscount);
+    const remainingAmountForDiscount = 300 - totalPriceDiscount;
+    if (totalPriceDiscount < 300) {
+        return `Get 10% discount when buying for ${remainingAmountForDiscount} more!`;
+    } else {
+        return 'You get 10% discount!';
+    }
+}
 function menu(){
   return(
     <div id= "titleName">
