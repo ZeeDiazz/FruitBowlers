@@ -298,7 +298,7 @@ function menu(){
   return(
     <div id= "titleName">
       <h1>Fruit Bowlers</h1>
-      <>id= "line"</>
+      <div id= "line"/>
     </div>
   )
 }
