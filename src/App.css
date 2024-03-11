@@ -47,15 +47,15 @@
 }
 
 .img{
-  height: 60px;
-  width: 70px;
+  height: 50px;
+  width: 50px;
   float: left;
 }
 
 .stage1{
   height: 50px;
   width: 50px;
-  margin-top: auto;
+  margin-top: 10px;
   margin-left: 10px;
 }
 
