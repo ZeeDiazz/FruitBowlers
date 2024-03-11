@@ -7,4 +7,5 @@ describe(App.name, () => {
         render(<App />);
         expect(screen.getByText("Fruit Bowlers")).toBeInTheDocument();
     });
-});
+}); 
+//test kommentar
