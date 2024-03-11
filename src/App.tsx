@@ -29,8 +29,8 @@ function App() {
   const [products,setProduct] = useState<Product[]>([
     { 
         id: "apple-bag",
-        name: "Apple bag, 5 pieces",
-        price: 20,
+        name: "Apples",
+        price: 25,
         description: "There are 5 apples in one bag",
         currency: "DKK",
         discountQuantity: 2,
@@ -38,6 +38,18 @@ function App() {
         upsellProductId: null,
         totalPrice: 20,
         quantity: 1,
+    },
+    {
+        id: "Organic apple-bag",
+        name: "Apples",
+        price: 30,
+        description: "Organic apples from Denmark",
+        currency: "DKK",
+        discountQuantity: 0,
+        discountPercent: 0,
+        upsellProductId: null,
+        totalPrice: 30,
+        quantity: 0,
     },
     {
         id: "banana-bag",
@@ -69,8 +81,8 @@ function App() {
         price: 35,
         description: '300g, eco, danish strawberries',
         currency: 'DKK',
-        discountQuantity: 3,
-        discountPercent: 15,
+        discountQuantity: 0,
+        discountPercent: 0,
         upsellProductId: null,
         totalPrice: 0,
         quantity: 0,
@@ -84,19 +96,19 @@ function App() {
       discountQuantity: 4,
       discountPercent: 10,
       upsellProductId: null,
-        totalPrice: 25,
-        quantity: 1,
+      totalPrice: 25,
+      quantity: 1,
       }
   ]);
 
-  function calculateLocalTotalPrice(index: number){
+  function calculateLocalTotalPrice(index: number): number{
       if(products[index].quantity >= products[index].discountQuantity){
           return products[index].totalPrice * (1 - products[index].discountPercent / 100);
       }
     return products[index].totalPrice;
   }
   function calculateTotalPrice(){
-      let totalPrice = 0;
+      let totalPrice: number = 0;
       for (let i = 0; i < products.length; i++) {
           totalPrice += calculateLocalTotalPrice(i);
       }
@@ -107,33 +119,35 @@ function App() {
       }
   }
   function handleQuantityChange(index: number, newQuantity: number){
-      const newProducts = products.slice();
-      const product = newProducts[index];
-
+      const newProducts: Product[] = products.slice();
+      const product: Product = newProducts[index];
+      /*changing a products quantity should change the total price automaically
+      * right now they are don't --> not coupled by a function for example
+      * */
       if (newQuantity === 0) {
           product.quantity = 0;
+          product.totalPrice = 0;
       } else {
           product.quantity += newQuantity;
-          product.totalPrice += newQuantity * product.price; // if quantity input ever is changed, product.price * quantity is added to totalPrice
+          product.totalPrice += newQuantity * product.price;
       }
 
       setProduct(newProducts);
     }
-  const totalQuantity = products.reduce((acc, product) => acc + product.quantity, 0);
-  const totalPriceDiscounted = calculateTotalPrice();
+  const totalQuantity: number = products.reduce((acc, product) => acc + product.quantity, 0);
+  const totalPriceDiscounted: number = calculateTotalPrice();
 
 
-    function handleUpgradeClick( oldProduct: Product, newProduct: Product | null, index: number) {
-        const quantity = products[index].quantity;
-        console.log("quantity of old product: " + quantity);
-        console.log(`Upgrade ${oldProduct.name} to ${newProduct?.name} at index ${index.valueOf()} with amount ${quantity}`);
+    function handleUpgradeClick(newProduct: Product | null, index: number) {
+        const quantity: number = products[index].quantity;
+
         setProduct(prevBasket => {
-            const newBasket = [...prevBasket];
+            const newBasket: Product[] = [...prevBasket];
             // Decrease the amount of the old product
             newBasket[index].quantity = 0;
             // Increase the amount of the new product
             if (newProduct) {
-                const newProductIndex = products.findIndex((product) => product.id === newProduct.id);
+                const newProductIndex: number = products.findIndex((product): boolean => product.id === newProduct.id);
                 newBasket[newProductIndex].quantity = quantity;
                 newBasket[newProductIndex].totalPrice = quantity * newProduct.price;
             }
@@ -169,14 +183,17 @@ function App() {
             <ProductItem
                 product={product}
                 totalAmount = {calculateLocalTotalPrice(index)}
-            />
+            />{/*
+            the following two lines of code, displays if there is a local discount available or if a discount has been applied
+            displays nothing if the item has no discount available
+            */}
             {product.quantity < product.discountQuantity && <p>Buy {product.discountQuantity} for a discount</p>}
-            {product.quantity >= product.discountQuantity && <p>{product.discountPercent}% discount</p>}
+            {product.quantity >= product.discountQuantity && product.discountQuantity != 0 && <p>{product.discountPercent}% discount</p>}
             <div id="quantityBox">
                 <UpgradeButton
                     product={product}
                     products={products}
-                    handleUpgradeClick={() => handleUpgradeClick(product, hasUpgradeOption(product, products).moreExpensiveOption, index)}
+                    handleUpgradeClick={() => handleUpgradeClick(hasUpgradeOption(product, products).moreExpensiveOption, index)}
                 />
 
                 <button className="decrease" onClick={() => handleQuantityChange(index, -1)}
@@ -197,7 +214,6 @@ function App() {
 
     return (
         <>
-            {/*Should move titleName another place*/}
             {menu()}
             <div id="basket">
                 <div className="title-container">
@@ -207,18 +223,15 @@ function App() {
                     />
                     <h2>Basket</h2>
                 </div>
-
                 {productBoxItems}
-
             </div>
-            {/* Display the total quantity */}
-            {/* Should move TotalBox some place else*/}
-              <div id = "totalBox">
+
+            <div id = "totalBox">
                 <h2>Total</h2>
                 <p>Total Quantity: {totalQuantity}</p>
                   {getDiscountMessage(totalPriceDiscounted)}
                 <p>Total Price: {totalPriceDiscounted} &nbsp; {products[0].currency}</p>
-              </div>
+            </div>
       </>
   );
 }
@@ -228,10 +241,10 @@ const hasUpgradeOption = (product: Product, products: Product[]): {
     moreExpensiveOption: Product | null;
     hasUpgrade: boolean, priceDifference: number
 } => {
-    const moreExpensiveProduct = findMoreExpensiveProduct(product.name, products);
+    const moreExpensiveProduct: Product | null = findMoreExpensiveProduct(product.name, products);
 
     if (moreExpensiveProduct !== null && moreExpensiveProduct.price > product.price) {
-        const priceDifference = moreExpensiveProduct.price - product.price;
+        const priceDifference: number = moreExpensiveProduct.price - product.price;
         return { hasUpgrade: true, priceDifference: priceDifference, moreExpensiveOption: moreExpensiveProduct };
     }
     return { hasUpgrade: false, priceDifference: 0, moreExpensiveOption: null };
@@ -240,8 +253,8 @@ const hasUpgradeOption = (product: Product, products: Product[]): {
 
 // Function to find the more expensive product with the same name
 const findMoreExpensiveProduct = (productName: string, products: Product[]): Product | null => {
-    const productsWithSameName = products.filter(
-        (product) => product.name === productName
+    const productsWithSameName: Product[] = products.filter(
+        (product): boolean => product.name === productName
     );
     if (productsWithSameName.length <= 1) {
         return null; // No more expensive alternative found
@@ -250,27 +263,6 @@ const findMoreExpensiveProduct = (productName: string, products: Product[]): Pro
         moreExpensiveProduct.price > currentProduct.price ? moreExpensiveProduct : currentProduct
     );
 };
-
-/*
-function CartItem({value, onIncrement, onDecrement, onRemove}: any) {
-    return (
-        <>
-
-        <button className="decrease" onClick={onDecrement} disabled={value <= 1}>
-        -
-      </button>
-      <span>{value}</span>
-      <button className="increase" onClick={onIncrement}>
-        +
-      </button>
-      <button className="remove" onClick={onRemove}>
-        %
-      </button>
-    </>
-  );
-}
-*/
-
 
 function getImage(product : Product){
   return (
@@ -296,7 +288,7 @@ function menu(){
   return(
     <div id= "titleName">
       <h1>Fruit Bowlers</h1>
-      <div id= "line"></div>
+      <>id= "line"</>
     </div>
   )
 }
