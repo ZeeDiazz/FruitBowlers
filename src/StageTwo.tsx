@@ -47,7 +47,7 @@ export default function stage2() {
         }
     }
 
-    function checkboxes(diffDeliveryAddress, diff: boolean) {
+    function checkboxes(diffDeliveryAddress:any, diff: boolean) {
         return (
             <>
                 <label className="container" id="checkboxmargin">Send to billing address

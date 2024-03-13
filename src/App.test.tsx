@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import App from "./App";
-import calculateLocalTotalPrice from './App.tsx';   //@TODO later
 
 describe(App.name, () => {
     it("should render", () => {
