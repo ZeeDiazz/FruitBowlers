@@ -133,7 +133,7 @@ function App() {
     } => {
         const upgrade: Product | null = findMoreExpensiveProduct(product.name, upgrades);
         if (upgrade !== null && upgrade.price > product.price) {
-            const priceDifference: number = upgrade.price - product.price;
+            const priceDifference: number = upgrade.price - product.price;  // does not take discount into account
             return { hasUpgrade: true, priceDifference: priceDifference, moreExpensiveOption: upgrade };
         }
         return { hasUpgrade: false, priceDifference: 0, moreExpensiveOption: null };
@@ -141,16 +141,13 @@ function App() {
 
     function handleUpgradeClick(newProduct: Product | null, index: number) {
         const quantity: number = products[index].quantity;
-
-        setProduct(prevBasket => {
-            const newBasket: Product[] = prevBasket.slice();
-            if (newProduct) {
-                newBasket[index].quantity = quantity;
-                newBasket[index].totalPrice = quantity * newProduct.price;
-            }
-            return newBasket;
+        const newProducts: Product[] = products.slice();
+        if (newProduct) {
+            newProducts[index] = newProduct;
+            newProducts[index].quantity = quantity;
+            newProducts[index].totalPrice = newProduct.price * quantity;
         }
-        );
+        setProduct(newProducts);
     }
 
     const UpgradeButton: React.FC<UpgradeButtonProps> = ({ product, upgrades, handleUpgradeClick }) => {
