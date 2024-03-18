@@ -6,7 +6,7 @@ interface Product {
     currency: string;
     discountQuantity: number;
     discountPercent: number;
-    upsellProductId: number | null;
+    upsellProductId: string | null;
     totalPrice: number;
     quantity: number;
 }

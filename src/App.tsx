@@ -20,7 +20,7 @@ function App() {
         currency: "DKK",
         discountQuantity: 2,
         discountPercent: 10,
-        upsellProductId: null,
+        upsellProductId: 'organic apple-bag',
         totalPrice: 25,
         quantity: 1,
     },
@@ -56,7 +56,7 @@ function App() {
       currency: 'DKK',
       discountQuantity: 4,
       discountPercent: 10,
-      upsellProductId: null,
+      upsellProductId: 'strawberries',
       totalPrice: 25,
       quantity: 1,
     }]);
@@ -119,8 +119,8 @@ function App() {
       setProduct(newProducts);
     }
     // Function to find the more expensive product with the same name
-    const findMoreExpensiveProduct = (productName: string, upgrades: Product[]): Product | null => {
-        const upgrade: Product | undefined = upgrades.find((product): boolean => product.name === productName);
+    const findMoreExpensiveProduct = (upsellProductId: string | null, upgrades: Product[]): Product | null => {
+        const upgrade: Product | undefined = upgrades.find((upgrade) => upsellProductId === upgrade.id);
         if (upgrade) {
             return upgrade;
         }
@@ -131,10 +131,12 @@ function App() {
         moreExpensiveOption: Product | null;
         hasUpgrade: boolean, priceDifference: number
     } => {
-        const upgrade: Product | null = findMoreExpensiveProduct(product.name, upgrades);
-        if (upgrade !== null && upgrade.price > product.price) {
-            const priceDifference: number = upgrade.price - product.price;  // does not take discount into account
-            return { hasUpgrade: true, priceDifference: priceDifference, moreExpensiveOption: upgrade };
+        if(product.upsellProductId != null){
+            const upgrade: Product | null = findMoreExpensiveProduct(product.upsellProductId, upgrades);
+            if (upgrade !== null && upgrade.price > product.price) {
+                const priceDifference: number = upgrade.price - product.price;  // does not take discount into account
+                return { hasUpgrade: true, priceDifference: priceDifference, moreExpensiveOption: upgrade };
+            }
         }
         return { hasUpgrade: false, priceDifference: 0, moreExpensiveOption: null };
     };
