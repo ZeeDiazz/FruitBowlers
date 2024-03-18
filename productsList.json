@@ -1,0 +1,50 @@
+[
+  {
+    "id": "apple-bag",
+    "name": "Apples",
+    "price": 25,
+    "description": "There are 5 apples in one bag",
+    "currency": "DKK",
+    "discountQuantity": 2,
+    "discountPercent": 10,
+    "upsellProductId": "organic apple-bag",
+    "totalPrice": 25,
+    "quantity": 1
+  },
+  {
+    "id": "banana-bag",
+    "name": "Banana bag",
+    "price": 15,
+    "description": "One eco banana is approximately 105g. There are 5 bananas in one bag",
+    "currency": "DKK",
+    "discountQuantity": 5,
+    "discountPercent": 10,
+    "upsellProductId": null,
+    "totalPrice": 75,
+    "quantity": 5
+  },
+  {
+    "id": "lemon-bag",
+    "name": "Lemon bag, 6 pieces",
+    "price": 15,
+    "description": "One eco lemon bag is approximately 500g.",
+    "currency": "DKK",
+    "discountQuantity": 4,
+    "discountPercent": 10,
+    "upsellProductId": null,
+    "totalPrice": 30,
+    "quantity": 2
+  },
+  {
+    "id": "non-organic strawberries",
+    "name": "Strawberries",
+    "price": 25,
+    "description": "300g, non-organic, strawberries",
+    "currency": "DKK",
+    "discountQuantity": 4,
+    "discountPercent": 10,
+    "upsellProductId": "strawberries",
+    "totalPrice": 25,
+    "quantity": 1
+  }
+]

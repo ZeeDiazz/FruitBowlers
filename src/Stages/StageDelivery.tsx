@@ -1,4 +1,4 @@
-import './StageTwo.css'
+import '../assets/Styles/StageDelivery.css'
 import {useState} from "react";
 
 export default function stage2() {
