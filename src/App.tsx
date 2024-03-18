@@ -4,26 +4,10 @@ import './product.tsx'
 import stage2 from './StageTwo.tsx'
 
 
-function ProductItem({product, totalAmount}: ProductItemProps){
-  return (
-    <>
-      {getImage(product)}
-      <div id = "nameTag">
-        {product.name}
-      </div>
-      &emsp;
-      <div id = "priceTag">
-        {"Total amount: "}
-        &nbsp;
-        {totalAmount}
-        &nbsp;
-        {product.currency}
-      </div>
-      <div id = "desc">
-        <p>{product.description}</p>
-      </div>
-    </>
-  )
+interface UpgradeButtonProps {
+    product: Product;
+    upgrades: Product[];
+    handleUpgradeClick: (index: number, amount: number) => void;
 }
 
 function App() {
@@ -41,28 +25,16 @@ function App() {
         quantity: 1,
     },
     {
-        id: "Organic apple-bag",
-        name: "Apples",
-        price: 30,
-        description: "Organic apples from Denmark",
-        currency: "DKK",
-        discountQuantity: 0,
-        discountPercent: 0,
-        upsellProductId: null,
-        totalPrice: 30,
-        quantity: 0,
-    },
-    {
-        id: "banana-bag",
-        name: "Banana bag",
-        price: 15,
-        description: 'One eco banana is approximately 105g. There are 5 bananas in one bag',
-        currency: 'DKK',
-        discountQuantity: 5,
-        discountPercent: 10,
-        upsellProductId: null,
-        totalPrice: 75,
-        quantity: 5,
+      id: "banana-bag",
+      name: "Banana bag",
+      price: 15,
+      description: 'One eco banana is approximately 105g. There are 5 bananas in one bag',
+      currency: 'DKK',
+      discountQuantity: 5,
+      discountPercent: 10,
+      upsellProductId: null,
+      totalPrice: 75,
+      quantity: 5,
     },
     {
         id: 'lemon-bag',
@@ -77,6 +49,19 @@ function App() {
         quantity: 2,
     },
     {
+      id: 'non-organic strawberries',
+      name: 'Strawberries',
+      price: 25,
+      description: '300g, non-organic, strawberries',
+      currency: 'DKK',
+      discountQuantity: 4,
+      discountPercent: 10,
+      upsellProductId: null,
+      totalPrice: 25,
+      quantity: 1,
+    }]);
+    const upgrades: Product[] = [
+    {
         id: 'strawberries',
         name: 'Strawberries',
         price: 35,
@@ -89,23 +74,19 @@ function App() {
         quantity: 0,
     },
     {
-      id: 'non-organic strawberries',
-      name: 'Strawberries',
-      price: 25,
-      description: '300g, non-organic, strawberries',
-      currency: 'DKK',
-      discountQuantity: 4,
-      discountPercent: 10,
-      upsellProductId: null,
-      totalPrice: 25,
-      quantity: 1,
-      }
-  ]);
-
+        id: "organic apple-bag",
+        name: "Apples",
+        price: 30,
+        description: "Organic apples from Denmark",
+        currency: "DKK",
+        discountQuantity: 0,
+        discountPercent: 0,
+        upsellProductId: null,
+        totalPrice: 30,
+        quantity: 0,
+    },];
   function calculateLocalTotalPrice(index: number): number{
       if(products[index].quantity >= products[index].discountQuantity){
-          console.log("product: " + products[index].name +"id "+products[index].id + " has a discount of " + products[index].discountPercent + "%");
-          console.log("total price: " + products[index].totalPrice);
           return products[index].totalPrice * (1 - products[index].discountPercent / 100);
       }
     return products[index].totalPrice;
@@ -137,35 +118,43 @@ function App() {
 
       setProduct(newProducts);
     }
-  const totalQuantity: number = products.reduce((acc, product) => acc + product.quantity, 0);
-  const totalPriceDiscounted: number = calculateTotalPrice();
-
+    // Function to find the more expensive product with the same name
+    const findMoreExpensiveProduct = (productName: string, upgrades: Product[]): Product | null => {
+        const upgrade: Product | undefined = upgrades.find((product): boolean => product.name === productName);
+        if (upgrade) {
+            return upgrade;
+        }
+        return null;
+    };
+    //If there is a more expensive product with the same name in the product-list.
+    const hasUpgradeOption = (product: Product, upgrades: Product[]): {
+        moreExpensiveOption: Product | null;
+        hasUpgrade: boolean, priceDifference: number
+    } => {
+        const upgrade: Product | null = findMoreExpensiveProduct(product.name, upgrades);
+        if (upgrade !== null && upgrade.price > product.price) {
+            const priceDifference: number = upgrade.price - product.price;
+            return { hasUpgrade: true, priceDifference: priceDifference, moreExpensiveOption: upgrade };
+        }
+        return { hasUpgrade: false, priceDifference: 0, moreExpensiveOption: null };
+    };
 
     function handleUpgradeClick(newProduct: Product | null, index: number) {
         const quantity: number = products[index].quantity;
 
         setProduct(prevBasket => {
-            const newBasket: Product[] = [...prevBasket];
-            // Decrease the amount of the old product
-            newBasket[index].quantity = 0;
-            // Increase the amount of the new product
+            const newBasket: Product[] = prevBasket.slice();
             if (newProduct) {
-                const newProductIndex: number = products.findIndex((product): boolean => product.id === newProduct.id);
-                newBasket[newProductIndex].quantity = quantity;
-                newBasket[newProductIndex].totalPrice = quantity * newProduct.price;
+                newBasket[index].quantity = quantity;
+                newBasket[index].totalPrice = quantity * newProduct.price;
             }
             return newBasket;
-        });
+        }
+        );
     }
 
-    interface UpgradeButtonProps {
-        product: Product;
-        products: Product[];
-        handleUpgradeClick: (index: number, amount: number) => void;
-    }
-
-    const UpgradeButton: React.FC<UpgradeButtonProps> = ({ product, products, handleUpgradeClick }) => {
-        const { hasUpgrade, priceDifference } = hasUpgradeOption(product, products);
+    const UpgradeButton: React.FC<UpgradeButtonProps> = ({ product, upgrades, handleUpgradeClick }) => {
+        const { hasUpgrade, priceDifference } = hasUpgradeOption(product, upgrades);
 
         return (
             <>
@@ -195,8 +184,8 @@ function App() {
             <div id="quantityBox">
                 <UpgradeButton
                     product={product}
-                    products={products}
-                    handleUpgradeClick={() => handleUpgradeClick(hasUpgradeOption(product, products).moreExpensiveOption, index)}
+                    upgrades={upgrades}
+                    handleUpgradeClick={() => handleUpgradeClick(hasUpgradeOption(product, upgrades).moreExpensiveOption, index)}
                 />
 
                 <button className="decrease" onClick={() => handleQuantityChange(index, -1)}
@@ -214,6 +203,9 @@ function App() {
         </div>
         )
     ));
+
+    const totalQuantity: number = products.reduce((acc, product) => acc + product.quantity, 0);
+    const totalPriceDiscounted: number = calculateTotalPrice();
 
     return (
         <>
@@ -248,34 +240,27 @@ function App() {
     );
 }
 
-//If there is a more expensive product with the same name in the product-list.
-const hasUpgradeOption = (product: Product, products: Product[]): {
-    moreExpensiveOption: Product | null;
-    hasUpgrade: boolean, priceDifference: number
-} => {
-    const moreExpensiveProduct: Product | null = findMoreExpensiveProduct(product.name, products);
-
-    if (moreExpensiveProduct !== null && moreExpensiveProduct.price > product.price) {
-        const priceDifference: number = moreExpensiveProduct.price - product.price;
-        return { hasUpgrade: true, priceDifference: priceDifference, moreExpensiveOption: moreExpensiveProduct };
-    }
-    return { hasUpgrade: false, priceDifference: 0, moreExpensiveOption: null };
-};
-
-
-// Function to find the more expensive product with the same name
-const findMoreExpensiveProduct = (productName: string, products: Product[]): Product | null => {
-    const productsWithSameName: Product[] = products.filter(
-        (product): boolean => product.name === productName
-    );
-    if (productsWithSameName.length <= 1) {
-        return null; // No more expensive alternative found
-    }
-    return productsWithSameName.reduce((moreExpensiveProduct, currentProduct) =>
-        moreExpensiveProduct.price > currentProduct.price ? moreExpensiveProduct : currentProduct
-    );
-};
-
+function ProductItem({product, totalAmount}: ProductItemProps){
+    return (
+        <>
+            {getImage(product)}
+            <div id = "nameTag">
+                {product.name}
+            </div>
+            &emsp;
+            <div id = "priceTag">
+                {"Total amount: "}
+                &nbsp;
+                {totalAmount}
+                &nbsp;
+                {product.currency}
+            </div>
+            <div id = "desc">
+                <p>{product.description}</p>
+            </div>
+        </>
+    )
+}
 function getImage(product : Product){
   return (
     <>
@@ -288,7 +273,6 @@ function getImage(product : Product){
   )
 }
 function getDiscountMessage(totalPriceDiscount: number): string {
-    console.log("price given to the function " + totalPriceDiscount);
     const remainingAmountForDiscount = 300 - totalPriceDiscount;
     if (totalPriceDiscount < 300) {
         return `Get 10% discount when buying for ${remainingAmountForDiscount} DKK more!`;
