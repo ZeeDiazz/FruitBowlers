@@ -44,6 +44,8 @@ export const productBoxItems = products.map((product, index) => (
 ));
 
 function stageBasket() {
+
+
     return (
         <>
             <div id="basket">

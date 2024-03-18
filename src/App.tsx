@@ -2,7 +2,7 @@ import {useState} from "react"
 import './assets/Styles/App.css'
 import './Components/product.ts'
 import './Components/upgrade.tsx'
-import './Components/price.ts'
+import { from "./Components/price.ts";
 import stage2 from './Stages/StageDelivery.tsx'
 
 
@@ -15,7 +15,6 @@ function App() {
             {menu()}
             {stageBasket()}
             {total()}
-
             <div id= "basket">
                 {stage2()}
 
