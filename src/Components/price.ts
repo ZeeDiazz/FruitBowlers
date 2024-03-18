@@ -1,36 +1,31 @@
-import {useState, useEffect} from "react";
-import './product.ts';
-import productsData from '../../productsList.json';
 
-const totalQuantity: number = products.reduce((acc, product) => acc + product.quantity, 0);
-const totalPriceDiscounted: number = calculateTotalPrice();
-
-const basket = () => {
-    const [products, setProducts] = useState<Product[]>([]);
-
-    useEffect(() => {
-        // Fetch your JSON file or directly import it as shown above
-        // For demonstration purposes, I'm directly using the imported data
-        setProducts(productsData);
-    }, []);
-function calculateLocalTotalPrice(index: number): number{
-    if(products[index].quantity >= products[index].discountQuantity){
+export function calculateLocalTotalPrice(products: Product[],index: number): number {
+    if (products[index].quantity >= products[index].discountQuantity) {
         return products[index].totalPrice * (1 - products[index].discountPercent / 100);
     }
-    return products[index].totalPrice;
-}
-function calculateTotalPrice(){
+        return products[index].totalPrice;
+    }
+export function calculateTotalPrice(products: Product[]) {
     let totalPrice: number = 0;
     for (let i = 0; i < products.length; i++) {
-        totalPrice += calculateLocalTotalPrice(i);
+        totalPrice += calculateLocalTotalPrice(products,i);
     }
-    if(totalPrice < 300){
+    if (totalPrice < 300) {
         return totalPrice;
-    }else{
+    } else {
         return totalPrice * 0.9;
     }
 }
-function handleQuantityChange(index: number, newQuantity: number){
+
+export function getTotalQuantity(products: Product[]): number {
+    return products.reduce((acc, product) => acc + product.quantity, 0);
+}
+export function getTotalPriceDiscounted(products: Product[]): number {
+    const totalPriceDiscounted: number = calculateTotalPrice(products);
+    return totalPriceDiscounted;
+}
+
+export function handleQuantityChange(products: Product[], index: number, newQuantity: number): Product[] {
     const newProducts: Product[] = products.slice();
     const product: Product = newProducts[index];
     /*changing a products quantity should change the total price automaically
@@ -43,10 +38,10 @@ function handleQuantityChange(index: number, newQuantity: number){
         product.quantity += newQuantity;
         product.totalPrice += newQuantity * product.price;
     }
-
-    setProduct(newProducts);
+    return newProducts; //when using this function, remember to set the state with the new products
 }
-function getDiscountMessage(totalPriceDiscount: number): string {
+
+export function getDiscountMessage(totalPriceDiscount: number): string {
     const remainingAmountForDiscount = 300 - totalPriceDiscount;
     if (totalPriceDiscount < 300) {
         return `Get 10% discount when buying for ${remainingAmountForDiscount} DKK more!`;

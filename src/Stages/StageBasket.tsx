@@ -1,9 +1,18 @@
-const productBoxItems = products.map((product, index) => (
+import {calculateLocalTotalPrice,handleQuantityChange} from "../Components/price.ts";
+import productsData from '../productsList.json';
+import upgradesData from '../upgradesList.json';
+import {useState} from "react";
+
+
+
+const [products, setProducts] = useState(productsData); // make type specific
+const upgrades: Product[] = upgradesData;
+export const productBoxItems = products.map((product, index) => (
     products[index].quantity != 0 && (
         <div id="productBox" key={product.id}>
             <ProductItem
                 product={product}
-                totalAmount={calculateLocalTotalPrice(index)}
+                totalAmount={calculateLocalTotalPrice(products,index)}
             />{/*
             the following two lines of code, displays if there is a local discount available or if a discount has been applied
             displays nothing if the item has no discount available
