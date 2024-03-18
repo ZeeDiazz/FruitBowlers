@@ -1,7 +1,7 @@
 import '../assets/Styles/StageDelivery.css'
 import {useState} from "react";
 
-export default function stage2() {
+export function stageDelivery() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [hasError, setHasError] = useState(false);
     // eslint-disable-next-line react-hooks/rules-of-hooks
