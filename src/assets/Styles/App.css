@@ -1,42 +1,7 @@
-#productBox{
-  width: 85%;
-  /*border: 1px solid black;*/
-  border: 1px solid #ced4da;
-  box-shadow: 0 0 4px #00000019;
-  padding: 10px;
-  margin: 10px;
-  float: left;
-  border-radius: 15px;
-  horiz-align: center;
-}
-#basket{
-  width: 60%;
-  border: 2px solid rgb(0, 0, 0);
-  border-radius: 15px;
-  float: left;
-  horiz-align: center;
-  margin: 15px;
-}
-.title-container{
-  display: grid;
-  grid-template-columns: 15% auto;
-}
+
 #titleName{
  text-align: center;
 }
-
-#totalBox{
-  width: 25%;
-  border: 2px solid rgb(0, 0, 0);
-  float: right;
-  border-radius: 15px;
-  margin: 15px;
-}
-/*Maybe we don't need totalBoxText*/
-#totalBoxText {
-  padding: 10px;
-}
-
 #line{
   height: 2px;
   background-color: black;
@@ -45,35 +10,20 @@
   margin-right: auto;
   margin-bottom: 10px;
 }
-
-.img{
+.img {
   height: 50px;
   width: 50px;
   float: left;
-}
-
-.stage1{
-  height: 50px;
-  width: 50px;
-  margin-top: 10px;
-  margin-left: 10px;
-}
-
-#nameTag{
-  float: left;
-  font-size: 20px;
-}
-#priceTag{
-  float: right;
-}
-#desc{
-  color: rgb(121, 121, 121);
-}
-
-#quantityBox{
-  float: right;
 }
 
 #upgradeButton{
   margin: 4px;
+}
+#basket{
+  width: 60%;
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 15px;
+  float: left;
+  horiz-align: center;
+  margin: 15px;
 }

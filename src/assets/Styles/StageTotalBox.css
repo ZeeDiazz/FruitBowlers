@@ -1,0 +1,11 @@
+#totalBox{
+    width: 25%;
+    border: 2px solid rgb(0, 0, 0);
+    float: right;
+    border-radius: 15px;
+    margin: 15px;
+}
+/*Maybe we don't need totalBoxText*/
+#totalBoxText {
+    padding: 10px;
+}

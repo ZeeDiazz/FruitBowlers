@@ -12,7 +12,7 @@ const findMoreExpensiveProduct = (upsellProductId: string | null, upgrades: Prod
     return null;
 };
 //If there is a more expensive product with the same name in the product-list.
-const hasUpgradeOption = (product: Product, upgrades: Product[]): {
+export const hasUpgradeOption = (product: Product, upgrades: Product[]): {
     moreExpensiveOption: Product | null;
     hasUpgrade: boolean, priceDifference: number
 } => {
@@ -26,7 +26,7 @@ const hasUpgradeOption = (product: Product, upgrades: Product[]): {
     return { hasUpgrade: false, priceDifference: 0, moreExpensiveOption: null };
 };
 
-function handleUpgradeClick(newProduct: Product | null, index: number) {
+export function handleUpgradeClick(products:Product[], newProduct: Product | null, index: number): Product[] {
     const quantity: number = products[index].quantity;
     const newProducts: Product[] = products.slice();
     if (newProduct) {
@@ -34,21 +34,21 @@ function handleUpgradeClick(newProduct: Product | null, index: number) {
         newProducts[index].quantity = quantity;
         newProducts[index].totalPrice = newProduct.price * quantity;
     }
-    setProduct(newProducts);
+    return newProducts;
 }
 
-const UpgradeButton: React.FC<UpgradeButtonProps> = ({ product, upgrades, handleUpgradeClick }) => {
+export const UpgradeButton: React.FC<UpgradeButtonProps> = ({ product, upgrades, handleUpgradeClick }) => {
     const { hasUpgrade, priceDifference } = hasUpgradeOption(product, upgrades);
 
     return (
         <>
             {hasUpgrade && (
-            <button
-                style={{ float: "left", marginRight: "10px" }}
-    onClick={() => handleUpgradeClick(products.indexOf(product), 1)}>
-    Organic available! Change for {priceDifference} DKK a piece?
-        </button>
-)}
-    </>
-);
+                <button
+                    style={{ float: "left", marginRight: "10px" }}
+                    onClick={() => handleUpgradeClick(upgrades.indexOf(product), 1)}>
+                    Organic available! Change for {priceDifference} DKK a piece?
+                </button>
+            )}
+        </>
+    );
 };
