@@ -1,7 +1,16 @@
 
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* This creates two columns; adjust as needed */
+  grid-gap: 15px; /* Space between grid items */
+  align-items: start; /* Aligns items at the start of each cell */
+}
+
 #titleName{
  text-align: center;
+ grid-column: 1 / -1;
 }
+
 #line{
   height: 2px;
   background-color: black;
@@ -9,21 +18,22 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 10px;
+  grid-column: 1 / -1;
 }
 .img {
   height: 50px;
   width: 50px;
-  float: left;
 }
 
 #upgradeButton{
   margin: 4px;
+  grid-column: 1 / -1;
 }
 #basket{
   width: 60%;
   border: 2px solid rgb(0, 0, 0);
   border-radius: 15px;
-  float: left;
-  horiz-align: center;
   margin: 15px;
+  grid-column: 1 / -1;
 }
+
