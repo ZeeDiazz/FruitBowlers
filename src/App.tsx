@@ -4,6 +4,7 @@ import './Components/upgrade.tsx'
 import {stageDelivery} from './Stages/StageDelivery.tsx'
 import {stageBasket} from './Stages/StageBasket.tsx'
 import {header} from "./Components/header.tsx";
+import AccessPayment from "./Stages/StagePayment.tsx";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
             <div id="basket">
                 {stageDelivery()}
             </div>
+            <AccessPayment />
 
         </>
     );

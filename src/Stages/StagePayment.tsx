@@ -14,12 +14,13 @@
 * For MobilePay, user must enter a phone number, validate as 8 digits
 * Invoice is only available, if billing address has company VAT number
 * */
-
 // import { BasketOkForCheckout } from './StageBasket.tsx';
 // import { AddressOkForCheckout } from './StageDelivery.tsx';
 import { useState } from 'react';
-import {OpenCardPopup, OpenGiftCardPopup, OpenInvoicePopup, OpenMobilePayPopup} from "./PaymentTypes.tsx";
 
+import {OpenCardPopup, OpenGiftCardPopup, OpenInvoicePopup, OpenMobilePayPopup} from "../Components/PaymentsTypes.tsx";
+import '../assets/Styles/StageBacket.css'
+import '../assets/Styles/App.css'
 //Temporary default true functions
 const AddressOkForCheckout: boolean = true;
 const BasketOkForCheckout: boolean = true;
@@ -57,16 +58,26 @@ function AccessPayment () {
     };
 
     return (
-        <>
-            <h2>Payment method</h2>
-            <label style={{ display: 'block', marginBottom: '10px' }}>
+        <div id="basket">
+            <div className="title-container">
+                <img
+                    src={`/images/stage1-fat.png`}
+                    alt="Step 1"
+                    className="stage1"
+                />
+                <h2>Payment</h2>
+            </div>
+
+            <label style={{display: 'block', marginBottom: '10px'}}>
                 <input type="radio" name="paymentMethod" value="card" onChange={handlePaymentMethodChange}/> Card
-                <input type="radio" name="paymentMethod" value="mobilePay" onChange={handlePaymentMethodChange}/> MobilePay
-                <input type="radio" name="paymentMethod" value="giftCard" onChange={handlePaymentMethodChange}/> Gift card
+                <input type="radio" name="paymentMethod" value="mobilePay"
+                       onChange={handlePaymentMethodChange}/> MobilePay
+                <input type="radio" name="paymentMethod" value="giftCard" onChange={handlePaymentMethodChange}/> Gift
+                card
                 <input type="radio" name="paymentMethod" value="invoice" onChange={handlePaymentMethodChange}/> Invoice
-                <button onClick={handleButtonClick}>Go to payment</button>
+                <button id="upgradeButton" onClick={handleButtonClick}>Pay now</button>
             </label>
-        </>
+        </div>
     );
 }
 
