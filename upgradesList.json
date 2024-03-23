@@ -1,10 +1,10 @@
 [
   {
-    "id": 'strawberries',
-    "name": 'Strawberries',
+    "id": "strawberries",
+    "name": "Strawberries",
     "price": 35,
-    "description": '300g, eco, danish strawberries',
-    "currency": 'DKK',
+    "description": "300g, eco, danish strawberries",
+    "currency": "DKK",
     "discountQuantity": 0,
     "discountPercent": 0,
     "upsellProductId": null,
