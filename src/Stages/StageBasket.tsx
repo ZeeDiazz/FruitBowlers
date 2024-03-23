@@ -2,85 +2,63 @@ import {calculateLocalTotalPrice,handleQuantityChange} from "../Components/price
 import {handleUpgradeClick, hasUpgradeOption, UpgradeButton} from "../Components/upgrade.tsx"
 //import productsData from '../../productsList.json';
 //import upgradesData from '../../upgradesList.json';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {TotalBox} from "./StageTotal.tsx";
 import '../assets/Styles/StageBacket.css'
 
 export function stageBasket() {
-    const [products,setProducts] = useState<Product[]>([
+    const [products, setProducts] = useState<Product[]>([
         {
-            id: "apple-bag",
-            name: "Apples",
-            price: 25,
-            description: "There are 5 apples in one bag",
-            currency: "DKK",
-            discountQuantity: 2,
-            discountPercent: 10,
-            upsellProductId: 'organic apple-bag',
-            totalPrice: 25,
-            quantity: 1,
-        },
-        {
-            id: "banana-bag",
-            name: "Banana bag",
-            price: 15,
-            description: 'One eco banana is approximately 105g. There are 5 bananas in one bag',
-            currency: 'DKK',
-            discountQuantity: 5,
-            discountPercent: 10,
-            upsellProductId: null,
-            totalPrice: 75,
-            quantity: 5,
-        },
-        {
-            id: 'lemon-bag',
-            name: 'Lemon bag, 6 pieces',
-            price: 15,
-            description: 'One eco lemon bag is approximately 500g.',
-            currency: 'DKK',
-            discountQuantity: 4,
-            discountPercent: 10,
-            upsellProductId: null,
-            totalPrice: 30,
-            quantity: 2,
-        },
-        {
-            id: 'non-organic strawberries',
-            name: 'Strawberries',
-            price: 25,
-            description: '300g, non-organic, strawberries',
-            currency: 'DKK',
-            discountQuantity: 4,
-            discountPercent: 10,
-            upsellProductId: 'strawberries',
-            totalPrice: 25,
-            quantity: 1,
-        }]);
-        const upgrades: Product[] = [
-        {
-            id: 'strawberries',
-            name: 'Strawberries',
-            price: 35,
-            description: '300g, eco, danish strawberries',
-            currency: 'DKK',
+            id: 'test',
+            name: 'test',
+            price: 0,
+            description:'test',
+            currency: 'test',
             discountQuantity: 0,
             discountPercent: 0,
             upsellProductId: null,
             totalPrice: 0,
             quantity: 0,
         },
+
+    ]);
+
+    const [upgrades, setUpgrades] = useState<Product[]>([
         {
-            id: "organic apple-bag",
-            name: "Apples",
-            price: 30,
-            description: "Organic apples from Denmark",
-            currency: "DKK",
+            id: 'test',
+            name: 'test',
+            price: 0,
+            description:'test',
+            currency: 'test',
             discountQuantity: 0,
             discountPercent: 0,
             upsellProductId: null,
-            totalPrice: 30,
+            totalPrice: 0,
             quantity: 0,
-        },];
+        }
+    ]);
+
+    useEffect(() => {
+        fetch('https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/main/productsList.json')
+            .then(response => response.json())
+            .then(data => {
+                setProducts(data);
+            })
+            .catch(error => {
+                console.log('error fetching products data from GitHub: ' + error)
+            });
+    }, []);
+
+    useEffect(() => {
+        fetch('https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/Fetch/upgradesList.json')
+            .then(response => response.json())
+            .then(data => {
+                setUpgrades(data);
+            })
+            .catch(error => {
+                console.log('error fetching upgrades data from GitHub: ' + error)
+            });
+    }, []);
 
     const productBoxItems = products.map((product:Product, index:number) => (
         products[index].quantity != 0 && (
