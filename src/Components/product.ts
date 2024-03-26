@@ -11,7 +11,7 @@ interface Product {
     quantity: number;
 }
 
-interface ProductItemProps {
+type ProductItemProps = {
     product : Product;
     totalAmount: number;
 }
