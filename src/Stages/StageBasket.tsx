@@ -7,6 +7,10 @@ import {TotalBox} from "./StageTotal.tsx";
 import '../assets/Styles/StageBacket.css'
 
 export function stageBasket() {
+    const [productsError, setProductsError] = useState(false);
+    const [upgradesError, setUpgradesError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
     const [products, setProducts] = useState<Product[]>([
         {
             id: 'test',
@@ -39,29 +43,34 @@ export function stageBasket() {
     ]);
 
     useEffect(() => {
-        fetch('https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/main/productsList.json')
-            .then(response => response.json())
-            .then(data => {
-                setProducts(data);
+        const url = 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/main/productsList.json';
+        setIsLoading(true);
+        getProduct(url)
+            .then(products => {
+                if(products.length === 0) {
+                    setProductsError(true);
+                }else {
+                    setProducts(products);
+                }
+                setIsLoading(false);
             })
-            .catch(error => {
-                console.log('error fetching products data from GitHub: ' + error)
-            });
     }, []);
 
     useEffect(() => {
-        fetch('https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/Fetch/upgradesList.json')
-            .then(response => response.json())
-            .then(data => {
-                setUpgrades(data);
+        const url = 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/Fetch/upgradesList.json';
+        getProduct(url)
+            .then(upgrades => {
+                if (upgrades.length === 0) {
+                    setUpgradesError(true);
+                } else{
+                    setUpgrades(upgrades);
+
+                }
             })
-            .catch(error => {
-                console.log('error fetching upgrades data from GitHub: ' + error)
-            });
     }, []);
 
     const productBoxItems = products.map((product:Product, index:number) => (
-        products[index].quantity != 0 && (
+        !productsError && (
             <div id="productBox" key={product.id}>
                 <ProductItem
                     product={product}
@@ -70,20 +79,22 @@ export function stageBasket() {
             the following two lines of code, displays if there is a local discount available or if a discount has been applied
             displays nothing if the item has no discount available
             */}
-                {product.quantity < product.discountQuantity && <p>Buy {product.discountQuantity} for a discount</p>}
+                {product.quantity < product.discountQuantity  && <p>Buy {product.discountQuantity} for a discount</p>}
                 {product.quantity >= product.discountQuantity && product.discountQuantity != 0 &&
                     <p>{product.discountPercent}% discount</p>}
                 <div id="quantityBox">
-                    <UpgradeButton
-                        product={product}
-                        upgrades={upgrades}
-                        handleUpgradeClick={(index) => {
-                            const upgradeOption = hasUpgradeOption(product, upgrades);
-                            if (upgradeOption.hasUpgrade && upgradeOption.moreExpensiveOption) {
-                                setProducts(handleUpgradeClick(products, upgradeOption.moreExpensiveOption, index));
-                            }
-                        }}
-                    />
+                    {!upgradesError &&
+                        <UpgradeButton
+                            product={product}
+                            upgrades={upgrades}
+                            handleUpgradeClick={(index) => {
+                                const upgradeOption = hasUpgradeOption(product, upgrades);
+                                if (upgradeOption.hasUpgrade && upgradeOption.moreExpensiveOption) {
+                                    setProducts(handleUpgradeClick(products, upgradeOption.moreExpensiveOption, index));
+                                }
+                            }}
+                        />
+                    }
                     <button className="decrease" onClick={() => setProducts(handleQuantityChange(products,index,-1))}
                             disabled={product.quantity <= 1}>
                         -
@@ -110,8 +121,8 @@ export function stageBasket() {
                     />
                     <h2>Basket</h2>
                 </div>
-                {productBoxItems}
-
+                {productsError && <p>Error fetching products</p>}
+                {isLoading ? <div className="error">Loading...</div> : productBoxItems}
             </div>
             {TotalBox(products)}
         </>
@@ -150,3 +161,16 @@ function getImage(product : Product){
     )
 }
 
+async function getProduct(url: string): Promise<Product[]> {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok, tried to access: ' + url);
+        }
+        const data = await response.json();
+        return data as Product[];
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        return [];
+    }
+}

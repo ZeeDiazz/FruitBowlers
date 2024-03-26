@@ -4,6 +4,11 @@
     margin-top: 10px;
     margin-left: 10px;
 }
+.error{
+    color: red;
+    font-weight: bold;
+    margin: 10px 0;
+}
 #productBox{
     width: 85%;
     /*border: 1px solid black;*/
