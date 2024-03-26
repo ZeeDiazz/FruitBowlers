@@ -8,7 +8,7 @@ export function TotalBox(products: Product[]){
                 <h2>Total</h2>
                 <p>Total Quantity: {getTotalQuantity(products)}</p>
                 {getDiscountMessage(getTotalPriceDiscounted(products))} {/*zaids forslag as for now*/}
-                <p>Total Price: {getTotalPriceDiscounted(products)} &nbsp; {products[0].currency}</p>
+                <p>Total Price: {getTotalPriceDiscounted(products)} &nbsp; {products.length > 0 ? products[0].currency : 'currency'}</p>
             </div>
         </div>
     )

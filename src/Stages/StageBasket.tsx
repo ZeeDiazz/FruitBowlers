@@ -11,36 +11,9 @@ export function StageBasket() {
     const [upgradesError, setUpgradesError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [products, setProducts] = useState<Product[]>([
-        {
-            id: 'test',
-            name: 'test',
-            price: 0,
-            description:'test',
-            currency: 'test',
-            discountQuantity: 0,
-            discountPercent: 0,
-            upsellProductId: null,
-            totalPrice: 0,
-            quantity: 0,
-        },
+    const [products, setProducts] = useState<Product[]>([]);
 
-    ]);
-
-    const [upgrades, setUpgrades] = useState<Product[]>([
-        {
-            id: 'test',
-            name: 'test',
-            price: 0,
-            description:'test',
-            currency: 'test',
-            discountQuantity: 0,
-            discountPercent: 0,
-            upsellProductId: null,
-            totalPrice: 0,
-            quantity: 0,
-        }
-    ]);
+    const [upgrades, setUpgrades] = useState<Product[]>([]);
 
     useEffect(() => {
         const url = 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/main/productsList.json';
