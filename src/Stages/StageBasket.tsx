@@ -6,7 +6,7 @@ import {useEffect, useState} from "react";
 import {TotalBox} from "./StageTotal.tsx";
 import '../assets/Styles/StageBacket.css'
 
-export function stageBasket() {
+export function StageBasket() {
     const [productsError, setProductsError] = useState(false);
     const [upgradesError, setUpgradesError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
