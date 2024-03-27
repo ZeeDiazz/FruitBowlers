@@ -10,7 +10,9 @@ import AccessPayment from "./Stages/StagePayment.tsx";
 function App() {
     return (
         <>
-            {header()}
+            <header>
+                {header()}
+            </header>
             <body>
                 {stageBasket()}
 
@@ -18,6 +20,9 @@ function App() {
 
                 <AccessPayment />
             </body>
+            <footer>
+
+            </footer>
         </>
     );
 }

@@ -60,7 +60,7 @@ function AccessPayment () {
     };
 
     return (
-        <div id="basket">
+        <div id="ChoosePaymentBox">
             <div className="title-container">
                 <img
                     src={`/images/stage1-fat.png`}

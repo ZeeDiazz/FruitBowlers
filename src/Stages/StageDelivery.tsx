@@ -1,4 +1,5 @@
-import '../assets/Styles/default/StageDelivery.css'
+import '../assets/Styles/large/StageDelivery.css'
+import '../assets/Styles/320px/SmallScreen.css'
 import {useState} from "react";
 
 export function stageDelivery() {
@@ -50,7 +51,7 @@ export function stageDelivery() {
     function checkboxes(diffDeliveryAddress:any, diff: boolean) {
         return (
             <>
-                <label className="container" id="checkboxmargin">Send to billing address
+                <label className="container" id="checkBoxMargin">Send to billing address
                     <input type="checkbox" name="Delivery Address" value="yes" className="container" id="checkbox"
                            defaultChecked={true}
                            onChange={() => {
@@ -115,7 +116,7 @@ export function stageDelivery() {
                 <img
                     src={`/images/stage2-fat.png`}
                     alt="Step 2"
-                    className="stage2"
+                    className="stageIcons"
                 />
                 <h2>Billing Address</h2>
             </div>
@@ -150,7 +151,7 @@ export function stageDelivery() {
                         <input type="digits" name="Telephone"
                                minLength={8} maxLength={8} placeholder="Telephone" required/>
                     </div>
-                    <input type="submit" value="Continue To Payment" id="button"/>
+                    <input type="submit" value="Continue To Payment" id="continueButton"/>
                     {
                         checkboxes(diffDeliveryAddress, diff)
                     }

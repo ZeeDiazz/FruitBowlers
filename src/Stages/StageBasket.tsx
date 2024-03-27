@@ -36,9 +36,9 @@ export function stageBasket() {
         },
         {
             id: 'lemon-bag',
-            name: 'Lemon bag, 6 pieces',
+            name: 'Lemon bag',
             price: 15,
-            description: 'One eco lemon bag is approximately 500g.',
+            description: 'One organic lemon bag contains approximately 6 lemons and has a weight of 500g .',
             currency: 'DKK',
             discountQuantity: 4,
             discountPercent: 10,
@@ -149,38 +149,45 @@ export function stageBasket() {
                     {productBoxItems}
                 </div>
             </div>
-            {TotalBox(products)}
+            <div>
+                {TotalBox(products)}
+            </div>
         </>
     )
 }
 
 function ProductItem({product, totalAmount}: ProductItemProps){
     return (
-        <div className={"ProductInfo"}>
-            {getImage(product)}
-            <div id = "nameTag">
-                {product.name}
+        <div>
+            <div className={"ProductInfo"}>
+                <div>
+                    {getImage(product)}
+                    <div id="nameTag">
+                        {product.name}
+                    </div>
+                </div>
+                {/*&emsp;*/}
+                <div id="priceTag">
+                    {"Total amount: "}
+                    {/*&nbsp;*/}
+                    {totalAmount}
+                    &nbsp;
+                    {product.currency}
+                </div>
             </div>
-            &emsp;
-            <div id = "priceTag">
-                {"Total amount: "}
-                {/*&nbsp;*/}
-                {totalAmount}
-                &nbsp;
-                {product.currency}
-            </div>
-            <div>
+            <div className={"productDescriptionBox"}>
                 <p className={"productDescription"}>{product.description}</p>
             </div>
         </div>
     )
 }
-function getImage(product : Product){
+
+function getImage(product: Product) {
     return (
         <>
             <img
-                src= {`/images/${product.id}.png`}
-                alt= {product.id}
+                src={`/images/${product.id}.png`}
+                alt={product.id}
                 className="img"
             />
         </>

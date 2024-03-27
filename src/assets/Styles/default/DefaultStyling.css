@@ -4,6 +4,10 @@ body {
 .body {
     display: flex;
 }
+#titleName{
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 .stageIcons{
     height: 50px;
     width: 50px;
@@ -25,4 +29,10 @@ p {
 }
 .productChangeNavigation span {
     margin: 0 5px 0 5px;
+}
+.img {
+    height: 50px;
+    width: 50px;
+    margin-top: 10px;
+    margin-left: 10px;
 }
