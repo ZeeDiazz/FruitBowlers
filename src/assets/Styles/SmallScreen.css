@@ -1,0 +1,20 @@
+@media screen and (max-width: 768px) {
+    body {
+        margin: 0px;
+    }
+
+
+    #basket {
+        width: 95%;
+        align-items: center;
+    }
+    #productBox {
+        width: 95%;
+        border: 0;
+    }
+
+    #totalBox {
+        width: 95%;
+
+    }
+}

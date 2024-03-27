@@ -5,6 +5,7 @@ import {handleUpgradeClick, hasUpgradeOption, UpgradeButton} from "../Components
 import {useState} from "react";
 import {TotalBox} from "./StageTotal.tsx";
 import '../assets/Styles/StageBacket.css'
+import '../assets/Styles/SmallScreen.css'
 
 export function stageBasket() {
     const [products,setProducts] = useState<Product[]>([
