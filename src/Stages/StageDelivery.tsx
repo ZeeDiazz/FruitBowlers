@@ -1,4 +1,4 @@
-import '../assets/Styles/StageDelivery.css'
+import '../assets/Styles/default/StageDelivery.css'
 import {useState} from "react";
 
 export function stageDelivery() {

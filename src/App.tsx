@@ -1,6 +1,7 @@
-import './assets/Styles/App.css'
+import './assets/Styles/large/App.css'
 import './Components/product.ts'
 import './Components/upgrade.tsx'
+import './assets/Styles/default/DefaultStyling.css'
 import {stageDelivery} from './Stages/StageDelivery.tsx'
 import {stageBasket} from './Stages/StageBasket.tsx'
 import {header} from "./Components/header.tsx";
@@ -10,12 +11,13 @@ function App() {
     return (
         <>
             {header()}
-            {stageBasket()}
-            <div id="basket">
-                {stageDelivery()}
-            </div>
-            <AccessPayment />
+            <body>
+                {stageBasket()}
 
+                {stageDelivery()}
+
+                <AccessPayment />
+            </body>
         </>
     );
 }

@@ -19,8 +19,10 @@
 import { useState } from 'react';
 
 import {OpenCardPopup, OpenGiftCardPopup, OpenInvoicePopup, OpenMobilePayPopup} from "../Components/PaymentsTypes.tsx";
-import '../assets/Styles/StageBacket.css'
-import '../assets/Styles/App.css'
+import '../assets/Styles/default/StageBasket.css'
+import '../assets/Styles/large/App.css'
+import '../assets/Styles/default/DefaultStyling.css'
+
 //Temporary default true functions
 const AddressOkForCheckout: boolean = true;
 const BasketOkForCheckout: boolean = true;
@@ -63,7 +65,7 @@ function AccessPayment () {
                 <img
                     src={`/images/stage1-fat.png`}
                     alt="Step 1"
-                    className="stage1"
+                    className="stageIcons"
                 />
                 <h2>Payment</h2>
             </div>

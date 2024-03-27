@@ -4,8 +4,9 @@ import {handleUpgradeClick, hasUpgradeOption, UpgradeButton} from "../Components
 //import upgradesData from '../../upgradesList.json';
 import {useState} from "react";
 import {TotalBox} from "./StageTotal.tsx";
-import '../assets/Styles/StageBacket.css'
-import '../assets/Styles/SmallScreen.css'
+import '../assets/Styles/default/StageBasket.css'
+import '../assets/Styles/320px/SmallScreen.css'
+import '../assets/Styles/default/DefaultStyling.css'
 
 export function stageBasket() {
     const [products,setProducts] = useState<Product[]>([
@@ -85,17 +86,21 @@ export function stageBasket() {
 
     const productBoxItems = products.map((product:Product, index:number) => (
         products[index].quantity != 0 && (
-            <div id="productBox" key={product.id}>
-                <ProductItem
-                    product={product}
-                    totalAmount={calculateLocalTotalPrice(products,index)}
-                />{/*
+            <div key={product.id}>
+                <div className={"productStyling"}>
+                    <ProductItem
+                        product={product}
+                        totalAmount={calculateLocalTotalPrice(products,index)}
+                    />
+                    {/*
             the following two lines of code, displays if there is a local discount available or if a discount has been applied
             displays nothing if the item has no discount available
             */}
-                {product.quantity < product.discountQuantity && <p>Buy {product.discountQuantity} for a discount</p>}
-                {product.quantity >= product.discountQuantity && product.discountQuantity != 0 &&
-                    <p>{product.discountPercent}% discount</p>}
+                    {product.quantity < product.discountQuantity && <p>Buy {product.discountQuantity} for a discount</p>}
+                    {product.quantity >= product.discountQuantity && product.discountQuantity != 0 &&
+                        <p>{product.discountPercent}% discount</p>}
+                </div>
+
                 <div id="quantityBox">
                     <UpgradeButton
                         product={product}
@@ -107,17 +112,24 @@ export function stageBasket() {
                             }
                         }}
                     />
-                    <button className="decrease" onClick={() => setProducts(handleQuantityChange(products,index,-1))}
-                            disabled={product.quantity <= 1}>
-                        -
-                    </button>
-                    <span>{product.quantity}</span>
-                    <button className="increase" onClick={() => setProducts(handleQuantityChange(products,index,+1))}>
-                        +
-                    </button>
-                    <button className="remove" onClick={() => setProducts(handleQuantityChange(products,index,0))}>
-                        remove
-                    </button>
+                    <nav className={"productChangeNavigation"}>
+                        <div>
+                            <button className="decrease"
+                                    onClick={() => setProducts(handleQuantityChange(products, index, -1))}
+                                    disabled={product.quantity <= 1}>
+                                -
+                            </button>
+                            <span>{product.quantity}</span>
+                            <button className="increase"
+                                    onClick={() => setProducts(handleQuantityChange(products, index, +1))}>
+                                +
+                            </button>
+                        </div>
+                        <button className="remove"
+                                onClick={() => setProducts(handleQuantityChange(products, index, 0))}>
+                            remove
+                        </button>
+                    </nav>
                 </div>
             </div>
         )
@@ -128,21 +140,23 @@ export function stageBasket() {
                 <div className="title-container">
                     <img
                         src={`/images/stage1-fat.png`}
-                        alt="Step 1"
-                        className="stage1"
+                        alt="product overview"
+                        className="stageIcons"
                     />
                     <h2>Basket</h2>
                 </div>
-                {productBoxItems}
-
+                <div id="productBox">
+                    {productBoxItems}
+                </div>
             </div>
             {TotalBox(products)}
         </>
     )
 }
+
 function ProductItem({product, totalAmount}: ProductItemProps){
     return (
-        <>
+        <div className={"ProductInfo"}>
             {getImage(product)}
             <div id = "nameTag">
                 {product.name}
@@ -150,15 +164,15 @@ function ProductItem({product, totalAmount}: ProductItemProps){
             &emsp;
             <div id = "priceTag">
                 {"Total amount: "}
-                &nbsp;
+                {/*&nbsp;*/}
                 {totalAmount}
                 &nbsp;
                 {product.currency}
             </div>
-            <div id = "desc">
-                <p>{product.description}</p>
+            <div>
+                <p className={"productDescription"}>{product.description}</p>
             </div>
-        </>
+        </div>
     )
 }
 function getImage(product : Product){

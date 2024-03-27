@@ -1,0 +1,44 @@
+@media screen and (min-width: 769px) {
+
+    #productBox{
+        width: 85%;
+        /*border: 1px solid black;*/
+        border: 1px solid #ced4da;
+        box-shadow: 0 0 4px #00000019;
+        padding: 10px;
+        margin: 10px;
+        float: left;
+        border-radius: 15px;
+        horiz-align: center;
+    }
+    #basket{
+        width: 60%;
+        border: 2px solid rgb(0, 0, 0);
+        border-radius: 15px;
+        float: left;
+        horiz-align: center;
+        margin: 15px;
+    }
+    .title-container{
+        display: grid;
+        grid-template-columns: 15% auto;
+    }
+    #nameTag{
+        float: left;
+        font-size: 20px;
+    }
+    #priceTag{
+        float: right;
+    }
+    #quantityBox{
+        float: right;
+    }
+    .img {
+        height: 50px;
+        width: 50px;
+        float: left;
+    }
+    #titleName{
+        text-align: center;
+    }
+}

@@ -1,9 +1,9 @@
-import '../assets/Styles/App.css'
+import '../assets/Styles/large/App.css'
 export function header() {
     return (
-        <div id="titleName">
-            <img src="images/LOGO.png" alt="Fruit Bowlers"/>
+        <header id="titleName">
+            <img src="images/LOGO.png" alt="Fruit Bowlers logo"/>
             <div id="line"/>
-        </div>
+        </header>
     )
 }
