@@ -1,0 +1,71 @@
+@media screen and (min-width: 769px) {
+    #basket{
+        width: 60%;
+        border: 2px solid rgb(0, 0, 0);
+        border-radius: 15px;
+        float: left;
+        horiz-align: center;
+        margin: 15px;
+    }
+    #productBox{
+        width: 90%;
+        border: 1px solid black;
+        box-shadow: 0 0 4px #00000019;
+        padding: 2.5%;
+        margin: 2.5%;
+        float: left;
+        border-radius: 15px;
+        horiz-align: center;
+    }
+    .ProductInfo {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .ProductInfo * {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 20px 0 10px;
+    }
+    .productChangeNavigation {
+        display: flex;
+    }
+    .wholeProduct {
+        box-shadow: 0 0 4px #00000019;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    .remove {
+        height: 22px;
+    }
+    .title-container{
+        display: grid;
+        grid-template-columns: 15% auto;
+    }
+    #nameTag{
+        font-size: 20px;
+    }
+    #priceTag{
+        float: right;
+    }
+    #quantityBox{
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+
+    }
+    .img {
+        height: 50px;
+        width: 50px;
+        float: left;
+    }
+    #titleName{
+        text-align: center;
+    }
+    /*****TOTALBOX NOW******/
+    #totalBox {
+        width: 30%;
+    }
+}

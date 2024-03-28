@@ -4,7 +4,7 @@ import {handleUpgradeClick, hasUpgradeOption, UpgradeButton} from "../Components
 //import upgradesData from '../../upgradesList.json';
 import {useState} from "react";
 import {TotalBox} from "./StageTotal.tsx";
-import '../assets/Styles/default/StageBasket.css'
+import '../assets/Styles/768px/StageBasket.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
 
@@ -86,7 +86,7 @@ export function stageBasket() {
 
     const productBoxItems = products.map((product:Product, index:number) => (
         products[index].quantity != 0 && (
-            <div key={product.id}>
+            <div className={"wholeProduct"} key={product.id}>
                 <div className={"productStyling"}>
                     <ProductItem
                         product={product}
