@@ -104,10 +104,16 @@
     }
 
     /****PAYMENT STAGE NOW****/
+    .PaymentTypeBox {
+
+    }
     .PaymentTypeBox img {
         height: 20px;
     }
     .PaymentOptionsBox {
-        margin-bottom: 200px;
+        margin-bottom: 170px;
+    }
+    .mobilePayImg {
+        height: 100%;
     }
 }

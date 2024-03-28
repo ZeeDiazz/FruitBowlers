@@ -35,6 +35,56 @@ p {
     width: 50px;
     margin-left: 10px;
 }
+
+/********PAYMENT STAGE NOW*********/
+
+.PaymentTypeBox {
+    border: 1px solid black;
+    height: 50px;
+    border-radius: 10px;
+    width: 95%;
+    margin: 2.5%;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.PaymentTypeBox:hover {
+    border: 1px solid #2196F3;
+}
+.PaymentTypeBox:hover img {
+    opacity: 0.5; /* Optionally reduce opacity of the image on hover */
+}
+.PaymentTypeBox div {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+}
+.PaymentIcons {
+    display: flex;
+    align-items: center;
+}
+.PaymentIcons img {
+    height: 14px;
+    margin-right: 10px;
+}
+.PaymentText * {
+    margin-left: 10px;
+}
+.NudgeButton {
+    margin: 20px 25% 20px 25%;
+    background-color: lightgreen;
+    border: none;
+    width: 50%;
+    height: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    align-self: center;
+}
+.NudgeButton:hover {
+    background-color: pink;
+}
+
+
 @media screen and (min-width: 769px){
     .stageBoxes{
         width: 60%;

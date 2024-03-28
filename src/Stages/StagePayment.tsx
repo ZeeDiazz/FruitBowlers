@@ -4,8 +4,9 @@ import { useState } from 'react';
 import {OpenCardPopUp} from "../Components/PaymentsTypes.tsx";
 
 import '../assets/Styles/large/StageBasket.css'
-import '../assets/Styles/large/App.css'
 import '../assets/Styles/default/DefaultStyling.css'
+import '../assets/Styles/320px/SmallScreen.css'
+
 
 //Temporary default true functions
 const AddressOkForCheckout: boolean = true;
@@ -66,9 +67,9 @@ function AccessPayment () {
                         <p>Card </p>
                     </div>
                     <div className={"PaymentIcons"}>
-                        <img style={{ height: '20px'}} alt={"Card payment option - Visa"}
+                        <img style={{ }} alt={"Card payment option - Visa"}
                              src={"../../images/Payment icons/Visa_Brandmark_RGB_2021_PNG/Visa_Brandmark_Blue_RGB_2021.png"}/><img/>
-                        <img style={{ height: '25px' }} alt={"Card payment option - Mastercard"}
+                        <img style={{  }} alt={"Card payment option - Mastercard"}
                              src={"../../images/Payment icons/Dankort logo/DK_Logo_CMYK.png"}/><img/>
                     </div>
                 </label>
@@ -84,7 +85,7 @@ function AccessPayment () {
                         <p>MobilePay </p>
                     </div>
                     <img
-                        style={{height: '25px'}}
+                        className={"mobilePayImg"}
                         alt="Payment option - MobilePay"
                         src="../../images/Payment icons/MobilePayPNG/MP_RGB_NoTM_Logo+Type Horisontal Blue.png"
                     />
