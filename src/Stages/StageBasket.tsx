@@ -188,7 +188,7 @@ function getImage(product: Product) {
             <img
                 src={`/images/${product.id}.png`}
                 alt={product.id}
-                className="img"
+                className="productImg"
             />
         </>
     )

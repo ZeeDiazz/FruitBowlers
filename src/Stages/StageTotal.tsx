@@ -1,5 +1,4 @@
 import {getDiscountMessage, getTotalPriceDiscounted, getTotalQuantity} from '../Components/price.ts'
-import '../assets/Styles/large/StageTotalBox.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/large/TotalBox.css'
 

@@ -1,23 +1,13 @@
 
-export function OpenMobilePayPopup() {
-    return (
-        <dialog open id="modal" >
-            <button >Close</button>
-            <p>This should just be a API call i think</p>
+export function OpenCardPopUp() {
+
+    return(
+        <dialog open id="modal">
+            <p>Here we really go!</p>
         </dialog>
     );
 }
-
-export function OpenCardPopup() {
-    return (
-
-        <dialog open id="modal" >
-            <button >Close</button>
-            <p>This is how the OpenCardPopup modal window looks like!</p>
-        </dialog>
-
-    );
-}
+// removed Mobilepay pop-up
 
 export function OpenGiftCardPopup() {
     return (

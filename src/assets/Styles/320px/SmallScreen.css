@@ -18,6 +18,8 @@
     .title-container * {
         margin-right: 10px;
     }
+
+    /***STAGE BASKET NOW***/
     #productBox {
         width: 100%;
         border: 0;
@@ -99,5 +101,13 @@
     }
     #title {
         margin-left: 20px;
+    }
+
+    /****PAYMENT STAGE NOW****/
+    .PaymentTypeBox img {
+        height: 20px;
+    }
+    .PaymentOptionsBox {
+        margin-bottom: 200px;
     }
 }

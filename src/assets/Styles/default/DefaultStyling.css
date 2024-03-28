@@ -30,7 +30,7 @@ p {
 .productChangeNavigation span {
     margin: 0 5px 0 5px;
 }
-.img {
+.productImg {
     height: 50px;
     width: 50px;
     margin-left: 10px;
@@ -58,7 +58,7 @@ p {
         margin-right: auto;
         margin-bottom: 10px;
     }
-    .img {
+    .productImg {
         height: 50px;
         width: 50px;
         float: left;
