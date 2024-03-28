@@ -17,7 +17,7 @@ body {
 p {
     margin: 0;
 }
-.productDescription{
+.productDescriptionBox{
     color: rgb(121, 121, 121);
 }
 .nudgeButton {
@@ -34,4 +34,36 @@ p {
     height: 50px;
     width: 50px;
     margin-left: 10px;
+}
+@media screen and (min-width: 769px){
+    .stageBoxes{
+        width: 60%;
+        border: 2px solid rgb(0, 0, 0);
+        border-radius: 15px;
+        float: left;
+        horiz-align: center;
+        margin: 15px;
+    }
+    .title-container{
+        display: flex;
+    }
+    .title-container img {
+        margin-right: 30px;
+    }
+    #line{
+        height: 2px;
+        background-color: black;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 10px;
+    }
+    .img {
+        height: 50px;
+        width: 50px;
+        float: left;
+    }
+    #upgradeButton{
+        margin: 4px;
+    }
 }

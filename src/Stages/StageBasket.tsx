@@ -4,7 +4,7 @@ import {handleUpgradeClick, hasUpgradeOption, UpgradeButton} from "../Components
 //import upgradesData from '../../upgradesList.json';
 import {useState} from "react";
 import {TotalBox} from "./StageTotal.tsx";
-import '../assets/Styles/768px/StageBasket.css'
+import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
 
@@ -38,7 +38,7 @@ export function stageBasket() {
             id: 'lemon-bag',
             name: 'Lemon bag',
             price: 15,
-            description: 'One organic lemon bag contains approximately 6 lemons and has a weight of 500g .',
+            description: 'One organic lemon bag contains approximately 6 lemons and has a weight of 500g',
             currency: 'DKK',
             discountQuantity: 4,
             discountPercent: 10,
@@ -136,7 +136,7 @@ export function stageBasket() {
     ));
     return (
         <>
-            <div id="basket">
+            <div className="stageBoxes">
                 <div className="title-container">
                     <img
                         src={`/images/stage1-fat.png`}
@@ -176,7 +176,7 @@ function ProductItem({product, totalAmount}: ProductItemProps){
                 </div>
             </div>
             <div className={"productDescriptionBox"}>
-                <p className={"productDescription"}>{product.description}</p>
+                <p>{product.description}</p>
             </div>
         </div>
     )

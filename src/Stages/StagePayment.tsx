@@ -19,7 +19,7 @@
 import { useState } from 'react';
 
 import {OpenCardPopup, OpenGiftCardPopup, OpenInvoicePopup, OpenMobilePayPopup} from "../Components/PaymentsTypes.tsx";
-import '../assets/Styles/768px/StageBasket.css'
+import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/large/App.css'
 import '../assets/Styles/default/DefaultStyling.css'
 

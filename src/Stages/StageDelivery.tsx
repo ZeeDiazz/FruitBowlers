@@ -111,7 +111,7 @@ export function stageDelivery() {
     }
 
     return (
-        <>
+        <div className={"stageBoxes"}>
             <div className="title-container">
                 <img
                     src={`/images/stage2-fat.png`}
@@ -158,6 +158,6 @@ export function stageDelivery() {
                 </div>
             </form>
 
-        </>
+        </div>
     )
 }

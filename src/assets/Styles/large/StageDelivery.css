@@ -1,13 +1,12 @@
 @media screen and (min-width: 769px){
-
     #inputBox input {
-        width: 250px;
-        padding: 8px 12px;
+        width: 44%;
+        padding: 8px 0 4px 4px;
         font-size: 16px;
         border: 1px solid #ced4da;
         box-shadow: 0 0 4px #00000019;
         border-radius: 5px;
-        margin: 10px;
+        margin: 1% 1% 1% 3%;
     }
     #inputBox input:focus {
         background-color: #f3f3f3;
@@ -25,13 +24,8 @@
         padding: 0px 12px;
         margin: 10px;
     }
-    #checkboxmargin{
+    #checkBoxMargin{
         margin-left: 10px;
-    }
-
-    .title-container{
-        display: grid;
-        grid-template-columns: 9% auto;
     }
     .stage2{
         height: 50px;
