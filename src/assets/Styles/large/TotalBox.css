@@ -3,6 +3,8 @@
         position: fixed;
         bottom: 10px;
         right: 10px;
+        border: 2px solid black;
+        border-radius: 10px;
     }
     #totalBox > * {
         margin: 10px;
