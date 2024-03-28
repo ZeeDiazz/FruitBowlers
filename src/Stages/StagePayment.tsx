@@ -1,19 +1,16 @@
-
 import { useState } from 'react';
-
-import {OpenCardPopUp} from "../Components/PaymentsTypes.tsx";
 
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
-
 
 //Temporary default true functions
 const AddressOkForCheckout: boolean = true;
 const BasketOkForCheckout: boolean = true;
 
 function AccessPayment () {
-    const PaymentAccessOK: boolean = AddressOkForCheckout && BasketOkForCheckout;
+    //add accept term const here (checks the box state)
+    const PaymentAccessOK: boolean = AddressOkForCheckout && BasketOkForCheckout ;
     const [paymentMethod, setSelectedPaymentMethod] = useState('');
     const handlePaymentMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedPaymentMethod(event.target.value);
@@ -30,7 +27,7 @@ function AccessPayment () {
     const callPaymentPopup = () => {
         switch (paymentMethod) {
             case 'card':
-                OpenCardPopUp();
+
                 break;
             case 'mobilePay':
 
@@ -56,6 +53,17 @@ function AccessPayment () {
             </div>
 
             <nav className={"PaymentOptionsBox"}>
+
+                    <div className={"AcceptTermsBox"}>
+                        <input
+                            type="checkbox"
+                            name="AcceptTerms"
+                            //onChange={acceptedTerms}
+                        />
+                        <p><a href={""}>Accept terms</a> & <a href={""}>conditions</a></p>
+                    </div>
+
+
                 <label className="PaymentTypeBox">
                     <div className={"PaymentText"}>
                         <input
@@ -67,9 +75,9 @@ function AccessPayment () {
                         <p>Card </p>
                     </div>
                     <div className={"PaymentIcons"}>
-                        <img style={{ }} alt={"Card payment option - Visa"}
+                        <img style={{}} alt={"Card payment option - Visa"}
                              src={"../../images/Payment icons/Visa_Brandmark_RGB_2021_PNG/Visa_Brandmark_Blue_RGB_2021.png"}/><img/>
-                        <img style={{  }} alt={"Card payment option - Mastercard"}
+                        <img style={{}} alt={"Card payment option - Mastercard"}
                              src={"../../images/Payment icons/Dankort logo/DK_Logo_CMYK.png"}/><img/>
                     </div>
                 </label>
@@ -104,7 +112,7 @@ function AccessPayment () {
                     <div className={"PaymentIcons"}>
                         <img
                             className="PaymentIcons"
-                            style={{ height: '30px'}}
+                            style={{height: '30px'}}
                             alt="Payment option - Gift card"
                             src="../../images/Payment icons/GiftCard.png"
                         />

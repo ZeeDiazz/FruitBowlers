@@ -81,10 +81,21 @@ p {
     align-self: center;
 }
 .NudgeButton:hover {
-    background-color: pink;
+    background-color: #b6ffa0;
+    color: #797979;
+    border: 2px solid lightgreen;
 }
-
-
+.AcceptTermsBox {
+    display: flex;
+    margin-left: 10px;
+}
+.AcceptTermsBox > href {
+    cursor: pointer;
+}
+.AcceptTermsBox > input {
+    cursor: pointer;
+    margin-right: 10px;
+}
 @media screen and (min-width: 769px){
     .stageBoxes{
         width: 60%;
