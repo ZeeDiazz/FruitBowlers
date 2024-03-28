@@ -1,6 +1,8 @@
 {/*Optimized for screen 320px*/}
-
 @media screen and (max-width: 768px) {
+    #titleName {
+        border-bottom: 2px solid black;
+    }
     .stageBoxes {
         width: 100%;
         border-bottom: 1px solid black ;

@@ -1,4 +1,5 @@
 import '../assets/Styles/large/App.css'
+import '../assets/Styles/320px/SmallScreen.css'
 export function header() {
     return (
         <header id="titleName">
