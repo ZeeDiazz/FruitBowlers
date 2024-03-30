@@ -1,7 +1,15 @@
-import React, {useState} from "react";
+import React, { useState} from "react";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
+import '../Stages/StageTotal.tsx'
+//import { getTotalPriceDiscounted, getTotalQuantity} from '../Components/price.ts'
+import giftCardsData from '../../giftCards.json';
+
+function GiftCardHandler () {
+    console.log(giftCardsData)
+}
+
 
 function ChoosePayment () {
     //CardInput
@@ -10,7 +18,15 @@ function ChoosePayment () {
     const [showGiftCardInputs, setShowGiftCardInputs] = useState(false);
     //Invoice
     const [showInvoiceInputs, setShowInvoiceInputs] = useState(false);
+    //redeem giftCard button click:
+    const [clicked, setClicked] = useState(false);
 
+    const handleGiftCardRedeemClick = () => {
+        if (clicked) {
+            setClicked(true);
+            GiftCardHandler(); // Call GiftCardHandler if button is clicked
+        }
+    }
 
     const handlePaymentMethodChange = (event : React.ChangeEvent<HTMLInputElement>) => {
         const selectedPaymentMethod = event.target.value;
@@ -18,7 +34,7 @@ function ChoosePayment () {
         if (selectedPaymentMethod === 'giftCard') {
             setShowGiftCardInputs(true);
             setShowCardInputs(false);
-            setShowInvoiceInputs(false)
+            setShowInvoiceInputs(false);
 
         } else if (selectedPaymentMethod === 'card') {
             setShowCardInputs(true)
@@ -163,7 +179,8 @@ function ChoosePayment () {
                                 type={"password"}
                                 placeholder={"Security pin"}
                             />
-                            <button>
+                            <button
+                                onClick={handleGiftCardRedeemClick}>
                                 Redeem
                             </button>
 
@@ -221,6 +238,23 @@ function ChoosePayment () {
     );
 }
 
+{/*
+//has to be inside main function
+//Can be used for giftCards maybe? const [isLoading, setIsLoading] = useState(false)
+async function TestCallServer (e: FormEvent){
+    e.preventDefault()
+    const form = e.target as HTMLFormElement;
+    const formElements = form.elements as typeof form.elements & {
+        PaymentSuccessFull : HTMLInputElement;
+        Products : HTMLInputElement;
+        Products.quantity : HTMLInputElement;
+        Comment : HTMLInputElement;
+        Receive marketing emails check
+
+        //Should address be in a separate post?
+    }
+};
+*/}
 
 {/*
 - OPTIONAL: Let user enter payment details
@@ -246,3 +280,4 @@ function ChoosePayment () {
 
 export default ChoosePayment;
 
+// request bin url: https://eohuzfa0giiahrs.m.pipedream.net
