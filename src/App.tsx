@@ -18,7 +18,7 @@ function App() {
 
                 {stageDelivery()}
 
-                <ChoosePayment />
+                <ChoosePayment isInvoiceEnabled={false} />
             </body>
             <footer>
 

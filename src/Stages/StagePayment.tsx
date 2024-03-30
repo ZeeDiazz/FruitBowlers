@@ -4,14 +4,17 @@ import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
 //import { getTotalPriceDiscounted, getTotalQuantity} from '../Components/price.ts'
+
 import giftCardsData from '../../giftCards.json';
 
 function GiftCardHandler () {
     console.log(giftCardsData)
 }
-
-
-function ChoosePayment () {
+interface ChoosePaymentProps {
+    isInvoiceEnabled : boolean;
+}
+function ChoosePayment (choosePaymentProps : ChoosePaymentProps) {
+    console.log(choosePaymentProps)
     //CardInput
     const [showCardInputs, setShowCardInputs] = useState(false);
     //GiftCardInput
