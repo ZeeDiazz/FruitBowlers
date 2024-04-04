@@ -68,7 +68,9 @@ export function stageDelivery() {
     function checkboxes(diffDeliveryAddress:any, diff: boolean) {
         return (
             <>
-                <label className="container" id="checkBoxMargin">Send to billing address
+
+                    <p>Send to billing address</p>
+                <label className="container" id="checkBoxMargin">
                     <input type="checkbox" name="Delivery Address" value="yes" className="container" id="checkbox"
                            defaultChecked={true}
                            onChange={() => {
@@ -128,7 +130,7 @@ export function stageDelivery() {
                             <br/>
                             <div id="phoneBox">
                                 <input name="Landcode" placeholder="Landcode" value="+45" disabled/>
-                                <input type="digits" name="Telephone"
+                                <input type="digits" pattern="\d*"name="Telephone"
                                        minLength={8} maxLength={8} placeholder="Telephone" required/>
                             </div>
                             <input type="submit" value="Continue To Payment" id="button"/>
@@ -179,10 +181,15 @@ export function stageDelivery() {
                     <div id="phoneBox">
                         <input name="Landcode" placeholder="Landcode" value="+45" disabled/>
 
-                        <input type="text" pattern="\d*" name="Telephone"
+                        <input type="number" pattern="\d*" name="Telephone"
                                minLength={8} maxLength={8} placeholder="Telephone" required/>
                     </div>
-                    {subbmitButton(diff)}
+
+                        {subbmitButton(diff)}
+
+
+
+
                     {
                         checkboxes(diffDeliveryAddress, diff)
                     }
