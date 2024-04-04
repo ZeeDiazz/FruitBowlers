@@ -106,7 +106,7 @@ export function stageDelivery() {
 
                                 {hasErrorDelivery && <p id="invalidZip">*Invalid Zipcode</p>}
                                 <input name="zipcode2" pattern="\d*"type="number" placeholder="ZipCode"
-                                       onChange={e => validateZipCode(e.target.value.toString(), "zipcode2")} required/>
+                                       onBlur={e => validateZipCode(e.target.value.toString(), "zipcode2")} required/>
 
                                 <input name="City" placeholder="City" value={textDelivery} required/>
                                 <br/>
@@ -156,7 +156,7 @@ export function stageDelivery() {
 
                         {hasError && <p id="invalidZip">*Invalid Zipcode</p>}
                         <input name="zipcode1" pattern="\d*"type="number" placeholder="ZipCode"
-                               onChange={e => validateZipCode(e.target.value.toString(), "zipcode1")} required/>
+                               onBlur={e => validateZipCode(e.target.value.toString(), "zipcode1")} required/>
 
                         <input name="City" placeholder="City" value={text} required/>
                         <br/>
