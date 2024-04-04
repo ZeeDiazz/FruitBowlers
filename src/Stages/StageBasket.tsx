@@ -2,47 +2,21 @@ import {calculateLocalTotalPrice,handleQuantityChange} from "../Components/price
 import {handleUpgradeClick, hasUpgradeOption, UpgradeButton} from "../Components/upgrade.tsx"
 //import productsData from '../../productsList.json';
 //import upgradesData from '../../upgradesList.json';
-import {useEffect, useState} from "react";
+//import {useEffect, useState} from "react";
 import {TotalBox} from "./StageTotal.tsx";
 import '../assets/Styles/StageBacket.css'
+import {useFetch} from "../Components/useFetch.ts";
+import {useEffect} from "react";
 
 export function StageBasket() {
-    const [productsError, setProductsError] = useState(false);
-    const [upgradesError, setUpgradesError] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const base : string= 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/';
+    const productsUrl: string = base + 'main/productsList.json';
+    const upgradesUrl: string = base + 'Fetch/upgradesList.json';
 
-    const [products, setProducts] = useState<Product[]>([]);
+    const [products, setProducts, productsLoading, productsError] = useFetch(productsUrl);
+    const [upgrades, setUpgrades, upgradesLoading, upgradesError] = useFetch(upgradesUrl);
 
-    const [upgrades, setUpgrades] = useState<Product[]>([]);
-
-    useEffect(() => {
-        const url = 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/main/productsList.json';
-        setIsLoading(true);
-        getProduct(url)
-            .then(products => {
-                if(products.length === 0) {
-                    setProductsError(true);
-                }else {
-                    setProducts(products);
-                }
-                setIsLoading(false);
-            })
-    }, []);
-
-    useEffect(() => {
-        const url = 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/Fetch/upgradesList.json';
-        getProduct(url)
-            .then(upgrades => {
-                if (upgrades.length === 0) {
-                    setUpgradesError(true);
-                } else{
-                    setUpgrades(upgrades);
-
-                }
-            })
-    }, []);
-
-    const productBoxItems = products.map((product:Product, index:number) => (
+    const productBoxItems = products && products.map((product:Product, index:number) => (
         !productsError && (
             <div id="productBox" key={product.id}>
                 <ProductItem
@@ -95,9 +69,9 @@ export function StageBasket() {
                     <h2>Basket</h2>
                 </div>
                 {productsError && <p>Error fetching products</p>}
-                {isLoading ? <div className="error">Loading...</div> : productBoxItems}
+                {productsLoading || upgradesLoading ? <div className="error">Loading...</div> : productBoxItems}
             </div>
-            {TotalBox(products)}
+            {productsLoading ?  <div className="error">Loading...</div> : <TotalBox products={products} />}
         </>
     )
 }
@@ -132,18 +106,4 @@ function getImage(product : Product){
             />
         </>
     )
-}
-
-async function getProduct(url: string): Promise<Product[]> {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error('Network response was not ok, tried to access: ' + url);
-        }
-        const data = await response.json();
-        return data as Product[];
-    } catch (error) {
-        console.error('Error fetching products:', error);
-        return [];
-    }
 }

@@ -1,14 +1,27 @@
+import { useEffect, useState } from 'react';
 import {getDiscountMessage, getTotalPriceDiscounted, getTotalQuantity} from '../Components/price.ts'
 import '../assets/Styles/StageTotalBox.css'
 
-export function TotalBox(products: Product[]){
+export function TotalBox({products}: {products: Product[]} ){
+    const [totalQuantity, setTotalQuantity] = useState(0);
+    const [totalPriceDiscounted, setTotalPriceDiscounted] = useState(0);
+    const [discountMessage, setDiscountMessage] = useState('loading');
+
+    useEffect(() => {
+        if(products){
+            setTotalQuantity(getTotalQuantity(products));
+            setTotalPriceDiscounted(getTotalPriceDiscounted(products));
+            setDiscountMessage(getDiscountMessage(getTotalPriceDiscounted(products)));
+        }
+    }, [products]);
+
     return (
         <div id="totalBox">
             <div id="totalBoxText">
                 <h2>Total</h2>
-                <p>Total Quantity: {getTotalQuantity(products)}</p>
-                {getDiscountMessage(getTotalPriceDiscounted(products))} {/*zaids forslag as for now*/}
-                <p>Total Price: {getTotalPriceDiscounted(products)} &nbsp; {products.length > 0 ? products[0].currency : 'currency'}</p>
+                <p>Total Quantity: {totalQuantity}</p>
+                <p>{discountMessage}</p>
+                <p>Total Price: {totalPriceDiscounted + ' DKK'}</p>
             </div>
         </div>
     )
