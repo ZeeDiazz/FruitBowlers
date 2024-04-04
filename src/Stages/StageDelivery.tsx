@@ -1,7 +1,7 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import {useState} from "react";
-
+// vi skal tilføje state til vores form
 export function stageDelivery() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [hasError, setHasError] = useState(false);
@@ -49,6 +49,19 @@ export function stageDelivery() {
     }
     function handleFormSubmit(event) {
         event.preventDefault();
+
+    }
+    function customError(){
+        return(<>
+            <div id="message">
+                <img src="images/validate.png" alt="exclamtion icon"/>
+                <p id = "invalidZip">InvalidZip  </p>
+
+            </div>
+
+            </>
+            )
+
 
     }
 
@@ -104,7 +117,7 @@ export function stageDelivery() {
                                 <input name="Country" type="text" value="Danmark" disabled/>
                                 <br/>
 
-                                {hasErrorDelivery && <p id="invalidZip">*Invalid Zipcode</p>}
+                                {hasErrorDelivery && customError()}
                                 <input name="zipcode2" pattern="\d*"type="number" placeholder="ZipCode"
                                        onBlur={e => validateZipCode(e.target.value.toString(), "zipcode2")} required/>
 
@@ -154,7 +167,7 @@ export function stageDelivery() {
                         <input name="Country" type="text" value="Danmark" disabled/>
                         <br/>
 
-                        {hasError && <p id="invalidZip">*Invalid Zipcode</p>}
+                        {hasError && customError()}
                         <input name="zipcode1" pattern="\d*"type="number" placeholder="ZipCode"
                                onBlur={e => validateZipCode(e.target.value.toString(), "zipcode1")} required/>
 
