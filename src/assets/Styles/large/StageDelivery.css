@@ -42,7 +42,7 @@
 
     }
     #invalidZip{
-        margin-top: auto;
+        margin: auto;
         color: black;
         font-family:'Roboto', sans-serif;
         font-size: 14px;
