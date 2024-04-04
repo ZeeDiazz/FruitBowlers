@@ -47,6 +47,10 @@ export function stageDelivery() {
             return false;
         }
     }
+    function handleFormSubmit(event) {
+        event.preventDefault();
+
+    }
 
     function checkboxes(diffDeliveryAddress:any, diff: boolean) {
         return (
@@ -67,13 +71,26 @@ export function stageDelivery() {
             </>
         )
     }
+    function subbmitButton(cheched){
+        if(!cheched){
+            return(<>
+                    <input type="submit" value="Continue To Payment" id="button"/>
+
+
+                </>
+
+                )
+        }
+
+
+    }
 
     function devliveryAdress(diff: boolean) {
         if (diff) {
             return (
                 <>
                     <h2 id="title">Delivery address</h2>
-                    <form method="post">
+                    <form method="post" onSubmit={handleFormSubmit}>
                         <div id="inputBox">
                             <input name="Name" type="text"
                                    placeholder="First Name" required/>
@@ -88,7 +105,7 @@ export function stageDelivery() {
                                 <br/>
 
                                 {hasErrorDelivery && <p id="invalidZip">*Invalid Zipcode</p>}
-                                <input name="zipcode2" type="digits" placeholder="ZipCode"
+                                <input name="zipcode2" pattern="\d*"type="number" placeholder="ZipCode"
                                        onChange={e => validateZipCode(e.target.value.toString(), "zipcode2")} required/>
 
                                 <input name="City" placeholder="City" value={textDelivery} required/>
@@ -120,7 +137,7 @@ export function stageDelivery() {
                 />
                 <h2>Billing Address</h2>
             </div>
-            <form method="post">
+            <form method="post" onSubmit={handleFormSubmit}>
                 <div id="inputBox">
                     <input name="Name" type="text" placeholder="First Name" required/>
                     <br/>
@@ -138,7 +155,7 @@ export function stageDelivery() {
                         <br/>
 
                         {hasError && <p id="invalidZip">*Invalid Zipcode</p>}
-                        <input name="zipcode1" type="digits" placeholder="ZipCode"
+                        <input name="zipcode1" pattern="\d*"type="number" placeholder="ZipCode"
                                onChange={e => validateZipCode(e.target.value.toString(), "zipcode1")} required/>
 
                         <input name="City" placeholder="City" value={text} required/>
@@ -148,10 +165,11 @@ export function stageDelivery() {
                     <br/>
                     <div id="phoneBox">
                         <input name="Landcode" placeholder="Landcode" value="+45" disabled/>
-                        <input type="digits" name="Telephone"
+
+                        <input type="text" pattern="\d*" name="Telephone"
                                minLength={8} maxLength={8} placeholder="Telephone" required/>
                     </div>
-                    <input type="submit" value="Continue To Payment" id="continueButton"/>
+                    {subbmitButton(diff)}
                     {
                         checkboxes(diffDeliveryAddress, diff)
                     }
