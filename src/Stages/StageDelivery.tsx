@@ -65,38 +65,34 @@ export function stageDelivery() {
 
     }
 
-    function checkboxes(diffDeliveryAddress, diff) {
+    function checkboxes(diffDeliveryAddress, diff:boolean) {
         return (
-            <div className="screen-container">
+            <>
+                <input type="checkbox" name="Delivery Address" value="yes" id="checkbox"
+                       defaultChecked={true}
+                       onChange={() => {
+                           diffDeliveryAddress(!diff);
+                           console.log(diff);
+                       }}
+                />
+                <span className="checkmark"/>
 
-                <label className="container" id="checkBoxMargin">
-                    <input type="checkbox" name="Delivery Address" value="yes" id="checkbox"
-                           defaultChecked={true}
-                           onChange={() => {
-                               diffDeliveryAddress(!diff);
-                               console.log(diff);
-                           }}
-                    />
-                    <span className="checkmark"/>
-
-
+                <label id="inputBox">
+                    Send to billing address
                 </label>
-                <p>Send to billing address</p>
 
-            </div>
+            </>
         );
 
 
-
     }
-    function subbmitButton(cheched){
-        if(!cheched){
-            return(<>
+
+    function subbmitButton(checked: boolean){
+        if(!checked){
+            return(
+                <>
                     <input type="submit" value="Continue To Payment" id="button"/>
-
-
                 </>
-
                 )
         }
 
@@ -187,15 +183,9 @@ export function stageDelivery() {
                         <input type="number" pattern="\d*" name="Telephone"
                                minLength={8} maxLength={8} placeholder="Telephone" required/>
                     </div>
+                    {subbmitButton(diff)}
 
-                        {subbmitButton(diff)}
-
-
-
-
-                    {
-                        checkboxes(diffDeliveryAddress, diff)
-                    }
+                    {checkboxes(diffDeliveryAddress, diff)}
                     {deliveryAdress(diff)}
                 </div>
             </form>
