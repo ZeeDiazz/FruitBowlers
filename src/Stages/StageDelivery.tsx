@@ -1,7 +1,7 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import {useState} from "react";
-
+// vi skal tilføje state til vores form
 export function stageDelivery() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [hasError, setHasError] = useState(false);
@@ -51,41 +51,55 @@ export function stageDelivery() {
         event.preventDefault();
 
     }
+    function customError(){
+        return(<>
+            <div id="message">
+                <img src="images/validate.png" alt="exclamtion icon"/>
+                <p id = "invalidZip">InvalidZip  </p>
 
-    function checkboxes(diffDeliveryAddress:any, diff: boolean) {
-        return (
-            <>
-                <label className="container" id="checkBoxMargin">Send to billing address
-                    <input type="checkbox" name="Delivery Address" value="yes" className="container" id="checkbox"
-                           defaultChecked={true}
-                           onChange={() => {
-                               diffDeliveryAddress(!diff);
-                               console.log(diff)
-                           }}
-                    />
-                    <span className="checkmark"/>
-                </label>
-
-                {devliveryAdress(diff)}
+            </div>
 
             </>
-        )
+            )
+
+
     }
-    function subbmitButton(cheched){
-        if(!cheched){
-            return(<>
+
+    function checkboxes(diffDeliveryAddress, diff:boolean) {
+        return (
+            <div className="checkboxText">
+                <input type="checkbox" name="Delivery Address" value="yes" id="checkbox"
+                       defaultChecked={true}
+                       onChange={() => {
+                           diffDeliveryAddress(!diff);
+                           console.log(diff);
+                       }}
+                />
+                <span className="checkmark"/>
+
+                <label id="inputBox">
+                    Send to billing address
+                </label>
+
+            </div>
+        );
+
+
+    }
+
+    function subbmitButton(checked: boolean){
+        if(!checked){
+            return(
+                <>
                     <input type="submit" value="Continue To Payment" id="button"/>
-
-
                 </>
-
                 )
         }
 
 
     }
 
-    function devliveryAdress(diff: boolean) {
+    function deliveryAdress(diff: boolean) {
         if (diff) {
             return (
                 <>
@@ -104,7 +118,7 @@ export function stageDelivery() {
                                 <input name="Country" type="text" value="Danmark" disabled/>
                                 <br/>
 
-                                {hasErrorDelivery && <p id="invalidZip">*Invalid Zipcode</p>}
+                                {hasErrorDelivery && customError()}
                                 <input name="zipcode2" pattern="\d*"type="number" placeholder="ZipCode"
                                        onBlur={e => validateZipCode(e.target.value.toString(), "zipcode2")} required/>
 
@@ -115,7 +129,7 @@ export function stageDelivery() {
                             <br/>
                             <div id="phoneBox">
                                 <input name="Landcode" placeholder="Landcode" value="+45" disabled/>
-                                <input type="digits" name="Telephone"
+                                <input type="digits" pattern="\d*"name="Telephone"
                                        minLength={8} maxLength={8} placeholder="Telephone" required/>
                             </div>
                             <input type="submit" value="Continue To Payment" id="button"/>
@@ -147,15 +161,16 @@ export function stageDelivery() {
                     <br/>
 
                     <input name="companyName" type="text" placeholder="*(Optional) Company Name"/>
-                    <input type="digits" name="VATnum" minLength={8} maxLength={8} placeholder="*(Optional) Company VAT"/>
+                    <input type="digits" name="VATnum" minLength={8} maxLength={8}
+                           placeholder="*(Optional) Company VAT"/>
                     <br/>
                     <div className="addressBox">
                         <br/>
                         <input name="Country" type="text" value="Danmark" disabled/>
                         <br/>
 
-                        {hasError && <p id="invalidZip">*Invalid Zipcode</p>}
-                        <input name="zipcode1" pattern="\d*"type="number" placeholder="ZipCode"
+                        {hasError && customError()}
+                        <input name="zipcode1" pattern="\d*" type="number" placeholder="ZipCode"
                                onBlur={e => validateZipCode(e.target.value.toString(), "zipcode1")} required/>
 
                         <input name="City" placeholder="City" value={text} required/>
@@ -166,16 +181,16 @@ export function stageDelivery() {
                     <div id="phoneBox">
                         <input name="Landcode" placeholder="Landcode" value="+45" disabled/>
 
-                        <input type="text" pattern="\d*" name="Telephone"
+                        <input type="number" pattern="\d*" name="Telephone"
                                minLength={8} maxLength={8} placeholder="Telephone" required/>
                     </div>
-                    {subbmitButton(diff)}
-                    {
-                        checkboxes(diffDeliveryAddress, diff)
-                    }
                 </div>
             </form>
-
+            <div className="continue-container">
+                {checkboxes(diffDeliveryAddress, diff)}
+                {deliveryAdress(diff)}
+                {subbmitButton(diff)}
+            </div>
         </div>
     )
 }

@@ -6,6 +6,7 @@ import {stageDelivery} from './Stages/StageDelivery.tsx'
 import {stageBasket} from './Stages/StageBasket.tsx'
 import {header} from "./Components/header.tsx";
 import AccessPayment from "./Stages/StagePayment.tsx";
+import {stageTermsNConditions} from "./Stages/StageTermsNConditions.tsx";
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
                 {stageDelivery()}
 
                 <AccessPayment />
+                {stageTermsNConditions()}
             </body>
             <footer>
 
