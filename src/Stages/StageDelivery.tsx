@@ -161,7 +161,8 @@ export function stageDelivery() {
                     <br/>
 
                     <input name="companyName" type="text" placeholder="*(Optional) Company Name"/>
-                    <input type="digits" name="VATnum" minLength={8} maxLength={8} placeholder="*(Optional) Company VAT"/>
+                    <input type="digits" name="VATnum" minLength={8} maxLength={8}
+                           placeholder="*(Optional) Company VAT"/>
                     <br/>
                     <div className="addressBox">
                         <br/>
@@ -169,7 +170,7 @@ export function stageDelivery() {
                         <br/>
 
                         {hasError && customError()}
-                        <input name="zipcode1" pattern="\d*"type="number" placeholder="ZipCode"
+                        <input name="zipcode1" pattern="\d*" type="number" placeholder="ZipCode"
                                onBlur={e => validateZipCode(e.target.value.toString(), "zipcode1")} required/>
 
                         <input name="City" placeholder="City" value={text} required/>
@@ -183,12 +184,13 @@ export function stageDelivery() {
                         <input type="number" pattern="\d*" name="Telephone"
                                minLength={8} maxLength={8} placeholder="Telephone" required/>
                     </div>
-                    {subbmitButton(diff)}
                 </div>
+            </form>
+            <div className="continue-container">
                 {checkboxes(diffDeliveryAddress, diff)}
                 {deliveryAdress(diff)}
-            </form>
-
+                {subbmitButton(diff)}
+            </div>
         </div>
     )
 }
