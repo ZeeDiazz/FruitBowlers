@@ -65,26 +65,29 @@ export function stageDelivery() {
 
     }
 
-    function checkboxes(diffDeliveryAddress:any, diff: boolean) {
+    function checkboxes(diffDeliveryAddress, diff) {
         return (
-            <>
+            <div className="screen-container">
 
-                    <p>Send to billing address</p>
                 <label className="container" id="checkBoxMargin">
-                    <input type="checkbox" name="Delivery Address" value="yes" className="container" id="checkbox"
+                    <input type="checkbox" name="Delivery Address" value="yes" id="checkbox"
                            defaultChecked={true}
                            onChange={() => {
                                diffDeliveryAddress(!diff);
-                               console.log(diff)
+                               console.log(diff);
                            }}
                     />
                     <span className="checkmark"/>
+
+
                 </label>
+                <p>Send to billing address</p>
 
-                {devliveryAdress(diff)}
+            </div>
+        );
 
-            </>
-        )
+
+
     }
     function subbmitButton(cheched){
         if(!cheched){
@@ -100,7 +103,7 @@ export function stageDelivery() {
 
     }
 
-    function devliveryAdress(diff: boolean) {
+    function deliveryAdress(diff: boolean) {
         if (diff) {
             return (
                 <>
@@ -193,6 +196,7 @@ export function stageDelivery() {
                     {
                         checkboxes(diffDeliveryAddress, diff)
                     }
+                    {deliveryAdress(diff)}
                 </div>
             </form>
 

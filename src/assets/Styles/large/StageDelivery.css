@@ -41,6 +41,14 @@
 
 
     }
+    .screen-container{
+
+
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+
+    }
     #invalidZip{
         margin: auto;
         color: black;
