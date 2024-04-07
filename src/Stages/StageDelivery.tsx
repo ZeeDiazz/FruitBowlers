@@ -1,17 +1,21 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
-import {useState} from "react";
+import { useState } from "react";
 
-export function stageDelivery() {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+interface StageDeliveryProps {
+    setCompanyVATNumber: React.Dispatch<React.SetStateAction<string>>
+    companyVATNumber: string,
+    // setCompanyVAT: (companyVAT: string) => void;
+}
+export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
+
+    const companyVATNumber = stageDeliveryProps.companyVATNumber;
+    const setCompanyVATNumber = stageDeliveryProps.setCompanyVATNumber;
+
     const [hasError, setHasError] = useState(false);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [text, setText] = useState('');
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [textDelivery, setTextDelivery] = useState('');
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [hasErrorDelivery, setHasErrorDelivery] = useState(false);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [diff, diffDeliveryAddress] = useState(false);
 
     /* Learned from lecture and https://www.valentinog.com/blog/await-react/*/
@@ -21,7 +25,7 @@ export function stageDelivery() {
             if (!response.ok) {
                 throw Error(response.statusText);
             }
-            const {nr, navn} = await response.json();
+            const { nr, navn } = await response.json();
 
             console.log('Valid Zip Code');
             console.log(`Zip Code: ${nr}, City: ${navn}`);
@@ -48,27 +52,27 @@ export function stageDelivery() {
         }
     }
 
-    function checkboxes(diffDeliveryAddress:any, diff: boolean) {
+    function checkboxes(diffDeliveryAddress: React.Dispatch<React.SetStateAction<boolean>>, diff: boolean) {
         return (
             <>
                 <label className="container" id="checkBoxMargin">Send to billing address
                     <input type="checkbox" name="Delivery Address" value="yes" className="container" id="checkbox"
-                           defaultChecked={true}
-                           onChange={() => {
-                               diffDeliveryAddress(!diff);
-                               console.log(diff)
-                           }}
+                        defaultChecked={true}
+                        onChange={() => {
+                            diffDeliveryAddress(!diff);
+                            console.log(diff)
+                        }}
                     />
-                    <span className="checkmark"/>
+                    <span className="checkmark" />
                 </label>
 
-                {devliveryAdress(diff)}
+                {deliveryAddress(diff)}
 
             </>
         )
     }
 
-    function devliveryAdress(diff: boolean) {
+    function deliveryAddress(diff: boolean) {
         if (diff) {
             return (
                 <>
@@ -76,38 +80,42 @@ export function stageDelivery() {
                     <form method="post">
                         <div id="inputBox">
                             <input name="Name" type="text"
-                                   placeholder="First Name" required/>
-                            <br/>
-                            <input name="LastName" type="text" placeholder="Last Name" required/>
-                            <br/>
-                            <input type="email" name="Email" placeholder="Email" required/>
-                            <br/>
+                                placeholder="First Name" required />
+                            <br />
+                            <input name="LastName" type="text" placeholder="Last Name" required />
+                            <br />
+                            <input type="email" name="Email" placeholder="Email" required />
+                            <br />
                             <div className="addressBox">
-                                <br/>
-                                <input name="Country" type="text" value="Danmark" disabled/>
-                                <br/>
+                                <br />
+                                <input name="Country" type="text" value="Danmark" disabled />
+                                <br />
 
                                 {hasErrorDelivery && <p id="invalidZip">*Invalid Zipcode</p>}
                                 <input name="zipcode2" type="digits" placeholder="ZipCode"
-                                       onChange={e => validateZipCode(e.target.value.toString(), "zipcode2")} required/>
+                                    onChange={e => validateZipCode(e.target.value.toString(), "zipcode2")} required />
 
-                                <input name="City" placeholder="City" value={textDelivery} required/>
-                                <br/>
-                                <input name="streetName" type="text" placeholder="Street Name" required/>
+                                <input name="City" placeholder="City" value={textDelivery} required />
+                                <br />
+                                <input name="streetName" type="text" placeholder="Street Name" required />
                             </div>
-                            <br/>
+                            <br />
                             <div id="phoneBox">
-                                <input name="Landcode" placeholder="Landcode" value="+45" disabled/>
+                                <input name="Landcode" placeholder="Landcode" value="+45" disabled />
                                 <input type="digits" name="Telephone"
-                                       minLength={8} maxLength={8} placeholder="Telephone" required/>
+                                    minLength={8} maxLength={8} placeholder="Telephone" required />
                             </div>
-                            <input type="submit" value="Continue To Payment" id="button"/>
+                            <input type="submit" value="Continue To Payment" id="button" />
 
                         </div>
                     </form>
                 </>
             );
         }
+    }
+    function updateCompanyVAT(event: React.FormEvent<HTMLInputElement>) {
+        const VATNumber = event.currentTarget.value;
+        setCompanyVATNumber(VATNumber)
     }
 
     return (
@@ -122,36 +130,36 @@ export function stageDelivery() {
             </div>
             <form method="post">
                 <div id="inputBox">
-                    <input name="Name" type="text" placeholder="First Name" required/>
-                    <br/>
-                    <input name="LastName" type="text" placeholder="Last Name" required/>
-                    <br/>
-                    <input type="email" name="Email" placeholder="Email" required/>
-                    <br/>
+                    <input name="Name" type="text" placeholder="First Name" required />
+                    <br />
+                    <input name="LastName" type="text" placeholder="Last Name" required />
+                    <br />
+                    <input type="email" name="Email" placeholder="Email" required />
+                    <br />
 
-                    <input name="companyName" type="text" placeholder="*(Optional) Company Name"/>
-                    <input type="digits" name="VATnum" minLength={8} maxLength={8} placeholder="*(Optional) Company VAT"/>
-                    <br/>
+                    <input name="companyName" type="text" placeholder="*(Optional) Company Name" />
+                    <input type="digits" name="VATnum" minLength={8} maxLength={8} value={companyVATNumber} onChange={updateCompanyVAT} placeholder="*(Optional) Company VAT" />
+                    <br />
                     <div className="addressBox">
-                        <br/>
-                        <input name="Country" type="text" value="Danmark" disabled/>
-                        <br/>
+                        <br />
+                        <input name="Country" type="text" value="Danmark" disabled />
+                        <br />
 
                         {hasError && <p id="invalidZip">*Invalid Zipcode</p>}
                         <input name="zipcode1" type="digits" placeholder="ZipCode"
-                               onChange={e => validateZipCode(e.target.value.toString(), "zipcode1")} required/>
+                            onChange={e => validateZipCode(e.target.value.toString(), "zipcode1")} required />
 
-                        <input name="City" placeholder="City" value={text} required/>
-                        <br/>
-                        <input name="streetName" type="text" placeholder="Street Name" required/>
+                        <input name="City" placeholder="City" value={text} required />
+                        <br />
+                        <input name="streetName" type="text" placeholder="Street Name" required />
                     </div>
-                    <br/>
+                    <br />
                     <div id="phoneBox">
-                        <input name="Landcode" placeholder="Landcode" value="+45" disabled/>
+                        <input name="Landcode" placeholder="Landcode" value="+45" disabled />
                         <input type="digits" name="Telephone"
-                               minLength={8} maxLength={8} placeholder="Telephone" required/>
+                            minLength={8} maxLength={8} placeholder="Telephone" required />
                     </div>
-                    <input type="submit" value="Continue To Payment" id="continueButton"/>
+                    <input type="submit" value="Continue To Payment" id="continueButton" />
                     {
                         checkboxes(diffDeliveryAddress, diff)
                     }

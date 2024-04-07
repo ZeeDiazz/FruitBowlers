@@ -1,65 +1,55 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
-//import { getTotalPriceDiscounted, getTotalQuantity} from '../Components/price.ts'
 
 import giftCardsData from '../../giftCards.json';
 
-function GiftCardHandler () {
-    console.log(giftCardsData)
-}
-interface ChoosePaymentProps {
-    isInvoiceEnabled : boolean;
-}
-function ChoosePayment (choosePaymentProps : ChoosePaymentProps) {
-    console.log(choosePaymentProps)
-    //CardInput
-    const [showCardInputs, setShowCardInputs] = useState(false);
-    //GiftCardInput
-    const [showGiftCardInputs, setShowGiftCardInputs] = useState(false);
-    //Invoice
-    const [showInvoiceInputs, setShowInvoiceInputs] = useState(false);
-    //redeem giftCard button click:
-    const [clicked, setClicked] = useState(false);
-
-    const handleGiftCardRedeemClick = () => {
-        if (clicked) {
-            setClicked(true);
-            GiftCardHandler(); // Call GiftCardHandler if button is clicked
-        }
+// Giftcard handler checks if PIN and 
+async function GiftCardHandler() {
+    if (!giftCardsData) {
+        console.log("Problems connecting to giftcards 'server'")
+    } else {
+        console.log("wuh")
+        console.log(giftCardsData)
     }
-
-    const handlePaymentMethodChange = (event : React.ChangeEvent<HTMLInputElement>) => {
-        const selectedPaymentMethod = event.target.value;
-
-        if (selectedPaymentMethod === 'giftCard') {
-            setShowGiftCardInputs(true);
-            setShowCardInputs(false);
-            setShowInvoiceInputs(false);
-
-        } else if (selectedPaymentMethod === 'card') {
-            setShowCardInputs(true)
-            setShowGiftCardInputs(false);
-            setShowInvoiceInputs(false)
-        } else if (selectedPaymentMethod === 'invoice') {
-            setShowCardInputs(false)
-            setShowGiftCardInputs(false);
-            setShowInvoiceInputs(true)
-        }else {
-            setShowGiftCardInputs(false);
-            setShowCardInputs(false);
-            setShowInvoiceInputs(false)
+}
+interface ButtonProps {
+    handleGiftCardRedeemClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    handleCheckboxChange: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    isChecked: boolean;
+  }
+interface ChoosePaymentProps {
+    isInvoiceEnabled: boolean;
+    totalDiscountedPrice: number;
+}
+enum PaymentOption{
+    NONE, CARD, GIFT_CARD, INVOICE
+}
+function ChoosePayment(choosePaymentProps: ChoosePaymentProps, buttonProps: ButtonProps) {
+    const isInvoiceEnabled = choosePaymentProps.isInvoiceEnabled;
+    const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
+    const [isChecked, setIsChecked] = useState(false);
+    
+    //Check terms
+    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setIsChecked(event.target.checked);
+        console.log("state of isChecked: " + event.target.checked);
+    };
+    //redeem giftCard button click:
+    {/*
+    const handleGiftCardRedeemClick = () => {
+        if (isChecked) {
+            GiftCardHandler(); // Call GiftCardHandler if button is clicked
+        } else {
+            postMessage("Need to accept terms")
         }
     };
-    //Handle PayNowClick
-    {/*const handlePayNowClick = (event : React.ChangeEvent<HTMLInputElement>) => {
-        const onclick(event) {
-            //Check if a payment method is chosen and if basket and delivery are okay.
-        }
-    }
     */}
+    const handlePaymentMethodChange = (paymentOption: PaymentOption) => {
+        setPaymentOption(paymentOption)
+    };
 
     return (
         <div className="stageBoxes">
@@ -73,20 +63,23 @@ function ChoosePayment (choosePaymentProps : ChoosePaymentProps) {
             </div>
 
             <nav className={"PaymentOptionsBox"}>
-
-                <div className={"CheckBoxWithDescription"}>
+                {!isChecked &&(
+                <p style={{color:"red", marginLeft:'20px', fontSize: '12px' }}>* You need to accept terms</p>
+                )}
+                <label className={"CheckBoxWithDescription"}>
                     <input
                         type="checkbox"
                         name="AcceptTerms"
-                        //onChange={acceptedTerms}
+                        checked={isChecked} 
+                        onChange={handleCheckboxChange}
                     />
                     <p><a href={""}>Accept terms</a> & <a href={""}>conditions</a></p>
-                </div>
+                </label>
                 <div className={"CheckBoxWithDescription"}>
                     <input
                         type="checkbox"
                         name="MarketingNudge"
-                        //onChange={acceptedTerms}
+                    //onChange={need to push this to the server}
                     />
                     <p>Receive marketing emails</p>
                 </div>
@@ -98,19 +91,19 @@ function ChoosePayment (choosePaymentProps : ChoosePaymentProps) {
                                 type="radio"
                                 name="paymentMethod"
                                 value="card"
-                                onChange={handlePaymentMethodChange}
+                                onChange={() => handlePaymentMethodChange(PaymentOption.CARD)}
                             />
                             <p>Card </p>
                         </div>
                         <div className={"PaymentIcons"}>
                             <img style={{}} alt={"Card payment option - Visa"}
-                                 src={"../../images/Payment icons/Visa_Brandmark_RGB_2021_PNG/Visa_Brandmark_Blue_RGB_2021.png"}/><img/>
+                                src={"../../images/Payment icons/Visa_Brandmark_RGB_2021_PNG/Visa_Brandmark_Blue_RGB_2021.png"} />
                             <img style={{}} alt={"Card payment option - Mastercard"}
-                                 src={"../../images/Payment icons/Dankort logo/DK_Logo_CMYK.png"}/><img/>
+                                src={"../../images/Payment icons/Dankort logo/DK_Logo_CMYK.png"} />
                         </div>
                     </label>
-                    {showCardInputs && (
-                        <div className={"PaymentInputs"}>
+                    {paymentOption === PaymentOption.CARD && (
+                        <form id="cardForm" className={"PaymentInputs"}>
                             <input
                                 type={"text"}
                                 placeholder={"Card number (1234 5678 9012 3456)"}
@@ -129,27 +122,9 @@ function ChoosePayment (choosePaymentProps : ChoosePaymentProps) {
                                 type={"text"}
                                 placeholder={"Card holders name"}
                             />
-                        </div>
+                        </form>
                     )}
                 </div>
-                {/*
-                <label className="PaymentTypeBox">
-                    <div className={"PaymentText"}>
-                        <input
-                            type="radio"
-                            name="paymentMethod"
-                            value="mobilePay"
-                            onChange={handlePaymentMethodChange}
-                        />
-                        <p>MobilePay </p>
-                    </div>
-                    <img
-                        className={"mobilePayImg"}
-                        alt="Payment option - MobilePay"
-                        src="../../images/Payment icons/MobilePayPNG/MP_RGB_NoTM_Logo+Type Horisontal Blue.png"
-                    />
-                </label>
-                */}
 
                 <div className="PaymentTypeOuterBox">
                     <label className={"PaymentTypeBox"}>
@@ -158,77 +133,79 @@ function ChoosePayment (choosePaymentProps : ChoosePaymentProps) {
                                 type="radio"
                                 name="paymentMethod"
                                 value="giftCard"
-                                onChange={handlePaymentMethodChange}
+                                onChange={() => handlePaymentMethodChange(PaymentOption.GIFT_CARD)}
                             />
                             <p>Gift card </p>
                         </div>
                         <div className={"PaymentIcons"}>
                             <img
                                 className="PaymentIcons"
-                                style={{height: '30px'}}
+                                style={{ height: '30px' }}
                                 alt="Payment option - Gift card"
                                 src="../../images/Payment icons/GiftCard.png"
                             />
                         </div>
                     </label>
+                    {paymentOption === PaymentOption.GIFT_CARD  /* && (
 
-                    {showGiftCardInputs && (
-                        <div className={"PaymentInputs"}>
+                        <form id="giftCard" onSubmit={buttonProps.handleGiftCardRedeemClick} className={"PaymentInputs"}>
                             <input
                                 type={"text"}
                                 placeholder={"Gift card number"}
                             />
                             <input
-                                type={"password"}
+                                id="giftCardPIN"
+                                type={"number"}
                                 placeholder={"Security pin"}
                             />
                             <button
-                                onClick={handleGiftCardRedeemClick}>
+                                onClick={buttonProps.handleGiftCardRedeemClick}
+                                name=""
+                                type="submit"
+                            >
                                 Redeem
                             </button>
-
-                        </div>
-                    )}
+                        </form>
+                    )*/}
 
                 </div>
 
                 {/*//Only show invoice choice if billing address has company VAT number */}
 
-                <div className="PaymentTypeOuterBox">
-                    <label className={"PaymentTypeBox"}>
-                        <div className={"PaymentText"}>
-                            <input
-                                type="radio"
-                                name="paymentMethod"
-                                value="invoice"
-                                onChange={handlePaymentMethodChange}
-                            />
-                            <p>Invoice </p>
-                        </div>
-                    </label>
-                    {showInvoiceInputs && (
-                        <div className={"PaymentInputs"}>
-                            <input
-                                type={"text"}
-                                placeholder={"Card number (1234 5678 9012 3456)"}
-                            />
-                            <div className={"SubInputs"}>
+                {isInvoiceEnabled ?
+                    <div className="PaymentTypeOuterBox">
+                        <label className={"PaymentTypeBox"}>
+                            <div className={"PaymentText"}>
+                                <input
+                                    type="radio"
+                                    name="paymentMethod"
+                                    value="invoice"
+                                    onChange={() => handlePaymentMethodChange(PaymentOption.INVOICE)}
+                                />
+                                <p>Invoice </p>
+                            </div>
+                        </label>
+                        {paymentOption === PaymentOption.INVOICE && (
+                            <form id="invoiceForm" className={"PaymentInputs"}>
                                 <input
                                     type={"text"}
-                                    placeholder={"MM/YYYY"}
+                                    placeholder={"Card number (1234 5678 9012 3456)"}
                                 />
+                                <div className={"SubInputs"}>
+                                    <input
+                                        type={"text"}
+                                        placeholder={"MM/YYYY"}
+                                    />
+                                </div>
                                 <input
-                                    type={"password"}
-                                    placeholder={"Security code"}
+                                    type={"text"}
+                                    placeholder={"Card holders name"}
                                 />
-                            </div>
-                            <input
-                                type={"text"}
-                                placeholder={"Card holders name"}
-                            />
-                        </div>
-                    )}
-                </div>
+                            </form>
+                        )}
+                    </div>
+                    : null
+                }
                 <textarea
                     className={"CommentBox"}
                     placeholder={"Comment for the order"}>
