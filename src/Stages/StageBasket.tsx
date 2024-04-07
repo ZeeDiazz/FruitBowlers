@@ -89,10 +89,8 @@ export function StageBasket() {
                 <div id="productBox">
                     {productsError && <p>Error fetching products</p>}
                     {productsLoading || upgradesLoading ? <div className="error">Loading...</div> : productBoxItems}                </div>
-            </div> {/*
+            </div>
             {productsLoading ?  <div className="error">Loading...</div> : <TotalBox products={products} />}
-            {TotalBox(products, stageBasketProps.setTotalDiscountedPrice)}
-*/}
         </>
     )
 }

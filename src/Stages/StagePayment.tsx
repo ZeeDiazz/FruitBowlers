@@ -234,9 +234,7 @@ async function TestCallServer (e: FormEvent){
         //Should address be in a separate post?
     }
 };
-*/}
 
-{/*
 - OPTIONAL: Let user enter payment details
   - Choose between MobilePay, gift card and invoice
   - For gift card
