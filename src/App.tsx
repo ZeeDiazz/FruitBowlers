@@ -25,9 +25,6 @@ function App() {
                 <ChoosePayment totalDiscountedPrice={totalDiscountedPrice} isInvoiceEnabled={isInvoiceEnabled} />
                 {stageTermsNConditions()}
             </main>
-            <footer>
-
-            </footer>
         </>
     );
 }

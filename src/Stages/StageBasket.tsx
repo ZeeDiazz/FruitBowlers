@@ -7,88 +7,24 @@ import {TotalBox} from "./StageTotal.tsx";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
+import '../assets/Styles/StageBacket.css'
+import {useFetch} from "../Components/useFetch.ts";
+import {useEffect} from "react";
 
 interface StageBasketProps {
     setTotalDiscountedPrice: React.Dispatch<React.SetStateAction<number>>
 }
-export function StageBasket(stageBasketProps: StageBasketProps) {
-    const [products,setProducts] = useState<Product[]>([
-        {
-            id: "apple-bag",
-            name: "Apples",
-            price: 25,
-            description: "There are 5 apples in one bag",
-            currency: "DKK",
-            discountQuantity: 2,
-            discountPercent: 10,
-            upsellProductId: 'organic apple-bag',
-            totalPrice: 25,
-            quantity: 1,
-        },
-        {
-            id: "banana-bag",
-            name: "Banana bag",
-            price: 15,
-            description: 'One eco banana is approximately 105g. There are 5 bananas in one bag',
-            currency: 'DKK',
-            discountQuantity: 5,
-            discountPercent: 10,
-            upsellProductId: null,
-            totalPrice: 75,
-            quantity: 5,
-        },
-        {
-            id: 'lemon-bag',
-            name: 'Lemon bag',
-            price: 15,
-            description: 'One organic lemon bag contains approximately 6 lemons and has a weight of 500g',
-            currency: 'DKK',
-            discountQuantity: 4,
-            discountPercent: 10,
-            upsellProductId: null,
-            totalPrice: 30,
-            quantity: 2,
-        },
-        {
-            id: 'non-organic strawberries',
-            name: 'Strawberries',
-            price: 25,
-            description: '300g, non-organic, strawberries',
-            currency: 'DKK',
-            discountQuantity: 4,
-            discountPercent: 10,
-            upsellProductId: 'strawberries',
-            totalPrice: 25,
-            quantity: 1,
-        }]);
-        const upgrades: Product[] = [
-        {
-            id: 'strawberries',
-            name: 'Strawberries',
-            price: 35,
-            description: '300g, eco, danish strawberries',
-            currency: 'DKK',
-            discountQuantity: 0,
-            discountPercent: 0,
-            upsellProductId: null,
-            totalPrice: 0,
-            quantity: 0,
-        },
-        {
-            id: "organic apple-bag",
-            name: "Apples",
-            price: 30,
-            description: "Organic apples from Denmark",
-            currency: "DKK",
-            discountQuantity: 0,
-            discountPercent: 0,
-            upsellProductId: null,
-            totalPrice: 30,
-            quantity: 0,
-        },];
 
-    const productBoxItems = products.map((product:Product, index:number) => (
-        products[index].quantity != 0 && (
+export function StageBasket() {
+    const base : string= 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/';
+    const productsUrl: string = base + 'main/productsList.json';
+    const upgradesUrl: string = base + 'main/upgradesList.json';
+
+    const [products, setProducts, productsLoading, productsError] = useFetch(productsUrl);
+    const [upgrades, setUpgrades, upgradesLoading, upgradesError] = useFetch(upgradesUrl);
+
+    const productBoxItems = products && products.map((product:Product, index:number) => (
+        !productsError && (
             <div className={"wholeProduct"} key={product.id}>
                 <div className={"productStyling"}>
                     <ProductItem
@@ -105,16 +41,18 @@ export function StageBasket(stageBasketProps: StageBasketProps) {
                 </div>
 
                 <div id="quantityBox">
-                    <UpgradeButton
-                        product={product}
-                        upgrades={upgrades}
-                        handleUpgradeClick={(index) => {
-                            const upgradeOption = hasUpgradeOption(product, upgrades);
-                            if (upgradeOption.hasUpgrade && upgradeOption.moreExpensiveOption) {
-                                setProducts(handleUpgradeClick(products, upgradeOption.moreExpensiveOption, index));
-                            }
-                        }}
-                    />
+                    {!upgradesError &&
+                        <UpgradeButton
+                            product={product}
+                            upgrades={upgrades}
+                            handleUpgradeClick={(index) => {
+                                const upgradeOption = hasUpgradeOption(product, upgrades);
+                                if (upgradeOption.hasUpgrade && upgradeOption.moreExpensiveOption) {
+                                    setProducts(handleUpgradeClick(products, upgradeOption.moreExpensiveOption, index));
+                                }
+                            }}
+                        />
+                    }
                     <nav className={"productChangeNavigation"}>
                         <div>
                             <button className="decrease"
@@ -149,16 +87,15 @@ export function StageBasket(stageBasketProps: StageBasketProps) {
                     <h2>Basket</h2>
                 </div>
                 <div id="productBox">
-                    {productBoxItems}
-                </div>
-            </div>
-            <div>
-                {TotalBox(products, stageBasketProps.setTotalDiscountedPrice)}
-            </div>
+                    {productsError && <p>Error fetching products</p>}
+                    {productsLoading || upgradesLoading ? <div className="error">Loading...</div> : productBoxItems}                </div>
+            </div> {/*
+            {productsLoading ?  <div className="error">Loading...</div> : <TotalBox products={products} />}
+            {TotalBox(products, stageBasketProps.setTotalDiscountedPrice)}
+*/}
         </>
     )
 }
-
 function ProductItem({product, totalAmount}: ProductItemProps){
     return (
         <div>
