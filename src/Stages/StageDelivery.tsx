@@ -1,8 +1,18 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
-import {useState} from "react";
+import { useState } from "react";
+
+interface StageDeliveryProps {
+    setCompanyVATNumber: React.Dispatch<React.SetStateAction<string>>
+    companyVATNumber: string,
+    // setCompanyVAT: (companyVAT: string) => void;
+}
 // vi skal tilføje state til vores form
-export function stageDelivery() {
+export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
+
+    const companyVATNumber = stageDeliveryProps.companyVATNumber;
+    const setCompanyVATNumber = stageDeliveryProps.setCompanyVATNumber;
+
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [hasError, setHasError] = useState(false);
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -21,7 +31,7 @@ export function stageDelivery() {
             if (!response.ok) {
                 throw Error(response.statusText);
             }
-            const {nr, navn} = await response.json();
+            const { nr, navn } = await response.json();
 
             console.log('Valid Zip Code');
             console.log(`Zip Code: ${nr}, City: ${navn}`);
@@ -65,7 +75,7 @@ export function stageDelivery() {
 
     }
 
-    function checkboxes(diffDeliveryAddress, diff:boolean) {
+    function checkboxes(diffDeliveryAddress: React.Dispatch<React.SetStateAction<boolean>>, diff: boolean) {
         return (
             <div className="checkboxText">
                 <input type="checkbox" name="Delivery Address" value="yes" id="checkbox"
@@ -99,7 +109,7 @@ export function stageDelivery() {
 
     }
 
-    function deliveryAdress(diff: boolean) {
+    function deliveryAddress(diff: boolean) {
         if (diff) {
             return (
                 <>
@@ -139,6 +149,10 @@ export function stageDelivery() {
                 </>
             );
         }
+    }
+    function updateCompanyVAT(event: React.FormEvent<HTMLInputElement>) {
+        const VATNumber = event.currentTarget.value;
+        setCompanyVATNumber(VATNumber)
     }
 
     return (
@@ -188,7 +202,7 @@ export function stageDelivery() {
             </form>
             <div className="continue-container">
                 {checkboxes(diffDeliveryAddress, diff)}
-                {deliveryAdress(diff)}
+                {deliveryAddress(diff)}
                 {subbmitButton(diff)}
             </div>
         </div>

@@ -8,7 +8,10 @@ import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
 
-export function stageBasket() {
+interface StageBasketProps {
+    setTotalDiscountedPrice: React.Dispatch<React.SetStateAction<number>>
+}
+export function StageBasket(stageBasketProps: StageBasketProps) {
     const [products,setProducts] = useState<Product[]>([
         {
             id: "apple-bag",
@@ -150,7 +153,7 @@ export function stageBasket() {
                 </div>
             </div>
             <div>
-                {TotalBox(products)}
+                {TotalBox(products, stageBasketProps.setTotalDiscountedPrice)}
             </div>
         </>
     )

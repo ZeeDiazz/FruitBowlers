@@ -35,6 +35,125 @@ p {
     width: 50px;
     margin-left: 10px;
 }
+
+/********PAYMENT STAGE NOW*********/
+.PaymentTypeOuterBox {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 95%;
+    margin: 2.5%;
+    display: flex;
+    flex-direction: column;
+}
+.PaymentTypeBox {
+    display: flex;
+    height: 50px;
+    border-radius: 10px;
+    width: 100%;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.PaymentTypeOuterBox:hover {
+    border: 1px solid #2196F3;
+}
+.PaymentTypeBox:hover img {
+    opacity: 0.5; /* Optionally reduce opacity of the image on hover */
+}
+.PaymentTypeBox div {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+}
+.PaymentIcons {
+    display: flex;
+    align-items: center;
+}
+.PaymentIcons img {
+    height: 14px;
+    margin-right: 10px;
+}
+.PaymentText * {
+    margin-left: 10px;
+}
+.PaymentInputs {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    justify-content: space-between;
+}
+.PaymentInputs > input {
+    width: 90%;
+    padding: 8px 0 4px 4px;
+    font-size: 16px;
+    border: 1px solid #ced4da;
+    box-shadow: 0 0 4px #00000019;
+    border-radius: 5px;
+    margin: 1% 1% 1% 3%;
+}
+.PaymentInputs input:focus {
+    background-color: #f3f3f3;
+    outline: 0;
+    box-shadow: 0 0 8px #6DB6FF99;
+}
+
+.PaymentInputs > button {
+    width: 25%;
+    padding: 8px 0 4px 4px;
+    box-shadow: 0 0 4px #00000019;
+    border-radius: 5px;
+    margin: 1% 1% 1% 3%;
+    background-color: #ffe79b;
+    border: none;
+    height: 30px;
+    cursor: pointer;
+}
+.PaymentInputs > button:hover {
+    background-color: lightgreen;
+    color: #797979;
+    box-shadow: 2px 2px #00000019;
+}
+.SubInputs > input{
+    width: 35%;
+    padding: 8px 0 4px 4px;
+    font-size: 16px;
+    border: 1px solid #ced4da;
+    box-shadow: 0 0 4px #00000019;
+    border-radius: 5px;
+    margin: 1% 1% 1% 3%;
+}
+.CommentBox {
+    height: 50px;
+    margin: 20px;
+    width: auto;
+    border-radius: 5px;
+}
+.NudgeButton {
+    margin: 20px 25% 20px 25%;
+    padding: 8px 0 4px 4px;
+    background-color: lightgreen;
+    border: none;
+    width: 50%;
+    height: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    align-self: center;
+}
+.NudgeButton:hover {
+    background-color: #b6ffa0;
+    color: #797979;
+    box-shadow: 2px 2px #00000019;
+}
+.CheckBoxWithDescription {
+    display: flex;
+    margin: 10px;
+}
+.AcceptTermsBox > href {
+    cursor: pointer;
+}
+.AcceptTermsBox > input {
+    cursor: pointer;
+    margin-right: 10px;
+}
 @media screen and (min-width: 769px){
     .stageBoxes{
         width: 60%;
