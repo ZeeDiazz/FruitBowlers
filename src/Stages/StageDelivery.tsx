@@ -1,6 +1,6 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
-import { useState } from "react";
+import {useState} from "react";
 
 interface StageDeliveryProps {
     setCompanyVATNumber: React.Dispatch<React.SetStateAction<string>>
@@ -57,7 +57,7 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
             return false;
         }
     }
-    function handleFormSubmit(event) {
+    function handleFormSubmit(event: any ) {
         event.preventDefault();
 
     }
@@ -175,7 +175,7 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
                     <br/>
 
                     <input name="companyName" type="text" placeholder="*(Optional) Company Name"/>
-                    <input type="digits" name="VATnum" minLength={8} maxLength={8}
+                    <input type="digits" name="VATnum" minLength={8} maxLength={8} value={companyVATNumber} onChange={updateCompanyVAT}
                            placeholder="*(Optional) Company VAT"/>
                     <br/>
                     <div className="addressBox">
