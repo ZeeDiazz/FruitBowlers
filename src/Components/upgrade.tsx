@@ -1,7 +1,7 @@
 interface UpgradeButtonProps {
     product: Product;
     upgrades: Product[];
-    onUpgradeClick: (index: number, amount: number) => void;
+    onUpgradeClick: () => void;
 }
 
 const findMoreExpensiveProduct = (upsellProductId: string | null, upgrades: Product[]): Product | null => {
@@ -44,7 +44,7 @@ export const UpgradeButton: React.FC<UpgradeButtonProps> = ({ product, upgrades,
             {hasUpgrade && (
                 <button
                     className={"nudgeButton"}
-                    onClick={() =>  onUpgradeClick(upgrades.indexOf(product), 1)}>
+                    onClick={() =>  onUpgradeClick()}>
                     Organic available! Change for {priceDifference} DKK a piece?
                 </button>
             )}
