@@ -29,6 +29,10 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
     const setCompanyVATNumber = stageDeliveryProps.setCompanyVATNumber;
     const formdata=stageDeliveryProps.formdata
 
+
+    const [toPayment, setToPayment] = useState(false);
+
+
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [hasError, setHasError] = useState(false);
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -75,6 +79,7 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
     }
     function handleFormSubmit(event: any ) {
         event.preventDefault();
+        setToPayment(true)
         const data = new FormData(event.target);
         const name = data.get("Name");
 
@@ -140,32 +145,32 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
                     <form method="post" onSubmit={handleFormSubmit}>
                         <div id="inputBox">
                             <input name="Name" type="text"
-                                   placeholder="First Name" required/>
+                                   placeholder="First Name" required disabled={toPayment}/>
                             <br/>
-                            <input name="LastName" type="text" placeholder="Last Name" required/>
+                            <input name="LastName" type="text" placeholder="Last Name" required disabled={toPayment}/>
                             <br/>
-                            <input type="email" name="Email" placeholder="Email" required/>
+                            <input type="email" name="Email" placeholder="Email" required disabled={toPayment}/>
                             <br/>
                             <div className="addressBox">
                                 <br/>
-                                <input name="Country" type="text" value="Danmark" disabled/>
+                                <input name="Country" type="text" value="Danmark" disabled disabled={toPayment}/>
                                 <br/>
 
                                 {hasErrorDelivery && customError()}
                                 <input name="zipcode2" pattern="\d*"type="number" placeholder="ZipCode"
-                                       onChange={e => validateZipCode(e.target.value.toString(), "zipcode2")} required/>
+                                       onChange={e => validateZipCode(e.target.value.toString(), "zipcode2")} required disabled={toPayment}/>
 
-                                <input name="City" placeholder="City" value={textDelivery} required/>
+                                <input name="City" placeholder="City" value={textDelivery} required disabled={toPayment}/>
                                 <br/>
-                                <input name="streetName" type="text" placeholder="Street Name" required/>
+                                <input name="streetName" type="text" placeholder="Street Name" required disabled={toPayment}/>
                             </div>
                             <br/>
                             <div id="phoneBox">
                                 <input name="Landcode" placeholder="Landcode" value="+45" disabled/>
                                 <input type="digits" pattern="\d*"name="Telephone"
-                                       minLength={8} maxLength={8} placeholder="Telephone" required/>
+                                       minLength={8} maxLength={8} placeholder="Telephone" required disabled={toPayment}/>
                             </div>
-                            <input type="submit" value="Continue To Payment" id="button"/>
+                            <input type="submit" value="Continue To Payment" id="button" disabled={toPayment}/>
 
                         </div>
                     </form>
@@ -190,16 +195,16 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
             </div>
             <form method="post" onSubmit={handleFormSubmit}>
                 <div id="inputBox">
-                    <input name="Name" type="text" placeholder="First Name" required/>
+                    <input name="Name" type="text" placeholder="First Name" required disabled={toPayment}/>
                     <br/>
-                    <input name="LastName" type="text" placeholder="Last Name" required/>
+                    <input name="LastName" type="text" placeholder="Last Name" required disabled={toPayment}/>
                     <br/>
-                    <input type="email" name="Email" placeholder="Email" required/>
+                    <input type="email" name="Email" placeholder="Email" required disabled={toPayment}/>
                     <br/>
 
-                    <input name="companyName" type="text" placeholder="*(Optional) Company Name"/>
+                    <input name="companyName" type="text" placeholder="*(Optional) Company Name" disabled={toPayment}/>
                     <input type="digits" name="VATnum" minLength={8} maxLength={8} value={companyVATNumber} onChange={updateCompanyVAT}
-                           placeholder="*(Optional) Company VAT"/>
+                           placeholder="*(Optional) Company VAT" disabled={toPayment}/>
                     <br/>
                     <div className="addressBox">
                         <br/>
@@ -208,18 +213,18 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
 
                         {hasError && customError()}
                         <input name="zipcode1" pattern="\d*" type="number" placeholder="ZipCode"
-                               onChange={e => validateZipCode(e.target.value.toString(), "zipcode1")} required/>
+                               onChange={e => validateZipCode(e.target.value.toString(), "zipcode1")} required disabled={toPayment}/>
 
-                        <input name="City" placeholder="City" value={text} required/>
+                        <input name="City" placeholder="City" value={text} required disabled={toPayment}/>
                         <br/>
-                        <input name="streetName" type="text" placeholder="Street Name" required/>
+                        <input name="streetName" type="text" placeholder="Street Name" required disabled={toPayment}/>
                     </div>
                     <br/>
                     <div id="phoneBox">
                         <input name="Landcode" placeholder="Landcode" value="+45" disabled/>
 
                         <input type="number" pattern="\d*" name="Telephone"
-                               minLength={8} maxLength={8} placeholder="Telephone" required/>
+                               minLength={8} maxLength={8} placeholder="Telephone" required disabled={toPayment}/>
                     </div>
                     {subbmitButton(diff)}
                 </div>
