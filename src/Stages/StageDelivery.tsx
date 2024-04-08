@@ -59,6 +59,9 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
     }
     function handleFormSubmit(event: any ) {
         event.preventDefault();
+        const formData = new FormData(event.target);
+        const name = formData.get("Name")
+        console.log(name)
 
     }
     function customError(){
@@ -130,7 +133,7 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
 
                                 {hasErrorDelivery && customError()}
                                 <input name="zipcode2" pattern="\d*"type="number" placeholder="ZipCode"
-                                       onBlur={e => validateZipCode(e.target.value.toString(), "zipcode2")} required/>
+                                       onChange={e => validateZipCode(e.target.value.toString(), "zipcode2")} required/>
 
                                 <input name="City" placeholder="City" value={textDelivery} required/>
                                 <br/>
@@ -185,7 +188,7 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
 
                         {hasError && customError()}
                         <input name="zipcode1" pattern="\d*" type="number" placeholder="ZipCode"
-                               onBlur={e => validateZipCode(e.target.value.toString(), "zipcode1")} required/>
+                               onChange={e => validateZipCode(e.target.value.toString(), "zipcode1")} required/>
 
                         <input name="City" placeholder="City" value={text} required/>
                         <br/>
@@ -198,13 +201,16 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
                         <input type="number" pattern="\d*" name="Telephone"
                                minLength={8} maxLength={8} placeholder="Telephone" required/>
                     </div>
+                    {subbmitButton(diff)}
                 </div>
             </form>
+
             <div className="continue-container">
                 {checkboxes(diffDeliveryAddress, diff)}
-                {deliveryAddress(diff)}
-                {subbmitButton(diff)}
+
             </div>
+            {deliveryAddress(diff)}
+
         </div>
     )
 }

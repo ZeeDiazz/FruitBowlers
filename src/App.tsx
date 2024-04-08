@@ -23,7 +23,6 @@ function App() {
                 <StageBasket setTotalDiscountedPrice={setTotalDiscountedPrice} />
                 <StageDelivery setCompanyVATNumber={setCompanyVATNumber} companyVATNumber={companyVATNumber} />
                 <ChoosePayment totalDiscountedPrice={totalDiscountedPrice} isInvoiceEnabled={isInvoiceEnabled} />
-                {stageTermsNConditions()}
             </main>
         </>
     );
