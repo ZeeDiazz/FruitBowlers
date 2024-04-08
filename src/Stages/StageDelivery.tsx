@@ -136,7 +136,7 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
         if(!checked){
             return(
                 <>
-                    <input type="submit" value="Continue To Payment" id="button"/>
+                    <input type="submit" value="Continue To Payment" id="button" onClick={ServerCall}/>
                 </>
                 )
         }
@@ -221,6 +221,22 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
         const companyName = event.currentTarget.value;
         setCompanyName(companyName)
     }
+    async function ServerCall (e: FormEvent){
+        e.preventDefault()
+        const form = e.target as HTMLFormElement;
+        const logUrl = 'https://eohuzfa0giiahrs.m.pipedream.net';
+        const logResponse = await fetch(logUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            
+            body: JSON.stringify({firstName, lastName, email, streetName})
+        });
+        if(!logResponse.status == true){
+            console.error("Failed to log search", logResponse.statusText)
+        }
+    };
 
     return (
         <div className={"stageBoxes"}>
@@ -266,7 +282,7 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
                         <input type="number" pattern="\d*" name="Telephone"
                                minLength={8} maxLength={8} placeholder="Telephone" value={telefoneNumber} onChange={updateTelefoneNumber} required/>
                     </div>
-                    {/*subbmitButton(diff)*/}
+                    {subbmitButton(diff)}
                 </div>
             </form>
             <div className="continue-container">
