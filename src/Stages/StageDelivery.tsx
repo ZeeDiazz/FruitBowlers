@@ -1,10 +1,27 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
+import '../assets/Styles/default/DefaultStyling.css'
 import {useState} from "react";
 
 interface StageDeliveryProps {
     setCompanyVATNumber: React.Dispatch<React.SetStateAction<string>>
     companyVATNumber: string,
+    setFirstName: React.Dispatch<React.SetStateAction<string>>
+    firstName: string,
+    setLastName: React.Dispatch<React.SetStateAction<string>>
+    lastName: string,
+    setEmail: React.Dispatch<React.SetStateAction<string>>
+    email: string,
+    setZipcode: React.Dispatch<React.SetStateAction<string>>
+    zipcode: string,
+    setStreetName: React.Dispatch<React.SetStateAction<string>>
+    streetName: string,
+    setTelefoneNumber: React.Dispatch<React.SetStateAction<string>>
+    telefoneNumber: string,
+    setCityName: React.Dispatch<React.SetStateAction<string>>
+    cityName: string,
+    setCompanyName: React.Dispatch<React.SetStateAction<string>>
+    companyName: string,
     // setCompanyVAT: (companyVAT: string) => void;
 }
 // vi skal tilføje state til vores form
@@ -12,11 +29,27 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
 
     const companyVATNumber = stageDeliveryProps.companyVATNumber;
     const setCompanyVATNumber = stageDeliveryProps.setCompanyVATNumber;
+    const firstName = stageDeliveryProps.firstName;
+    const setFirstName = stageDeliveryProps.setFirstName;
+    const lastName = stageDeliveryProps.lastName;
+    const setLastName = stageDeliveryProps.setLastName;
+    const email = stageDeliveryProps.email;
+    const setEmail = stageDeliveryProps.setEmail;
+    const zipcode = stageDeliveryProps.zipcode;
+    const setZipcode = stageDeliveryProps.setZipcode;
+    const streetName = stageDeliveryProps.streetName;
+    const setStreetName = stageDeliveryProps.setStreetName;
+    const telefoneNumber = stageDeliveryProps.telefoneNumber;
+    const setTelefoneNumber = stageDeliveryProps.setTelefoneNumber;
+    const cityName = stageDeliveryProps.cityName;
+    const setCityName = stageDeliveryProps.setCityName;
+    const companyName = stageDeliveryProps.companyName;
+    const setCompanyName = stageDeliveryProps.setCompanyName;
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [hasError, setHasError] = useState(false);
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [text, setText] = useState('');
+    //const [text, setText] = useState('');
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [textDelivery, setTextDelivery] = useState('');
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -37,7 +70,7 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
             console.log(`Zip Code: ${nr}, City: ${navn}`);
 
             if (zipcodeName == "zipcode1") {
-                setText(navn);
+                setCityName(navn);
                 setHasError(false);
             }
             if (zipcodeName == "zipcode2") {
@@ -154,6 +187,38 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
         const VATNumber = event.currentTarget.value;
         setCompanyVATNumber(VATNumber)
     }
+    function updateFirstName(event: React.FormEvent<HTMLInputElement>) {
+        const firstName = event.currentTarget.value;
+        setFirstName(firstName)
+    }
+    function updateLastName(event: React.FormEvent<HTMLInputElement>) {
+        const lastName = event.currentTarget.value;
+        setLastName(lastName)
+    }
+    function updateEmail(event: React.FormEvent<HTMLInputElement>) {
+        const email = event.currentTarget.value;
+        setEmail(email)
+    }
+    function updateZipcode(event: React.FormEvent<HTMLInputElement>) {
+        const zipeCode = event.currentTarget.value;
+        setZipcode(zipeCode)
+    }
+    function updateStreetName(event: React.FormEvent<HTMLInputElement>) {
+        const streetName = event.currentTarget.value;
+        setStreetName(streetName)
+    }
+    function updateTelefoneNumber(event: React.FormEvent<HTMLInputElement>) {
+        const telefoneNumber = event.currentTarget.value;
+        setTelefoneNumber(telefoneNumber)
+    }
+    function updateCityName(event: React.FormEvent<HTMLInputElement>) {
+        const cityName = event.currentTarget.value;
+        setCityName(cityName)
+    }
+    function updateCompanyName(event: React.FormEvent<HTMLInputElement>) {
+        const companyName = event.currentTarget.value;
+        setCompanyName(companyName)
+    }
 
     return (
         <div className={"stageBoxes"}>
@@ -167,14 +232,15 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
             </div>
             <form method="post" onSubmit={handleFormSubmit}>
                 <div id="inputBox">
-                    <input name="Name" type="text" placeholder="First Name" required/>
+                    <input name="Name" type="text" placeholder="First Name" value={firstName} onChange={updateFirstName} required/>
+            
                     <br/>
-                    <input name="LastName" type="text" placeholder="Last Name" required/>
+                    <input name="LastName" type="text" placeholder="Last Name" value={lastName} onChange={updateLastName} required/>
                     <br/>
-                    <input type="email" name="Email" placeholder="Email" required/>
+                    <input type="email" name="Email" placeholder="Email" value={email} onChange={updateEmail} required/>
                     <br/>
 
-                    <input name="companyName" type="text" placeholder="*(Optional) Company Name"/>
+                    <input name="companyName" type="text" placeholder="*(Optional) Company Name" value={companyName} onChange={updateCompanyName}/>
                     <input type="digits" name="VATnum" minLength={8} maxLength={8} value={companyVATNumber} onChange={updateCompanyVAT}
                            placeholder="*(Optional) Company VAT"/>
                     <br/>
@@ -184,19 +250,19 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
                         <br/>
 
                         {hasError && customError()}
-                        <input name="zipcode1" pattern="\d*" type="number" placeholder="ZipCode"
+                        <input name="zipcode1" pattern="\d*" type="number" placeholder="ZipCode" value={zipcode} onChange={updateZipcode}
                                onBlur={e => validateZipCode(e.target.value.toString(), "zipcode1")} required/>
 
-                        <input name="City" placeholder="City" value={text} required/>
+                        <input name="City" placeholder="City" value={cityName} onChange={updateCityName} required/>
                         <br/>
-                        <input name="streetName" type="text" placeholder="Street Name" required/>
+                        <input name="streetName" type="text" placeholder="Street Name" value={streetName} onChange={updateStreetName} required/>
                     </div>
                     <br/>
                     <div id="phoneBox">
                         <input name="Landcode" placeholder="Landcode" value="+45" disabled/>
 
                         <input type="number" pattern="\d*" name="Telephone"
-                               minLength={8} maxLength={8} placeholder="Telephone" required/>
+                               minLength={8} maxLength={8} placeholder="Telephone" value={telefoneNumber} onChange={updateTelefoneNumber} required/>
                     </div>
                 </div>
             </form>
