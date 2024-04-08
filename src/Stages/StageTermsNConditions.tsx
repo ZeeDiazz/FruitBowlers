@@ -5,6 +5,7 @@ export function stageTermsNConditions() {
 
     function checkboxes(text:string) {
         return (
+            
             <div className="checkboxText">
                 <input type="checkbox" name="" value="yes" className="container" id="checkbox"
                        defaultChecked={false}

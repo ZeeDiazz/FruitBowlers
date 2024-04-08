@@ -26,7 +26,7 @@ interface ChoosePaymentProps {
     totalDiscountedPrice: number;
 }
 enum PaymentOption{
-    NONE, CARD, GIFT_CARD, INVOICE
+    NONE, CARD, GIFT_CARD, INVOICE, MobilePay
 }
 function ChoosePayment(choosePaymentProps: ChoosePaymentProps, buttonProps: ButtonProps) {
     const isInvoiceEnabled = choosePaymentProps.isInvoiceEnabled;
@@ -165,7 +165,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps, buttonProps: Butt
                             />
                         </div>
                     </label>
-                    {paymentOption === PaymentOption.GIFT_CARD  /* && (
+                    {paymentOption === PaymentOption.GIFT_CARD   && (
 
                         <form id="giftCard" onSubmit={buttonProps.handleGiftCardRedeemClick} className={"PaymentInputs"}>
                             <input
@@ -185,9 +185,34 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps, buttonProps: Butt
                                 Redeem
                             </button>
                         </form>
-                    )*/}
-
+                    )}
+                    
                 </div>
+
+                <div className="PaymentTypeOuterBox">
+                    <label className={"PaymentTypeBox"}>
+                        <div className={"PaymentText"}>
+                            <input
+                                type="radio"
+                                name="paymentMethod"
+                                value="mobilepay"
+                                onChange={() => handlePaymentMethodChange(PaymentOption.MobilePay)}
+                            />
+                            <p> MobilePay </p>
+                        </div>
+                        <div className={"PaymentIcons"}>
+                            <img
+                                className="PaymentIcons"
+                                style={{ height: '35px'}}
+                                alt="Payment option - Mobile Pay"
+                                src="public/images/Payment icons/MobilePayPNG/MobilePayLogo.png"
+                            />
+                        </div>
+                        
+                    </label>
+                    {paymentOption === PaymentOption.MobilePay}
+                    
+                    </div>
 
                 {/*//Only show invoice choice if billing address has company VAT number */}
 
