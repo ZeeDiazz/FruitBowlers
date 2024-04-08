@@ -55,7 +55,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps, buttonProps: Butt
         <div className="stageBoxes">
             <div className="title-container">
                 <img
-                    src={`/images/stage1-fat.png`}
+                    src={`/images/stage3-fat.png`}
                     alt="Step 1"
                     className="stageIcons"
                 />
