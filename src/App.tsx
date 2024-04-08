@@ -11,6 +11,15 @@ import { useState } from 'react'
 
 function App() {
     const [companyVATNumber, setCompanyVATNumber] = useState<string>('');
+    const [firstName, setFirstName] = useState<string>('');
+    const [lastName, setLastName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [zipcode, setZipcode] = useState<string>('');
+    const [streetName, setStreetName] = useState<string>('');
+    const [telefoneNumber, setTelefoneNumber] = useState<string>('');
+    const [cityName, setCityName] = useState<string>('');
+    const [companyName, setCompanyName] = useState<string>('');
+
     const [totalDiscountedPrice, setTotalDiscountedPrice] = useState<number>(0);
     const isInvoiceEnabled = isValidVATNumber(companyVATNumber);
 
@@ -21,7 +30,16 @@ function App() {
             </header>
             <main>
                 <StageBasket setTotalDiscountedPrice={setTotalDiscountedPrice} />
-                <StageDelivery setCompanyVATNumber={setCompanyVATNumber} companyVATNumber={companyVATNumber} />
+                <StageDelivery setCompanyVATNumber={setCompanyVATNumber} companyVATNumber={companyVATNumber}
+                    setFirstName={setFirstName} firstName={firstName}
+                    setLastName={setLastName} lastName={lastName}
+                    setEmail={setEmail} email={email}
+                    setZipcode={setZipcode} zipcode={zipcode}
+                    setStreetName={setStreetName} streetName={streetName}
+                    setTelefoneNumber={setTelefoneNumber} telefoneNumber={telefoneNumber}
+                    setCityName={setCityName} cityName={cityName}
+                    setCompanyName={setCompanyName} companyName={companyName}
+                    />
                 <ChoosePayment totalDiscountedPrice={totalDiscountedPrice} isInvoiceEnabled={isInvoiceEnabled} />
                 {stageTermsNConditions()}
             </main>

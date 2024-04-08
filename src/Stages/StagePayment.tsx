@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
 
 import giftCardsData from '../../giftCards.json';
+import { getTotalPriceDiscounted } from "../Components/price.ts";
 
 // Giftcard handler checks if PIN and 
 async function GiftCardHandler() {
@@ -50,12 +51,30 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps, buttonProps: Butt
     const handlePaymentMethodChange = (paymentOption: PaymentOption) => {
         setPaymentOption(paymentOption)
     };
+    
+    async function ServerCall (e: FormEvent){
+        e.preventDefault()
+        const form = e.target as HTMLFormElement;
+        const logUrl = 'https://eohuzfa0giiahrs.m.pipedream.net';
+        console.log(JSON.stringify({getTotalPriceDiscounted}))
+        const logResponse = await fetch(logUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            
+            body: JSON.stringify({Felix})
+        });
+        if(!logResponse.status == true){
+            console.error("Failed to log search", logResponse.statusText)
+        }
+    };
 
     return (
         <div className="stageBoxes">
             <div className="title-container">
                 <img
-                    src={`/images/stage1-fat.png`}
+                    src={`/images/stage3-fat.png`}
                     alt="Step 1"
                     className="stageIcons"
                 />
@@ -212,49 +231,11 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps, buttonProps: Butt
 
                 </textarea>
 
-                <button className={"NudgeButton"}>Pay now</button>
+                <button className={"NudgeButton"} onClick={ServerCall}>Pay now</button>
             </nav>
         </div>
     );
 }
-
-{/*
-//has to be inside main function
-//Can be used for giftCards maybe? const [isLoading, setIsLoading] = useState(false)
-async function TestCallServer (e: FormEvent){
-    e.preventDefault()
-    const form = e.target as HTMLFormElement;
-    const formElements = form.elements as typeof form.elements & {
-        PaymentSuccessFull : HTMLInputElement;
-        Products : HTMLInputElement;
-        Products.quantity : HTMLInputElement;
-        Comment : HTMLInputElement;
-        Receive marketing emails check
-
-        //Should address be in a separate post?
-    }
-};
-
-- OPTIONAL: Let user enter payment details
-  - Choose between MobilePay, gift card and invoice
-  - For gift card
-    - user must enter amount, validate as number
-    - user must enter gift card number, validate as number
-    - if amount is larger than total amount, neither MobilePay nor invoice is available
-  - For MobilePay, user must enter a phone number, validate as 8 digits
-  - Invoice is only available, if billing address has company VAT number
-- Let user submit their order
-  - Let user accept terms & conditions
-  - Let user accept to receive marketing emails
-  - Let user enter an optional order comment
-  - Either (1) create an end-point on requestbin.com
-  - Submit all relevant information to the end-point
-  - Include loading indicator and error reporting
-- Fetch data instead of using local JSON copies
-  - Product data: https://raw.githubusercontent.com/larsthorup/checkout-data/main/product-v2.json
-  - DK zip codes: https://api.dataforsyningen.dk/postnumre
-  - Include loading indicators and error reporting
-*/}
 
 export default ChoosePayment;
 

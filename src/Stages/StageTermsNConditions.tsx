@@ -24,7 +24,7 @@ export function stageTermsNConditions() {
         <div className={"stageBoxes"}>
             <div className="title-container">
                 <img
-                    src={`/images/stage2-fat.png`}
+                    src={`/images/stage4-fat.png`}
                     alt="Terms&Condition"
                     className="stageIcons"
                 />
