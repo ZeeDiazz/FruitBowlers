@@ -6,7 +6,7 @@ import { StageDelivery } from './Stages/StageDelivery.tsx'
 import { StageBasket } from './Stages/StageBasket.tsx'
 import { header } from "./Components/header.tsx";
 import ChoosePayment from "./Stages/StagePayment.tsx";
-import {stageTermsNConditions} from "./Stages/StageTermsNConditions.tsx";
+//import {stageTermsNConditions} from "./Stages/StageTermsNConditions.tsx";
 import { useState } from 'react'
 
 function App() {
@@ -41,7 +41,7 @@ function App() {
                     setCompanyName={setCompanyName} companyName={companyName}
                     />
                 <ChoosePayment totalDiscountedPrice={totalDiscountedPrice} isInvoiceEnabled={isInvoiceEnabled} />
-                {stageTermsNConditions()}
+                {/*stageTermsNConditions()*/}
             </main>
         </>
     );

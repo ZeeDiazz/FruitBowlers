@@ -13,11 +13,10 @@ export function StageBasket() {
     const upgradesUrl: string = base + 'main/upgradesList.json';
 
     const [products, setProducts, productsLoading, productsError] = useFetch(productsUrl);
-    const [upgrades, setUpgrades, upgradesLoading, upgradesError] = useFetch(upgradesUrl);
-    setUpgrades(upgrades);
+    const [upgrades, , upgradesLoading, upgradesError] = useFetch(upgradesUrl);
 
     const productBoxItems = products && products.map((product:Product, index:number) => (
-        !productsError && (
+        !productsError && product.quantity > 0 && (
             <div className={"wholeProduct"} key={product.id}>
                 <div className={"productStyling"}>
                     <ProductItem
