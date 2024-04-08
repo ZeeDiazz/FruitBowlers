@@ -7,7 +7,6 @@ import {TotalBox} from "./StageTotal.tsx";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
-import '../assets/Styles/StageBacket.css'
 import {useFetch} from "../Components/useFetch.ts";
 import {useEffect} from "react";
 
