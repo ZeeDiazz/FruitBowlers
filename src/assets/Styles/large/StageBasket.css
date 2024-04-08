@@ -1,25 +1,25 @@
 @media screen and (min-width: 769px) {
     body {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
     }
     #productBox{
+        display: grid; /* Use grid to manage internal layout */
+        grid-template-columns: repeat(minmax(250px, 1fr)); /* Adjust number of columns based on screen size */
+        gap: 10px; /* Space between grid items */
         width: 95%;
-        padding: 2.5%;
-        float: left;
-        border-radius: 15px;
-        horiz-align: center;
+        padding: 3%;
+        justify-items: left;
     }
     .ProductInfo {
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
         align-items: center;
     }
     .ProductInfo * {
-        display: flex;
-        align-items: center;
-        margin: 0 20px 0 10px;
+        margin: 0;
     }
     .wholeProduct {
         box-shadow: 0 0 4px #00000019;
@@ -30,15 +30,16 @@
         padding: 10px;
     }
     .remove {
-        height: 22px;
+        margin-bottom: 22px;
+        margin-left: 5px;
     }
     #nameTag{
         font-size: 20px;
     }
     #priceTag{
-        float: right;
+        font-size: 16px;
     }
-    #quantityBox{
+    #quantityBox{ /* denne her skal have implementet grid*/
         display: flex;
         width: 95%;
         margin: 2px 2.5% 4px 2.5%;
@@ -46,13 +47,13 @@
         justify-items: right;
     }
     .productChangeNavigation {
-        display: flex;
-        margin-left: auto;
+        display: grid;
+        grid-auto-flow: column; /*skal lige forstå denne her ordenlig*/
+        gap: 10px;
     }
     #titleName{
         text-align: center;
     }
-    /*****TOTALBOX NOW******/
     #totalBox {
         width: 30%;
     }
