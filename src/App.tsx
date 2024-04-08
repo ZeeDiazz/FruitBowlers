@@ -20,7 +20,7 @@ function App() {
     const [cityName, setCityName] = useState<string>('');
     const [companyName, setCompanyName] = useState<string>('');
 
-    const [totalDiscountedPrice, setTotalDiscountedPrice] = useState<number>(0);
+    const [totalDiscountedPrice] = useState<number>(0);
     const isInvoiceEnabled = isValidVATNumber(companyVATNumber);
 
     return (

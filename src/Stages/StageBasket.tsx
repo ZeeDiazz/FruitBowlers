@@ -14,6 +14,7 @@ export function StageBasket() {
 
     const [products, setProducts, productsLoading, productsError] = useFetch(productsUrl);
     const [upgrades, setUpgrades, upgradesLoading, upgradesError] = useFetch(upgradesUrl);
+    setUpgrades(upgrades);
 
     const productBoxItems = products && products.map((product:Product, index:number) => (
         !productsError && (
