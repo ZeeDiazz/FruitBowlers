@@ -28,7 +28,7 @@ interface ChoosePaymentProps {
 enum PaymentOption{
     NONE, CARD, GIFT_CARD, INVOICE, MobilePay
 }
-function ChoosePayment(choosePaymentProps: ChoosePaymentProps, buttonProps: ButtonProps) {
+export function ChoosePayment(choosePaymentProps: ChoosePaymentProps, buttonProps: ButtonProps) {
     const isInvoiceEnabled = choosePaymentProps.isInvoiceEnabled;
     const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
     const [isChecked, setIsChecked] = useState(false);
@@ -82,26 +82,6 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps, buttonProps: Butt
             </div>
 
             <nav className={"PaymentOptionsBox"}>
-                {!isChecked &&(
-                <p style={{color:"red", marginLeft:'20px', fontSize: '12px' }}>* You need to accept terms</p>
-                )}
-                <label className={"CheckBoxWithDescription"}>
-                    <input
-                        type="checkbox"
-                        name="AcceptTerms"
-                        checked={isChecked} 
-                        onChange={handleCheckboxChange}
-                    />
-                    <p><a href={""}>Accept terms</a> & <a href={""}>conditions</a></p>
-                </label>
-                <div className={"CheckBoxWithDescription"}>
-                    <input
-                        type="checkbox"
-                        name="MarketingNudge"
-                    //onChange={need to push this to the server}
-                    />
-                    <p>Receive marketing emails</p>
-                </div>
 
                 <div className="PaymentTypeOuterBox">
                     <label className={"PaymentTypeBox"}>
@@ -211,7 +191,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps, buttonProps: Butt
                         
                     </label>
                     {paymentOption === PaymentOption.MobilePay}
-                    
+
                     </div>
 
                 {/*//Only show invoice choice if billing address has company VAT number */}
@@ -250,13 +230,6 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps, buttonProps: Butt
                     </div>
                     : null
                 }
-                <textarea
-                    className={"CommentBox"}
-                    placeholder={"Comment for the order"}>
-
-                </textarea>
-
-                <button className={"NudgeButton"} onClick={ServerCall}>Pay now</button>
             </nav>
         </div>
     );
