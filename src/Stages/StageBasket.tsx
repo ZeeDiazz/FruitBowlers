@@ -45,10 +45,10 @@ export function StageBasket() {
                         <UpgradeButton
                             product={product}
                             upgrades={upgrades}
-                            handleUpgradeClick={(index) => {
+                            onUpgradeClick = {() => {
                                 const upgradeOption = hasUpgradeOption(product, upgrades);
                                 if (upgradeOption.hasUpgrade && upgradeOption.moreExpensiveOption) {
-                                    setProducts(handleUpgradeClick(products, upgradeOption.moreExpensiveOption, index));
+                                    setProducts(handleUpgradeClick(products, upgradeOption.moreExpensiveOption, product.quantity, index));
                                 }
                             }}
                         />
