@@ -92,7 +92,9 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
     }
     function handleFormSubmit(event: any ) {
         event.preventDefault();
-
+        const formData = new FormData(event.target);
+        const name = formData.get("Name")
+        console.log(name)
     }
     function customError(){
         return(<>
@@ -264,13 +266,13 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
                         <input type="number" pattern="\d*" name="Telephone"
                                minLength={8} maxLength={8} placeholder="Telephone" value={telefoneNumber} onChange={updateTelefoneNumber} required/>
                     </div>
+                    {/*subbmitButton(diff)*/}
                 </div>
             </form>
             <div className="continue-container">
                 {checkboxes(diffDeliveryAddress, diff)}
-                {deliveryAddress(diff)}
-                {subbmitButton(diff)}
             </div>
+            {deliveryAddress(diff)}
         </div>
     )
 }
