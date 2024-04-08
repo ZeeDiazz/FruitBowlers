@@ -1,18 +1,11 @@
 import {calculateLocalTotalPrice,handleQuantityChange} from "../Components/price.ts";
 import {handleUpgradeClick, hasUpgradeOption, UpgradeButton} from "../Components/upgrade.tsx"
-//import productsData from '../../productsList.json';
-//import upgradesData from '../../upgradesList.json';
-import {useState} from "react";
 import {TotalBox} from "./StageTotal.tsx";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import {useFetch} from "../Components/useFetch.ts";
-import {useEffect} from "react";
 
-interface StageBasketProps {
-    setTotalDiscountedPrice: React.Dispatch<React.SetStateAction<number>>
-}
 
 export function StageBasket() {
     const base : string= 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/';
@@ -103,7 +96,6 @@ function ProductItem({product, totalAmount}: ProductItemProps){
                         {product.name}
                     </div>
                 </div>
-                {/*&emsp;*/}
                 <div id="priceTag">
                     {"Total amount: "}
                     {/*&nbsp;*/}

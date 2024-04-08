@@ -29,7 +29,7 @@ function App() {
                 {header()}
             </header>
             <main>
-                <StageBasket setTotalDiscountedPrice={setTotalDiscountedPrice} />
+                <StageBasket/>
                 <StageDelivery setCompanyVATNumber={setCompanyVATNumber} companyVATNumber={companyVATNumber}
                     setFirstName={setFirstName} firstName={firstName}
                     setLastName={setLastName} lastName={lastName}
@@ -47,7 +47,7 @@ function App() {
     );
 }
 
-function isValidVATNumber(companyVATNumber: string) {
+function isValidVATNumber(companyVATNumber: string) : boolean{
     return companyVATNumber.length === 8;
 }
 export default App

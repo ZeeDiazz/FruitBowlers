@@ -1,7 +1,7 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
-import {useState} from "react";
+import React, {FormEvent, useState} from "react";
 
 interface StageDeliveryProps {
     setCompanyVATNumber: React.Dispatch<React.SetStateAction<string>>
@@ -90,12 +90,6 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
             return false;
         }
     }
-    function handleFormSubmit(event: any ) {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const name = formData.get("Name")
-        console.log(name)
-    }
     function customError(){
         return(<>
             <div id="message">
@@ -149,7 +143,7 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
             return (
                 <>
                     <h2 id="title">Delivery address</h2>
-                    <form method="post" onSubmit={handleFormSubmit}>
+                    <form method="post">
                         <div id="inputBox">
                             <input name="Name" type="text"
                                    placeholder="First Name" required/>
@@ -223,7 +217,6 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
     }
     async function ServerCall (e: FormEvent){
         e.preventDefault()
-        const form = e.target as HTMLFormElement;
         const logUrl = 'https://eohuzfa0giiahrs.m.pipedream.net';
         const logResponse = await fetch(logUrl, {
             method: "POST",
@@ -236,7 +229,7 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
         if(!logResponse.status == true){
             console.error("Failed to log search", logResponse.statusText)
         }
-    };
+    }
 
     return (
         <div className={"stageBoxes"}>
@@ -248,7 +241,7 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
                 />
                 <h2>Billing Address</h2>
             </div>
-            <form method="post" onSubmit={handleFormSubmit}>
+            <form method="post">
                 <div id="inputBox">
                     <input name="Name" type="text" placeholder="First Name" value={firstName} onChange={updateFirstName} required/>
             
