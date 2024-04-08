@@ -13,6 +13,34 @@ function App() {
     const [companyVATNumber, setCompanyVATNumber] = useState<string>('');
     const [totalDiscountedPrice, setTotalDiscountedPrice] = useState<number>(0);
     const isInvoiceEnabled = isValidVATNumber(companyVATNumber);
+    interface Form {
+        Name: string;
+        LastName: string;
+        Email: string;
+        companyName?: string;
+        VATnum?: string;
+        Country: string;
+        zipcode1: number;
+        City: string;
+        streetName: string;
+        Landcode: string;
+        Telephone: number;
+    }
+    const formDataList: Form = {
+
+            Name: "John",
+            LastName: "Doe",
+            Email: "john.doe@example.com",
+            Country: "Denmark",
+            zipcode1: 12345,
+            City: "Copenhagen",
+            streetName: "Main Street",
+            Landcode: "+45",
+            Telephone: 12345678
+        }
+
+
+
 
     return (
         <>
@@ -21,7 +49,7 @@ function App() {
             </header>
             <main>
                 <StageBasket setTotalDiscountedPrice={setTotalDiscountedPrice} />
-                <StageDelivery setCompanyVATNumber={setCompanyVATNumber} companyVATNumber={companyVATNumber} />
+                <StageDelivery setCompanyVATNumber={setCompanyVATNumber} companyVATNumber={companyVATNumber} formdata ={formDataList} />
                 <ChoosePayment totalDiscountedPrice={totalDiscountedPrice} isInvoiceEnabled={isInvoiceEnabled} />
             </main>
         </>

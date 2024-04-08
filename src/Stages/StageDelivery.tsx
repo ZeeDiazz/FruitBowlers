@@ -5,13 +5,29 @@ import {useState} from "react";
 interface StageDeliveryProps {
     setCompanyVATNumber: React.Dispatch<React.SetStateAction<string>>
     companyVATNumber: string,
+    formdata:Form
+
+
     // setCompanyVAT: (companyVAT: string) => void;
 }
-// vi skal tilføje state til vores form
+interface Form {
+    Name: string;
+    LastName: string;
+    Email: string;
+    companyName?: string;
+    VATnum?: string;
+    Country: string;
+    zipcode1: number;
+    City: string;
+    streetName: string;
+    Landcode: string;
+    Telephone: number;
+}
 export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
 
     const companyVATNumber = stageDeliveryProps.companyVATNumber;
     const setCompanyVATNumber = stageDeliveryProps.setCompanyVATNumber;
+    const formdata=stageDeliveryProps.formdata
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [hasError, setHasError] = useState(false);
@@ -59,9 +75,13 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
     }
     function handleFormSubmit(event: any ) {
         event.preventDefault();
-        const formData = new FormData(event.target);
-        const name = formData.get("Name")
+        const data = new FormData(event.target);
+        const name = data.get("Name");
+
+
+        console.log(formdata.Name)
         console.log(name)
+
 
     }
     function customError(){
