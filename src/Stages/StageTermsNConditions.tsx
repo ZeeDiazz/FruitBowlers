@@ -1,7 +1,7 @@
 import '../assets/Styles/large/StageTermsNConditions.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
-export function stageTermsNConditions() {
+export default function StageTermsNConditions() {
 
     function checkboxes(text:string) {
         return (

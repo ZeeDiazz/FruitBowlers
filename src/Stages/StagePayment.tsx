@@ -41,6 +41,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
                 )}
                 <label className={"CheckBoxWithDescription"}>
                     <input
+                        data-testid="AcceptTerms"
                         type="checkbox"
                         name="AcceptTerms"
                         checked={isChecked} 
@@ -50,6 +51,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
                 </label>
                 <div className={"CheckBoxWithDescription"}>
                     <input
+                        data-testid="Marketing-email"
                         type="checkbox"
                         name="MarketingNudge"
                     //onChange={need to push this to the server}

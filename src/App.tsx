@@ -6,8 +6,9 @@ import { StageDelivery } from './Stages/StageDelivery.tsx'
 import { StageBasket } from './Stages/StageBasket.tsx'
 import { header } from "./Components/header.tsx";
 import ChoosePayment from "./Stages/StagePayment.tsx";
-//import {stageTermsNConditions} from "./Stages/StageTermsNConditions.tsx";
+import StageTermsNConditions from "./Stages/StageTermsNConditions.tsx";
 import { useState } from 'react'
+
 
 function App() {
     const [companyVATNumber, setCompanyVATNumber] = useState<string>('');
@@ -19,7 +20,6 @@ function App() {
     const [telefoneNumber, setTelefoneNumber] = useState<string>('');
     const [cityName, setCityName] = useState<string>('');
     const [companyName, setCompanyName] = useState<string>('');
-
     const [totalDiscountedPrice] = useState<number>(0);
     const isInvoiceEnabled = isValidVATNumber(companyVATNumber);
 
@@ -41,7 +41,8 @@ function App() {
                     setCompanyName={setCompanyName} companyName={companyName}
                     />
                 <ChoosePayment totalDiscountedPrice={totalDiscountedPrice} isInvoiceEnabled={isInvoiceEnabled} />
-                {/*stageTermsNConditions()*/}
+
+                <StageTermsNConditions />
             </main>
         </>
     );
