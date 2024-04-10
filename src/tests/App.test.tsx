@@ -1,20 +1,23 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import App from "../App.tsx";
+import {debug} from "vitest-preview";
 
 describe(App.name, () => {
-    it("should render", () => {
+    it("should render each stage", () => {
         render(<App />);
-        //text that always has to be in the document
-        //Headers of all sections
-        expect(screen.getByText("Total")).toBeInTheDocument();
+
+        const imageHeader = screen.getByAltText('Fruit Bowlers logo')
+        expect(imageHeader).toBeInTheDocument()
+        //Text that always has to render
+        //Headers of all sections / stages
         expect(screen.getByText("Basket")).toBeInTheDocument();
-        expect(screen.getByText("Delivery")).toBeInTheDocument();
+        expect(screen.getByText("Billing Address")).toBeInTheDocument();
         expect(screen.getByText("Payment")).toBeInTheDocument();
+        expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
+        debug();
     });
 });
-
-
 
 
 
