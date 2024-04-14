@@ -16,15 +16,15 @@ interface StageDeliveryProps {
     zipcode: string,
     setStreetName: React.Dispatch<React.SetStateAction<string>>
     streetName: string,
-    setTelefoneNumber: React.Dispatch<React.SetStateAction<string>>
-    telefoneNumber: string,
+    setTelephoneNumber: React.Dispatch<React.SetStateAction<string>>
+    telephoneNumber: string,
     setCityName: React.Dispatch<React.SetStateAction<string>>
     cityName: string,
     setCompanyName: React.Dispatch<React.SetStateAction<string>>
     companyName: string,
     // setCompanyVAT: (companyVAT: string) => void;
 }
-// vi skal tilføje state til vores form
+
 export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
 
     const companyVATNumber = stageDeliveryProps.companyVATNumber;
@@ -39,8 +39,8 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
     const setZipcode = stageDeliveryProps.setZipcode;
     const streetName = stageDeliveryProps.streetName;
     const setStreetName = stageDeliveryProps.setStreetName;
-    const telefoneNumber = stageDeliveryProps.telefoneNumber;
-    const setTelefoneNumber = stageDeliveryProps.setTelefoneNumber;
+    const telephoneNumber = stageDeliveryProps.telephoneNumber;
+    const setTelephoneNumber = stageDeliveryProps.setTelephoneNumber;
     const cityName = stageDeliveryProps.cityName;
     const setCityName = stageDeliveryProps.setCityName;
     const companyName = stageDeliveryProps.companyName;
@@ -56,6 +56,10 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
     const [hasErrorDelivery, setHasErrorDelivery] = useState(false);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [diff, diffDeliveryAddress] = useState(false);
+
+    // Add a state variable to track whether the form is frozen
+    const [formFrozen, setFormFrozen] = useState(false);
+    const [editMode, setEditMode] = useState(false);
 
     /* Learned from lecture and https://www.valentinog.com/blog/await-react/*/
     async function validateZipCode(zipcode: string, zipcodeName: string) {
@@ -126,16 +130,40 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
 
     }
 
-    function subbmitButton(checked: boolean){
+    function submitButton(checked: boolean){
         if(!checked){
             return(
                 <>
-                    <input type="submit" value="Continue To Payment" id="button" onClick={ServerCall}/>
+                    <input type="submit" value="Continue To Payment" id="button" onClick={handleContinueToPayment}  disabled={formFrozen}/>
                 </>
                 )
         }
+    }
+
+    function editButton(){
+        if(editMode) {
+            return (
+                <>
+                    <input type="button" value="Edit" id="button" onClick={handleEdit}/>
+                </>
+            )
+        }
+    }
 
 
+    const handleContinueToPayment = (e: FormEvent) => {
+        ServerCall(e);
+        e.preventDefault();
+        setFormFrozen(true);
+        setEditMode(true);
+        editButton();
+    }
+
+    // Define the handler function for "Edit" button click
+    const handleEdit = (e: FormEvent) => {
+        e.preventDefault();
+        setFormFrozen(false); // Unfreeze the form
+        setEditMode(false); // Exit edit mode
     }
 
     function deliveryAddress(diff: boolean) {
@@ -205,7 +233,7 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
     }
     function updateTelefoneNumber(event: React.FormEvent<HTMLInputElement>) {
         const telefoneNumber = event.currentTarget.value;
-        setTelefoneNumber(telefoneNumber)
+        setTelephoneNumber(telefoneNumber)
     }
     function updateCityName(event: React.FormEvent<HTMLInputElement>) {
         const cityName = event.currentTarget.value;
@@ -226,7 +254,7 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
             
             body: JSON.stringify({firstName, lastName, email, streetName})
         });
-        if(!logResponse.status == true){
+        if(!logResponse.status){
             console.error("Failed to log search", logResponse.statusText)
         }
     }
@@ -243,17 +271,17 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
             </div>
             <form method="post">
                 <div id="inputBox">
-                    <input name="Name" type="text" placeholder="First Name" value={firstName} onChange={updateFirstName} required/>
+                    <input name="Name" type="text" placeholder="First Name" value={firstName} onChange={updateFirstName} required  disabled={formFrozen}/>
             
                     <br/>
-                    <input name="LastName" type="text" placeholder="Last Name" value={lastName} onChange={updateLastName} required/>
+                    <input name="LastName" type="text" placeholder="Last Name" value={lastName} onChange={updateLastName} required  disabled={formFrozen}/>
                     <br/>
-                    <input type="email" name="Email" placeholder="Email" value={email} onChange={updateEmail} required/>
+                    <input type="email" name="Email" placeholder="Email" value={email} onChange={updateEmail} required  disabled={formFrozen}/>
                     <br/>
 
-                    <input name="companyName" type="text" placeholder="*(Optional) Company Name" value={companyName} onChange={updateCompanyName}/>
+                    <input name="companyName" type="text" placeholder="*(Optional) Company Name" value={companyName} onChange={updateCompanyName}  disabled={formFrozen}/>
                     <input type="digits" name="VATnum" minLength={8} maxLength={8} value={companyVATNumber} onChange={updateCompanyVAT}
-                           placeholder="*(Optional) Company VAT"/>
+                           placeholder="*(Optional) Company VAT"  disabled={formFrozen}/>
                     <br/>
                     <div className="addressBox">
                         <br/>
@@ -262,20 +290,21 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
 
                         {hasError && customError()}
                         <input name="zipcode1" pattern="\d*" type="number" placeholder="ZipCode" value={zipcode} onChange={updateZipcode}
-                               onBlur={e => validateZipCode(e.target.value.toString(), "zipcode1")} required/>
+                               onBlur={e => validateZipCode(e.target.value.toString(), "zipcode1")} required  disabled={formFrozen}/>
 
-                        <input name="City" placeholder="City" value={cityName} onChange={updateCityName} required/>
+                        <input name="City" placeholder="City" value={cityName} onChange={updateCityName} required  disabled={formFrozen}/>
                         <br/>
-                        <input name="streetName" type="text" placeholder="Street Name" value={streetName} onChange={updateStreetName} required/>
+                        <input name="streetName" type="text" placeholder="Street Name" value={streetName} onChange={updateStreetName} required disabled={formFrozen}/>
                     </div>
                     <br/>
                     <div id="phoneBox">
                         <input name="Landcode" placeholder="Landcode" value="+45" disabled/>
 
                         <input type="number" pattern="\d*" name="Telephone"
-                               minLength={8} maxLength={8} placeholder="Telephone" value={telefoneNumber} onChange={updateTelefoneNumber} required/>
+                               minLength={8} maxLength={8} placeholder="Telephone" value={telephoneNumber} onChange={updateTelefoneNumber} required  disabled={formFrozen}/>
                     </div>
-                    {subbmitButton(diff)}
+                    {submitButton(diff)}
+                    {editButton()}
                 </div>
             </form>
             <div className="continue-container">
