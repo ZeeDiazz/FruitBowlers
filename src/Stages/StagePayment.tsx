@@ -1,26 +1,14 @@
-import React, { FormEvent, useState } from "react";
+import { useState } from "react";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
 
-import giftCardsData from '../../giftCards.json';
-import { getTotalPriceDiscounted } from "../Components/price.ts";
-
-// Giftcard handler checks if PIN and 
-async function GiftCardHandler() {
-    if (!giftCardsData) {
-        console.log("Problems connecting to giftcards 'server'")
-    } else {
-        console.log("wuh")
-        console.log(giftCardsData)
-    }
-}
-interface ButtonProps {
+/*interface ButtonProps {
     handleGiftCardRedeemClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
     handleCheckboxChange: (event: React.MouseEvent<HTMLButtonElement>) => void;
     isChecked: boolean;
-  }
+}*/
 interface ChoosePaymentProps {
     isInvoiceEnabled: boolean;
     totalDiscountedPrice: number;
@@ -28,46 +16,12 @@ interface ChoosePaymentProps {
 enum PaymentOption{
     NONE, CARD, GIFT_CARD, INVOICE, MobilePay
 }
-export function ChoosePayment(choosePaymentProps: ChoosePaymentProps, buttonProps: ButtonProps) {
+export function ChoosePayment(choosePaymentProps: ChoosePaymentProps/*, buttonProps: ButtonProps*/) {
     const isInvoiceEnabled = choosePaymentProps.isInvoiceEnabled;
     const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
-    const [isChecked, setIsChecked] = useState(false);
-    
-    //Check terms
-    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setIsChecked(event.target.checked);
-        console.log("state of isChecked: " + event.target.checked);
-    };
-    //redeem giftCard button click:
-    {/*
-    const handleGiftCardRedeemClick = () => {
-        if (isChecked) {
-            GiftCardHandler(); // Call GiftCardHandler if button is clicked
-        } else {
-            postMessage("Need to accept terms")
-        }
-    };
-    */}
+
     const handlePaymentMethodChange = (paymentOption: PaymentOption) => {
         setPaymentOption(paymentOption)
-    };
-    
-    async function ServerCall (e: FormEvent){
-        e.preventDefault()
-        const form = e.target as HTMLFormElement;
-        const logUrl = 'https://eohuzfa0giiahrs.m.pipedream.net';
-        console.log(JSON.stringify({getTotalPriceDiscounted}))
-        const logResponse = await fetch(logUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            
-            body: JSON.stringify({Felix})
-        });
-        if(!logResponse.status == true){
-            console.error("Failed to log search", logResponse.statusText)
-        }
     };
 
     return (
@@ -145,7 +99,7 @@ export function ChoosePayment(choosePaymentProps: ChoosePaymentProps, buttonProp
                             />
                         </div>
                     </label>
-                    {paymentOption === PaymentOption.GIFT_CARD   && (
+                    {paymentOption === PaymentOption.GIFT_CARD   /*&& (
 
                         <form id="giftCard" onSubmit={buttonProps.handleGiftCardRedeemClick} className={"PaymentInputs"}>
                             <input
@@ -165,7 +119,7 @@ export function ChoosePayment(choosePaymentProps: ChoosePaymentProps, buttonProp
                                 Redeem
                             </button>
                         </form>
-                    )}
+                    )*/}
                     
                 </div>
 
