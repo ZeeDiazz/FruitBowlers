@@ -1,17 +1,34 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
 
+import giftCardsData from '../../giftCards.json';
+import { getTotalPriceDiscounted } from "../Components/price.ts";
+
+// Giftcard handler checks if PIN and 
+async function GiftCardHandler() {
+    if (!giftCardsData) {
+        console.log("Problems connecting to giftcards 'server'")
+    } else {
+        console.log("wuh")
+        console.log(giftCardsData)
+    }
+}
+interface ButtonProps {
+    handleGiftCardRedeemClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    handleCheckboxChange: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    isChecked: boolean;
+  }
 interface ChoosePaymentProps {
     isInvoiceEnabled: boolean;
     totalDiscountedPrice: number;
 }
 enum PaymentOption{
-    NONE, CARD, GIFT_CARD, INVOICE
+    NONE, CARD, GIFT_CARD, INVOICE, MobilePay
 }
-function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
+export function ChoosePayment(choosePaymentProps: ChoosePaymentProps, buttonProps: ButtonProps) {
     const isInvoiceEnabled = choosePaymentProps.isInvoiceEnabled;
     const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
     const [isChecked, setIsChecked] = useState(false);
@@ -19,11 +36,40 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
     //Check terms
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setIsChecked(event.target.checked);
+        console.log("state of isChecked: " + event.target.checked);
     };
-
+    //redeem giftCard button click:
+    {/*
+    const handleGiftCardRedeemClick = () => {
+        if (isChecked) {
+            GiftCardHandler(); // Call GiftCardHandler if button is clicked
+        } else {
+            postMessage("Need to accept terms")
+        }
+    };
+    */}
     const handlePaymentMethodChange = (paymentOption: PaymentOption) => {
         setPaymentOption(paymentOption)
     };
+    
+    async function ServerCall (e: FormEvent){
+        e.preventDefault()
+        const form = e.target as HTMLFormElement;
+        const logUrl = 'https://eohuzfa0giiahrs.m.pipedream.net';
+        console.log(JSON.stringify({getTotalPriceDiscounted}))
+        const logResponse = await fetch(logUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            
+            body: JSON.stringify({Felix})
+        });
+        if(!logResponse.status == true){
+            console.error("Failed to log search", logResponse.statusText)
+        }
+    };
+
     return (
         <div className="stageBoxes">
             <div className="title-container">
@@ -36,26 +82,6 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
             </div>
 
             <nav className={"PaymentOptionsBox"}>
-                {!isChecked &&(
-                <p style={{color:"red", marginLeft:'20px', fontSize: '12px' }}>* You need to accept terms</p>
-                )}
-                <label className={"CheckBoxWithDescription"}>
-                    <input
-                        type="checkbox"
-                        name="AcceptTerms"
-                        checked={isChecked} 
-                        onChange={handleCheckboxChange}
-                    />
-                    <p><a href={""}>Accept terms</a> & <a href={""}>conditions</a></p>
-                </label>
-                <div className={"CheckBoxWithDescription"}>
-                    <input
-                        type="checkbox"
-                        name="MarketingNudge"
-                    //onChange={need to push this to the server}
-                    />
-                    <p>Receive marketing emails</p>
-                </div>
 
                 <div className="PaymentTypeOuterBox">
                     <label className={"PaymentTypeBox"}>
@@ -119,7 +145,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
                             />
                         </div>
                     </label>
-                    {paymentOption === PaymentOption.GIFT_CARD  /* && (
+                    {paymentOption === PaymentOption.GIFT_CARD   && (
 
                         <form id="giftCard" onSubmit={buttonProps.handleGiftCardRedeemClick} className={"PaymentInputs"}>
                             <input
@@ -139,9 +165,34 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
                                 Redeem
                             </button>
                         </form>
-                    )*/}
-
+                    )}
+                    
                 </div>
+
+                <div className="PaymentTypeOuterBox">
+                    <label className={"PaymentTypeBox"}>
+                        <div className={"PaymentText"}>
+                            <input
+                                type="radio"
+                                name="paymentMethod"
+                                value="mobilepay"
+                                onChange={() => handlePaymentMethodChange(PaymentOption.MobilePay)}
+                            />
+                            <p> MobilePay </p>
+                        </div>
+                        <div className={"PaymentIcons"}>
+                            <img
+                                className="PaymentIcons"
+                                style={{ height: '35px'}}
+                                alt="Payment option - Mobile Pay"
+                                src="public/images/Payment icons/MobilePayPNG/MobilePayLogo.png"
+                            />
+                        </div>
+                        
+                    </label>
+                    {paymentOption === PaymentOption.MobilePay}
+
+                    </div>
 
                 {/*//Only show invoice choice if billing address has company VAT number */}
 
@@ -179,16 +230,11 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
                     </div>
                     : null
                 }
-                <textarea
-                    className={"CommentBox"}
-                    placeholder={"Comment for the order"}>
-
-                </textarea>
-
-                <button className={"NudgeButton"}>Pay now</button>
             </nav>
         </div>
     );
 }
 
 export default ChoosePayment;
+
+// request bin url: https://eohuzfa0giiahrs.m.pipedream.net
