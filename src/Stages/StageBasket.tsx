@@ -52,8 +52,9 @@ export function StageBasket() {
                                     disabled={product.quantity <= 1}>
                                 -
                             </button>
-                            <span>{product.quantity}</span>
+                            <span data-testid="quantity">{product.quantity}</span>
                             <button className="increase"
+                                    data-testid="increase-button"
                                     onClick={() => setProducts(handleQuantityChange(products, index, +1))}>
                                 +
                             </button>
