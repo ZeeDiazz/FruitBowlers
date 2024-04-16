@@ -3,6 +3,7 @@ import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
+import {useFetch} from "../Components/useFetch.ts";
 
 interface ChoosePaymentProps {
     isInvoiceEnabled: boolean;
@@ -15,7 +16,13 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
     const isInvoiceEnabled = choosePaymentProps.isInvoiceEnabled;
     const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
     const [isChecked, setIsChecked] = useState(false);
-    
+
+    const baseURL : string= 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/';
+    const giftCardURL: string = baseURL + 'main/giftCards.json';
+
+    const [giftCards, setGiftCards, giftCardsLoading, giftCardsError] = useFetch(giftCardURL)
+
+
     //Check terms
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setIsChecked(event.target.checked);
