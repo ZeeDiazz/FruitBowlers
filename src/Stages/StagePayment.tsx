@@ -1,29 +1,29 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
 
+/*interface ButtonProps {
+    handleGiftCardRedeemClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    handleCheckboxChange: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    isChecked: boolean;
+}*/
 interface ChoosePaymentProps {
     isInvoiceEnabled: boolean;
     totalDiscountedPrice: number;
 }
 enum PaymentOption{
-    NONE, CARD, GIFT_CARD, INVOICE
+    NONE, CARD, GIFT_CARD, INVOICE, MobilePay
 }
-function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
+export function ChoosePayment(choosePaymentProps: ChoosePaymentProps/*, buttonProps: ButtonProps*/) {
     const isInvoiceEnabled = choosePaymentProps.isInvoiceEnabled;
     const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
-    const [isChecked, setIsChecked] = useState(false);
-    
-    //Check terms
-    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setIsChecked(event.target.checked);
-    };
 
     const handlePaymentMethodChange = (paymentOption: PaymentOption) => {
         setPaymentOption(paymentOption)
     };
+
     return (
         <div className="stageBoxes">
             <div className="title-container">
@@ -36,26 +36,6 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
             </div>
 
             <nav className={"PaymentOptionsBox"}>
-                {!isChecked &&(
-                <p style={{color:"red", marginLeft:'20px', fontSize: '12px' }}>* You need to accept terms</p>
-                )}
-                <label className={"CheckBoxWithDescription"}>
-                    <input
-                        type="checkbox"
-                        name="AcceptTerms"
-                        checked={isChecked} 
-                        onChange={handleCheckboxChange}
-                    />
-                    <p><a href={""}>Accept terms</a> & <a href={""}>conditions</a></p>
-                </label>
-                <div className={"CheckBoxWithDescription"}>
-                    <input
-                        type="checkbox"
-                        name="MarketingNudge"
-                    //onChange={need to push this to the server}
-                    />
-                    <p>Receive marketing emails</p>
-                </div>
 
                 <div className="PaymentTypeOuterBox">
                     <label className={"PaymentTypeBox"}>
@@ -119,7 +99,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
                             />
                         </div>
                     </label>
-                    {paymentOption === PaymentOption.GIFT_CARD  /* && (
+                    {paymentOption === PaymentOption.GIFT_CARD   /*&& (
 
                         <form id="giftCard" onSubmit={buttonProps.handleGiftCardRedeemClick} className={"PaymentInputs"}>
                             <input
@@ -140,8 +120,33 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
                             </button>
                         </form>
                     )*/}
-
+                    
                 </div>
+
+                <div className="PaymentTypeOuterBox">
+                    <label className={"PaymentTypeBox"}>
+                        <div className={"PaymentText"}>
+                            <input
+                                type="radio"
+                                name="paymentMethod"
+                                value="mobilepay"
+                                onChange={() => handlePaymentMethodChange(PaymentOption.MobilePay)}
+                            />
+                            <p> MobilePay </p>
+                        </div>
+                        <div className={"PaymentIcons"}>
+                            <img
+                                className="PaymentIcons"
+                                style={{ height: '35px'}}
+                                alt="Payment option - Mobile Pay"
+                                src="public/images/Payment icons/MobilePayPNG/MobilePayLogo.png"
+                            />
+                        </div>
+                        
+                    </label>
+                    {paymentOption === PaymentOption.MobilePay}
+
+                    </div>
 
                 {/*//Only show invoice choice if billing address has company VAT number */}
 
@@ -179,16 +184,11 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
                     </div>
                     : null
                 }
-                <textarea
-                    className={"CommentBox"}
-                    placeholder={"Comment for the order"}>
-
-                </textarea>
-
-                <button className={"NudgeButton"}>Pay now</button>
             </nav>
         </div>
     );
 }
 
 export default ChoosePayment;
+
+// request bin url: https://eohuzfa0giiahrs.m.pipedream.net

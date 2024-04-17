@@ -6,7 +6,7 @@ import { StageDelivery } from './Stages/StageDelivery.tsx'
 import { StageBasket } from './Stages/StageBasket.tsx'
 import { header } from "./Components/header.tsx";
 import ChoosePayment from "./Stages/StagePayment.tsx";
-//import {stageTermsNConditions} from "./Stages/StageTermsNConditions.tsx";
+import {stageTermsNConditions} from "./Stages/StageTermsNConditions.tsx";
 import { useState } from 'react'
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
     const [email, setEmail] = useState<string>('');
     const [zipcode, setZipcode] = useState<string>('');
     const [streetName, setStreetName] = useState<string>('');
-    const [telefoneNumber, setTelefoneNumber] = useState<string>('');
+    const [telephoneNumber, setTelephoneNumber] = useState<string>('');
     const [cityName, setCityName] = useState<string>('');
     const [companyName, setCompanyName] = useState<string>('');
 
@@ -36,12 +36,12 @@ function App() {
                     setEmail={setEmail} email={email}
                     setZipcode={setZipcode} zipcode={zipcode}
                     setStreetName={setStreetName} streetName={streetName}
-                    setTelefoneNumber={setTelefoneNumber} telefoneNumber={telefoneNumber}
+                    setTelephoneNumber={setTelephoneNumber} telephoneNumber={telephoneNumber}
                     setCityName={setCityName} cityName={cityName}
                     setCompanyName={setCompanyName} companyName={companyName}
                     />
                 <ChoosePayment totalDiscountedPrice={totalDiscountedPrice} isInvoiceEnabled={isInvoiceEnabled} />
-                {/*stageTermsNConditions()*/}
+                {stageTermsNConditions()}
             </main>
         </>
     );
