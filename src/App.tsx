@@ -16,7 +16,7 @@ function App() {
     const [email, setEmail] = useState<string>('');
     const [zipcode, setZipcode] = useState<string>('');
     const [streetName, setStreetName] = useState<string>('');
-    const [telefoneNumber, setTelefoneNumber] = useState<string>('');
+    const [telephoneNumber, setTelephoneNumber] = useState<string>('');
     const [cityName, setCityName] = useState<string>('');
     const [companyName, setCompanyName] = useState<string>('');
 
@@ -36,7 +36,7 @@ function App() {
                     setEmail={setEmail} email={email}
                     setZipcode={setZipcode} zipcode={zipcode}
                     setStreetName={setStreetName} streetName={streetName}
-                    setTelefoneNumber={setTelefoneNumber} telefoneNumber={telefoneNumber}
+                    setTelefoneNumber={setTelephoneNumber} telefoneNumber={telephoneNumber}
                     setCityName={setCityName} cityName={cityName}
                     setCompanyName={setCompanyName} companyName={companyName}
                     />

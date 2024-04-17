@@ -3,12 +3,41 @@ import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
-import {useFetch} from "../Components/useFetch.ts";
+import {giftCardPayment, GiftCardPopUp} from "../Components/giftCardPayment.tsx";
 
 interface ChoosePaymentProps {
     isInvoiceEnabled: boolean;
     totalDiscountedPrice: number;
 }
+
+function HandleGiftCardRedeemClick (event){
+    event.preventDefault();
+
+    //@TODO: Check if terms and conditions are checked
+
+    const userTypedGiftCardNumber = document.getElementById('giftCardNumber').value;
+    const userTypedGiftCardPIN = document.getElementById('giftCardPIN').value;
+
+    if (userTypedGiftCardNumber < 1 || userTypedGiftCardPIN < 1) {
+        console.log("Number and PIN has to be filled out")
+    } else if (userTypedGiftCardNumber.length < 3 || userTypedGiftCardPIN.length < 3) {
+        console.log("Invalid Number or PIN")
+    } else {
+        console.log( userTypedGiftCardNumber + " and " + userTypedGiftCardPIN + " Valid input!")
+        giftCardPayment(userTypedGiftCardNumber, userTypedGiftCardPIN)
+            .then((result: GiftCardPaymentResponse) => {
+                if ('error' in result) {
+                    console.error('Error:', result.error);
+                } else {
+                    console.log('Success:', result.giftCard);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+}
+
 enum PaymentOption{
     NONE, CARD, GIFT_CARD, INVOICE
 }
@@ -16,11 +45,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
     const isInvoiceEnabled = choosePaymentProps.isInvoiceEnabled;
     const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
     const [isChecked, setIsChecked] = useState(false);
-
-    const baseURL : string= 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/';
-    const giftCardURL: string = baseURL + 'main/giftCards.json';
-
-    const [giftCards, setGiftCards, giftCardsLoading, giftCardsError] = useFetch(giftCardURL)
+    //Get giftCard error message from HandleGiftCardRedeemClick (initial value "")
 
 
     //Check terms
@@ -50,7 +75,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
                     <input
                         type="checkbox"
                         name="AcceptTerms"
-                        checked={isChecked} 
+                        checked={isChecked}
                         onChange={handleCheckboxChange}
                     />
                     <p><a href={""}>Accept terms</a> & <a href={""}>conditions</a></p>
@@ -59,7 +84,6 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
                     <input
                         type="checkbox"
                         name="MarketingNudge"
-                    //onChange={need to push this to the server}
                     />
                     <p>Receive marketing emails</p>
                 </div>
@@ -126,27 +150,30 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
                             />
                         </div>
                     </label>
-                    {paymentOption === PaymentOption.GIFT_CARD  /* && (
+                    {paymentOption === PaymentOption.GIFT_CARD   && (
+                        <div>
+                            <form id="giftCard" className={"PaymentInputs"}>
+                                <input
+                                    id={"giftCardNumber"}
+                                    type={"text"}
+                                    placeholder={"Gift card number"}
+                                />
+                                <input
+                                    id="giftCardPIN"
+                                    type={"number"}
+                                    placeholder={"Security pin"}
+                                />
+                                <button
+                                    onClick={HandleGiftCardRedeemClick}
+                                    name=""
+                                    type="submit"
+                                >
+                                    Redeem
+                                </button>
+                            </form>
+                        </div>
 
-                        <form id="giftCard" onSubmit={buttonProps.handleGiftCardRedeemClick} className={"PaymentInputs"}>
-                            <input
-                                type={"text"}
-                                placeholder={"Gift card number"}
-                            />
-                            <input
-                                id="giftCardPIN"
-                                type={"number"}
-                                placeholder={"Security pin"}
-                            />
-                            <button
-                                onClick={buttonProps.handleGiftCardRedeemClick}
-                                name=""
-                                type="submit"
-                            >
-                                Redeem
-                            </button>
-                        </form>
-                    )*/}
+                    )}
 
                 </div>
 
@@ -194,6 +221,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
 
                 <button className={"NudgeButton"}>Pay now</button>
             </nav>
+            <GiftCardPopUp></GiftCardPopUp>
         </div>
     );
 }

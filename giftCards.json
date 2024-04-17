@@ -1,6 +1,5 @@
 [
   {
-    "id": "1",
     "name": "Large",
     "PIN": "12345",
     "initialPrice": 500,
@@ -9,7 +8,6 @@
     "currentCredit": 500
   },
   {
-    "id": "2",
     "name": "Medium",
     "PIN": "1234",
     "initialPrice": 300,
@@ -18,7 +16,6 @@
     "currentCredit": 300
   },
   {
-    "id": "3",
     "name": "Small",
     "PIN": "123",
     "initialPrice": 100,
