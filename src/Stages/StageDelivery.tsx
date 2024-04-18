@@ -2,32 +2,26 @@ import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import {useState} from "react";
 
-interface StageDeliveryProps {
-    setCompanyVATNumber: React.Dispatch<React.SetStateAction<string>>
-    companyVATNumber: string,
-    formdata:Form
 
-
-    // setCompanyVAT: (companyVAT: string) => void;
-}
-interface Form {
+interface formInterface {
     Name: string;
     LastName: string;
     Email: string;
     companyName?: string;
     VATnum?: string;
-    Country: string;
     zipcode1: number;
     City: string;
     streetName: string;
-    Landcode: string;
     Telephone: number;
 }
-export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
+interface StageDeliveryProps {
+    form: formInterface;
+}
+export function StageDelivery(props: StageDeliveryProps) {
 
-    const companyVATNumber = stageDeliveryProps.companyVATNumber;
-    const setCompanyVATNumber = stageDeliveryProps.setCompanyVATNumber;
-    const formdata=stageDeliveryProps.formdata
+
+
+
 
 
     const [toPayment, setToPayment] = useState(false);
@@ -77,8 +71,26 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
             return false;
         }
     }
-    function handleFormSubmit(event: any ) {
+    function handleFormSubmit(event: any) {
         event.preventDefault();
+
+
+        const formData = new FormData(event.target);
+
+        props.form.Name = formData.get("Name").toString();
+        props.form.LastName = formData.get("LastName").toString();
+        props.form.Email = formData.get("Email").toString();
+        props.form.companyName = formData.get("companyName")?.toString() || "tom" ;
+        props.form.VATnum = formData.get("VATnum")?.toString()  || "tom" ;
+        props.form.zipcode1 = parseInt(formData.get("zipcode1")?.toString() || formData.get("zipcode2")?.toString() || '');
+        props.form.City = formData.get("City").toString();
+        props.form.streetName = formData.get("streetName").toString();
+        props.form.Telephone = parseInt(formData.get("Telephone").toString());
+
+        // Access form properties
+        console.log(props.form.Name);
+        console.log(props.form.zipcode1);
+
 
     }
     function customError(){
@@ -150,7 +162,7 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
 
                                 {hasErrorDelivery && customError()}
                                 <input name="zipcode2" pattern="\d*"type="number" placeholder="ZipCode"
-                                       onBlur={e => validateZipCode(e.target.value.toString(), "zipcode2")} required/>
+                                       onChange={e => validateZipCode(e.target.value.toString(), "zipcode2")} required/>
 
                                 <input name="City" placeholder="City" value={textDelivery} required/>
                                 <br/>
@@ -172,7 +184,7 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
     }
     function updateCompanyVAT(event: React.FormEvent<HTMLInputElement>) {
         const VATNumber = event.currentTarget.value;
-        setCompanyVATNumber(VATNumber)
+        //setCompanyVATNumber(VATNumber)
     }
 
     return (
@@ -195,7 +207,7 @@ export function StageDelivery(stageDeliveryProps: StageDeliveryProps) {
                     <br/>
 
                     <input name="companyName" type="text" placeholder="*(Optional) Company Name"/>
-                    <input type="digits" name="VATnum" minLength={8} maxLength={8} value={companyVATNumber} onChange={updateCompanyVAT}
+                    <input type="digits" name="VATnum" minLength={8} maxLength={8}  onChange={updateCompanyVAT}
                            placeholder="*(Optional) Company VAT"/>
                     <br/>
                     <div className="addressBox">

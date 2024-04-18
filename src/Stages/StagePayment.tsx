@@ -9,9 +9,21 @@ import '../Stages/StageTotal.tsx'
     handleCheckboxChange: (event: React.MouseEvent<HTMLButtonElement>) => void;
     isChecked: boolean;
 }*/
+interface formInterface {
+    Name: string;
+    LastName: string;
+    Email: string;
+    companyName?: string;
+    VATnum?: string;
+    zipcode1: number;
+    City: string;
+    streetName: string;
+    Telephone: number;
+}
 interface ChoosePaymentProps {
     isInvoiceEnabled: boolean;
     totalDiscountedPrice: number;
+    form :formInterface;
 }
 enum PaymentOption{
     NONE, CARD, GIFT_CARD, INVOICE, MobilePay
@@ -23,6 +35,7 @@ export function ChoosePayment(choosePaymentProps: ChoosePaymentProps/*, buttonPr
     const handlePaymentMethodChange = (paymentOption: PaymentOption) => {
         setPaymentOption(paymentOption)
     };
+    console.log(choosePaymentProps.form.Name)
 
     return (
         <div className="stageBoxes">
