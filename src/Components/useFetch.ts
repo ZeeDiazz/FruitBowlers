@@ -23,7 +23,7 @@ export function useFetch (url: string): [Product[], (data: Product[]) => void, b
         setIsLoading(true);
         fetchData(url)
             .then(fetchedData => {
-                if (fetchedData === null) {
+                if (fetchedData.length === 0) {
                     setHasError(true);
                 } else {
                     setData(fetchedData);

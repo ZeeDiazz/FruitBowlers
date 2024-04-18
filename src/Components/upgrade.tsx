@@ -1,7 +1,7 @@
 interface UpgradeButtonProps {
     product: Product;
     upgrades: Product[];
-    handleUpgradeClick: (index: number, amount: number) => void;
+    onUpgradeClick: () => void;
 }
 
 const findMoreExpensiveProduct = (upsellProductId: string | null, upgrades: Product[]): Product | null => {
@@ -26,8 +26,7 @@ export const hasUpgradeOption = (product: Product, upgrades: Product[]): {
     return { hasUpgrade: false, priceDifference: 0, moreExpensiveOption: null };
 };
 
-export function handleUpgradeClick(products:Product[], newProduct: Product | null, index: number): Product[] {
-    const quantity: number = products[index].quantity;
+export function handleUpgradeClick(products:Product[], newProduct: Product | null, quantity: number, index: number): Product[] {
     const newProducts: Product[] = products.slice();
     if (newProduct) {
         newProducts[index] = newProduct;
@@ -37,7 +36,7 @@ export function handleUpgradeClick(products:Product[], newProduct: Product | nul
     return newProducts;
 }
 
-export const UpgradeButton: React.FC<UpgradeButtonProps> = ({ product, upgrades, handleUpgradeClick }) => {
+export const UpgradeButton: React.FC<UpgradeButtonProps> = ({ product, upgrades, onUpgradeClick }) => {
     const { hasUpgrade, priceDifference } = hasUpgradeOption(product, upgrades);
 
     return (
@@ -45,7 +44,7 @@ export const UpgradeButton: React.FC<UpgradeButtonProps> = ({ product, upgrades,
             {hasUpgrade && (
                 <button
                     className={"nudgeButton"}
-                    onClick={() => handleUpgradeClick(upgrades.indexOf(product), 1)}>
+                    onClick={() =>  onUpgradeClick()}>
                     Organic available! Change for {priceDifference} DKK a piece?
                 </button>
             )}

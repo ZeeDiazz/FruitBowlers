@@ -1,19 +1,11 @@
 import {calculateLocalTotalPrice,handleQuantityChange} from "../Components/price.ts";
 import {handleUpgradeClick, hasUpgradeOption, UpgradeButton} from "../Components/upgrade.tsx"
-//import productsData from '../../productsList.json';
-//import upgradesData from '../../upgradesList.json';
-import {useState} from "react";
 import {TotalBox} from "./StageTotal.tsx";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
-import '../assets/Styles/StageBacket.css'
 import {useFetch} from "../Components/useFetch.ts";
-import {useEffect} from "react";
 
-interface StageBasketProps {
-    setTotalDiscountedPrice: React.Dispatch<React.SetStateAction<number>>
-}
 
 export function StageBasket() {
     const base : string= 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/';
@@ -21,10 +13,10 @@ export function StageBasket() {
     const upgradesUrl: string = base + 'main/upgradesList.json';
 
     const [products, setProducts, productsLoading, productsError] = useFetch(productsUrl);
-    const [upgrades, setUpgrades, upgradesLoading, upgradesError] = useFetch(upgradesUrl);
+    const [upgrades, , upgradesLoading, upgradesError] = useFetch(upgradesUrl);
 
     const productBoxItems = products && products.map((product:Product, index:number) => (
-        !productsError && (
+        !productsError && product.quantity > 0 && (
             <div className={"wholeProduct"} key={product.id}>
                 <div className={"productStyling"}>
                     <ProductItem
@@ -45,10 +37,10 @@ export function StageBasket() {
                         <UpgradeButton
                             product={product}
                             upgrades={upgrades}
-                            handleUpgradeClick={(index) => {
+                            onUpgradeClick = {() => {
                                 const upgradeOption = hasUpgradeOption(product, upgrades);
                                 if (upgradeOption.hasUpgrade && upgradeOption.moreExpensiveOption) {
-                                    setProducts(handleUpgradeClick(products, upgradeOption.moreExpensiveOption, index));
+                                    setProducts(handleUpgradeClick(products, upgradeOption.moreExpensiveOption, product.quantity, index));
                                 }
                             }}
                         />
@@ -104,7 +96,6 @@ function ProductItem({product, totalAmount}: ProductItemProps){
                         {product.name}
                     </div>
                 </div>
-                {/*&emsp;*/}
                 <div id="priceTag">
                     {"Total amount: "}
                     {/*&nbsp;*/}
