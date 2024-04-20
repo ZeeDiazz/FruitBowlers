@@ -44,6 +44,7 @@ export const UpgradeButton: React.FC<UpgradeButtonProps> = ({ product, upgrades,
             {hasUpgrade && (
                 <button
                     className={"nudgeButton"}
+                    data-testid="upgrade-button"
                     onClick={() =>  onUpgradeClick()}>
                     Organic available! Change for {priceDifference} DKK a piece?
                 </button>

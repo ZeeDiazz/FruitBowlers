@@ -48,6 +48,7 @@ export function StageBasket() {
                     <nav className={"productChangeNavigation"}>
                         <div>
                             <button className="decrease"
+                                    data-testid="decrease-button"
                                     onClick={() => setProducts(handleQuantityChange(products, index, -1))}
                                     disabled={product.quantity <= 1}>
                                 -
@@ -60,6 +61,7 @@ export function StageBasket() {
                             </button>
                         </div>
                         <button className="remove"
+                                data-testid="remove-button"
                                 onClick={() => setProducts(handleQuantityChange(products, index, 0))}>
                             remove
                         </button>
