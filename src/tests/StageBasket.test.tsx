@@ -1,5 +1,5 @@
 import { render, screen} from "@testing-library/react";
-import {describe, expect, it, vi} from "vitest";
+import {describe, expect, it, vi, beforeEach} from "vitest";
 import {StageBasket} from "../Stages/StageBasket.tsx";
 import userEvent from "@testing-library/user-event";
 const productData = [{
@@ -28,6 +28,9 @@ const upgradesData = [{
     "quantity": 0
 }]
 describe('StageBasket components', () => {
+    beforeEach(() => {
+        vi.restoreAllMocks();
+    });
     it('should display loading message when products are loading', async () => {
         const { getAllByText } = render(<StageBasket />);
         expect(getAllByText('Loading...').length).toBeGreaterThan(0);
@@ -138,7 +141,7 @@ describe('StageBasket components', () => {
             }
         });
         const { getAllByText } = render(<StageBasket />);
-        await screen.findByText('Apples');
+        await screen.findByText('Organic available! Change for 5 DKK a piece?');
         expect(getAllByText('Apples').length).toBeGreaterThan(0);
         expect(getAllByText('Organic available! Change for 5 DKK a piece?').length).toBeGreaterThan(0);
     });
