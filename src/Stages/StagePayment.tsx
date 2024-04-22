@@ -20,6 +20,7 @@ interface formInterface {
     streetName: string;
     Telephone: number;
 }
+
 interface ChoosePaymentProps {
     isInvoiceEnabled: boolean;
     totalDiscountedPrice: number;

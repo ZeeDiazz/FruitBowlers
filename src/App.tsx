@@ -9,7 +9,7 @@ import ChoosePayment from "./Stages/StagePayment.tsx";
 import {stageTermsNConditions} from "./Stages/StageTermsNConditions.tsx";
 import { useState } from 'react'
 
-function App() {
+export function App() {
     const [companyVATNumber, setCompanyVATNumber] = useState<string>('');
     const [totalDiscountedPrice, setTotalDiscountedPrice] = useState<number>(0);
     const isInvoiceEnabled = isValidVATNumber(companyVATNumber);
@@ -47,7 +47,7 @@ function App() {
             <main>
                 <StageBasket setTotalDiscountedPrice={setTotalDiscountedPrice} />
                 <StageDelivery form ={form} />
-                <ChoosePayment totalDiscountedPrice={totalDiscountedPrice} isInvoiceEnabled={isInvoiceEnabled} form ={form}  />
+                
             </main>
         </>
     );

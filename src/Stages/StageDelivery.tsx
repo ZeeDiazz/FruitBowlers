@@ -1,6 +1,8 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import {useState} from "react";
+import { input } from '@testing-library/user-event/dist/cjs/event/input.js';
+import { Link } from 'react-router-dom';
 
 
 interface formInterface {
@@ -132,13 +134,10 @@ export function StageDelivery(props: StageDeliveryProps) {
     function subbmitButton(checked: boolean){
         if(!checked){
             return(
-                <>
-                    <input type="submit" value="Continue To Payment" id="button"/>
-                </>
+                <><>
+                </><Link to="stagepayment"><input type="submit" value="Continue To Payment" id="button" /></Link></>
                 )
         }
-
-
     }
 
     function deliveryAddress(diff: boolean) {
