@@ -1,10 +1,8 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import {useState} from "react";
-import { useHistory } from 'react-router-dom';
 
 import { input } from '@testing-library/user-event/dist/cjs/event/input.js';
-import { Link } from 'react-router-dom';
 
 
 interface formInterface {
@@ -22,7 +20,7 @@ interface StageDeliveryProps {
     form: formInterface;
 }
 export function StageDelivery(props: StageDeliveryProps) {
-    let toPay=false;
+
 
 
 
@@ -138,7 +136,7 @@ export function StageDelivery(props: StageDeliveryProps) {
         if(!checked){
             return(
                 <><>
-                </><input type="submit" value="Continue To Payment" id="button" disabled={toPay} /></>
+                </><input type="submit" value="Continue To Payment" id="button" /></>
                 )
         }
     }
