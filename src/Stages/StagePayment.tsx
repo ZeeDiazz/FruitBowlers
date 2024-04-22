@@ -9,6 +9,25 @@ import '../Stages/StageTotal.tsx'
     handleCheckboxChange: (event: React.MouseEvent<HTMLButtonElement>) => void;
     isChecked: boolean;
 }*/
+/*function backBotton(){
+        return(
+            <><>
+            </><input type="submit" value="Back to main" id="button" onClick={useHistory}/></>
+            )
+    }*/
+    function backBotton() {
+      
+        function handleClick() {
+          history.back;
+        }
+      
+        return (
+          <button type="button" onClick={handleClick}>
+            Go home
+          </button>
+        );
+      }
+
 interface formInterface {
     Name: string;
     LastName: string;
@@ -20,7 +39,8 @@ interface formInterface {
     streetName: string;
     Telephone: number;
 }
-
+const one: number= 1;
+const enabled = false;
 interface ChoosePaymentProps {
     isInvoiceEnabled: boolean;
     totalDiscountedPrice: number;
@@ -40,6 +60,7 @@ export function ChoosePayment(choosePaymentProps: ChoosePaymentProps/*, buttonPr
 
     return (
         <div className="stageBoxes">
+            {backBotton()}
             <div className="title-container">
                 <img
                     src={`/images/stage3-fat.png`}
