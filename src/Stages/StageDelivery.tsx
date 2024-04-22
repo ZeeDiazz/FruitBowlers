@@ -1,6 +1,8 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import {useState} from "react";
+import { useHistory } from 'react-router-dom';
+
 import { input } from '@testing-library/user-event/dist/cjs/event/input.js';
 import { Link } from 'react-router-dom';
 
@@ -20,6 +22,7 @@ interface StageDeliveryProps {
     form: formInterface;
 }
 export function StageDelivery(props: StageDeliveryProps) {
+    let toPay=false;
 
 
 
@@ -75,8 +78,6 @@ export function StageDelivery(props: StageDeliveryProps) {
     }
     function handleFormSubmit(event: any) {
         event.preventDefault();
-
-
         const formData = new FormData(event.target);
 
         props.form.Name = formData.get("Name").toString();
@@ -92,6 +93,8 @@ export function StageDelivery(props: StageDeliveryProps) {
         // Access form properties
         console.log(props.form.Name);
         console.log(props.form.zipcode1);
+        history.forward();
+
 
 
     }
@@ -135,7 +138,7 @@ export function StageDelivery(props: StageDeliveryProps) {
         if(!checked){
             return(
                 <><>
-                </><Link to="stagepayment"><input type="submit" value="Continue To Payment" id="button" /></Link></>
+                </><input type="submit" value="Continue To Payment" id="button" disabled={toPay} /></>
                 )
         }
     }
@@ -173,8 +176,7 @@ export function StageDelivery(props: StageDeliveryProps) {
                                 <input type="digits" pattern="\d*"name="Telephone"
                                        minLength={8} maxLength={8} placeholder="Telephone" required/>
                             </div>
-                            <input type="submit" value="Continue To Payment" id="button"/>
-
+                            {subbmitButton(!diff)}
                         </div>
                     </form>
                 </>

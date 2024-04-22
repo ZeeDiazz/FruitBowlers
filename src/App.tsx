@@ -47,7 +47,6 @@ export function App() {
             <main>
                 <StageBasket setTotalDiscountedPrice={setTotalDiscountedPrice} />
                 <StageDelivery form ={form} />
-                
             </main>
         </>
     );
