@@ -3,6 +3,9 @@
     #titleName {
         border-bottom: 2px solid black;
     }
+    .imageLogo{
+        width: 100px;
+    }
     .stageBoxes {
         width: 100%;
         border-bottom: 1px solid black ;
@@ -10,14 +13,23 @@
         margin: 0;
     }
     .title-container {
-        display: flex;
-        justify-items: center;
-        justify-content: space-around;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: grid;
+        grid-template-columns: 1fr 8fr;
+        align-items: center;
+        gap: 3%;
+        margin-left: 1%;
+        width: fit-content;
+      }
+      .productImg {
+        height: 50px;
+        width: 50px;
+        float: left;
     }
-    .title-container * {
-        margin-right: 10px;
-    }
+      
+      .stageIcons {
+        height: auto;
+        max-width: 100%;
+      }
 
     /***STAGE BASKET NOW***/
     #productBox {
