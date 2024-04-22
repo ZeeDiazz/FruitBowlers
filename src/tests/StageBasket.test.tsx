@@ -138,6 +138,8 @@ describe('StageBasket components', () => {
                     ok: true,
                     json: async () => upgradesData,
                 } as Response;
+            } else{
+                throw new Error('Invalid url');
             }
         });
         const { getAllByText } = render(<StageBasket />);
@@ -162,6 +164,8 @@ describe('StageBasket components', () => {
                     ok: true,
                     json: async () => upgradesData,
                 } as Response;
+            } else{
+                throw new Error('Invalid url');
             }
         });
         const { getAllByText, getAllByTestId} = render(<StageBasket />);
