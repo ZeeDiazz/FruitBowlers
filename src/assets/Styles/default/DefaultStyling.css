@@ -8,12 +8,6 @@ body {
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.stageIcons{
-    height: 50px;
-    width: 50px;
-    margin-top: 10px;
-    margin-left: 10px;
-}
 p {
     margin: 0;
 }
@@ -162,7 +156,42 @@ p {
         float: left;
         horiz-align: center;
         margin: 15px;
+        background-color: rgb(247, 247, 247);
     }
+    .stageIcons{
+        height: 50px;
+        width: 50px;
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+    /**/
+    .container-connecter {
+        width: 100%;
+        border: 0;
+        border-radius: 15px;
+        float: left;
+        margin: 15px;
+        position: relative;
+      }
+      
+      .container-connecter::before {
+        content: "";
+        /* Hides the pseudo-element from displaying any content */
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        margin-left: 10%;
+        margin-top: 10%;
+        margin-bottom: 10%;
+        border: 2px solid rgb(30, 30, 30);
+        width: 40%;
+        background-color: rgb(80, 80, 80);
+        /* Ensures the element is positioned behind the content */
+        z-index: -1;
+      }
+      
+      
     .title-container{
         display: flex;
     }
