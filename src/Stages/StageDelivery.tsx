@@ -1,6 +1,8 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import {useState} from "react";
+import { useNavigate } from 'react-router-dom';
+
 
 import { input } from '@testing-library/user-event/dist/cjs/event/input.js';
 
@@ -20,6 +22,7 @@ interface StageDeliveryProps {
     form: formInterface;
 }
 export function StageDelivery(props: StageDeliveryProps) {
+    const navigate = useNavigate();
 
 
 
@@ -91,7 +94,8 @@ export function StageDelivery(props: StageDeliveryProps) {
         // Access form properties
         console.log(props.form.Name);
         console.log(props.form.zipcode1);
-        history.forward();
+
+        navigate(1)
 
 
 

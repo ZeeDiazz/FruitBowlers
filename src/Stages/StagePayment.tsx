@@ -18,7 +18,7 @@ import '../Stages/StageTotal.tsx'
     function backBotton() {
       
         function handleClick() {
-          history.back;
+
         }
       
         return (
