@@ -3,7 +3,7 @@ import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import { FormEvent, useState } from 'react'
 import { getTotalPriceDiscounted } from '../Components/price';
-export function stageTermsNConditions() {
+export function stageCheckout() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [isChecked, setIsChecked] = useState(false);
 

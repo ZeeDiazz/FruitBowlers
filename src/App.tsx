@@ -6,7 +6,7 @@ import { StageDelivery } from './Stages/StageDelivery.tsx'
 import { StageBasket } from './Stages/StageBasket.tsx'
 import { header } from "./Components/header.tsx";
 import ChoosePayment from "./Stages/StagePayment.tsx";
-import {stageTermsNConditions} from "./Stages/StageTermsNConditions.tsx";
+import {stageCheckout} from "./Stages/StageCheckout.tsx";
 import { useState } from 'react'
 
 function App() {
@@ -22,26 +22,28 @@ function App() {
 
     const [totalDiscountedPrice] = useState<number>(0);
     const isInvoiceEnabled = isValidVATNumber(companyVATNumber);
-
+    //add this to context
     return (
         <>
             <header>
                 {header()}
             </header>
             <main>
-                <StageBasket/>
-                <StageDelivery setCompanyVATNumber={setCompanyVATNumber} companyVATNumber={companyVATNumber}
-                    setFirstName={setFirstName} firstName={firstName}
-                    setLastName={setLastName} lastName={lastName}
-                    setEmail={setEmail} email={email}
-                    setZipcode={setZipcode} zipcode={zipcode}
-                    setStreetName={setStreetName} streetName={streetName}
-                    setTelephoneNumber={setTelephoneNumber} telephoneNumber={telephoneNumber}
-                    setCityName={setCityName} cityName={cityName}
-                    setCompanyName={setCompanyName} companyName={companyName}
-                    />
-                <ChoosePayment totalDiscountedPrice={totalDiscountedPrice} isInvoiceEnabled={isInvoiceEnabled} />
-                {stageTermsNConditions()}
+                <div className='container-connecter'>
+                    <StageBasket/>
+                    <StageDelivery setCompanyVATNumber={setCompanyVATNumber} companyVATNumber={companyVATNumber}
+                        setFirstName={setFirstName} firstName={firstName}
+                        setLastName={setLastName} lastName={lastName}
+                        setEmail={setEmail} email={email}
+                        setZipcode={setZipcode} zipcode={zipcode}
+                        setStreetName={setStreetName} streetName={streetName}
+                        setTelephoneNumber={setTelephoneNumber} telephoneNumber={telephoneNumber}
+                        setCityName={setCityName} cityName={cityName}
+                        setCompanyName={setCompanyName} companyName={companyName}
+                        />
+                    <ChoosePayment totalDiscountedPrice={totalDiscountedPrice} isInvoiceEnabled={isInvoiceEnabled} />
+                    {stageCheckout()}
+                </div>
             </main>
         </>
     );
