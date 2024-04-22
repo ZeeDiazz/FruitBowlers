@@ -3,6 +3,7 @@ import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
+import { Link } from "react-router-dom";
 
 /*interface ButtonProps {
     handleGiftCardRedeemClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -22,9 +23,8 @@ import '../Stages/StageTotal.tsx'
         }
       
         return (
-          <button type="button" onClick={handleClick}>
-            Go home
-          </button>
+            <Link to="/">
+            </Link>
         );
       }
 

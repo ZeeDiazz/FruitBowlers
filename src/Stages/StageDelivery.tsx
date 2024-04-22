@@ -1,7 +1,7 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import {useState} from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 import { input } from '@testing-library/user-event/dist/cjs/event/input.js';
@@ -140,9 +140,13 @@ export function StageDelivery(props: StageDeliveryProps) {
         if(!checked){
             return(
                 <><>
-                </><input type="submit" value="Continue To Payment" id="button" /></>
+                    <input type="submit" value="Continue To Payment" id="button" />
+                </><><>
+                </><Link to="stagepayment"><input type="submit" value="Continue To Payment" id="button" /></Link></></>
                 )
         }
+
+
     }
 
     function deliveryAddress(diff: boolean) {
