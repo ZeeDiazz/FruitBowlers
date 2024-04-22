@@ -61,7 +61,7 @@ const edgeProduct = [{
     "quantity": 1
 }
 ];
-describe('price methods', () => {
+describe('price functions', () => {
     it('should calculate price of product and apply discount if the quantity is equal or above the discount quantity', () => {
         // quantity is above discountQuanity
         const bananaExpected = price.calculateLocalTotalPrice(products,1);
