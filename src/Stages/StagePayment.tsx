@@ -10,23 +10,18 @@ import { Link } from "react-router-dom";
     handleCheckboxChange: (event: React.MouseEvent<HTMLButtonElement>) => void;
     isChecked: boolean;
 }*/
-/*function backBotton(){
+function navigateBack(){
+    window.location.href = '/';
+}
+function backBotton(){
         return(
             <><>
-            </><input type="submit" value="Back to main" id="button" onClick={useHistory}/></>
+            </><input type="submit" value="Back to main" id="button" onClick={
+                navigateBack
+            }/></>
             )
-    }*/
-    function backBotton() {
-      
-        function handleClick() {
+    }
 
-        }
-      
-        return (
-            <Link to="/">
-            </Link>
-        );
-      }
 
 interface formInterface {
     Name: string;

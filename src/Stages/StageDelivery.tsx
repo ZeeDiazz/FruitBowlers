@@ -94,8 +94,7 @@ export function StageDelivery(props: StageDeliveryProps) {
         // Access form properties
         console.log(props.form.Name);
         console.log(props.form.zipcode1);
-
-        navigate(1)
+        window.location.href = '/stagepayment';
 
 
 
@@ -137,16 +136,16 @@ export function StageDelivery(props: StageDeliveryProps) {
     }
 
     function subbmitButton(checked: boolean){
-        if(!checked){
-            return(
-                <><>
-                    <input type="submit" value="Continue To Payment" id="button" />
-                </><><>
-                </><Link to="stagepayment"><input type="submit" value="Continue To Payment" id="button" /></Link></></>
-                )
+        if(!checked) {
+            return (
+                <>
+
+                    <input type="submit" value="Continue To Payment" id="button"/>
+                </>
+
+            )
+
         }
-
-
     }
 
     function deliveryAddress(diff: boolean) {
