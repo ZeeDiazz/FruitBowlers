@@ -1,18 +1,21 @@
-import React, {useEffect, useReducer, useState} from "react";
+import {FormEvent, useEffect, useReducer, useState} from "react";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
-import {giftCardPayment} from "../Components/giftCardPayment.tsx";
+import {giftCardPayment} from "../Components/giftCardPayment.ts";
+import {GiftCardPaymentResponse} from "../Components/giftCardPayment.ts";
 
 interface ChoosePaymentProps {
     isInvoiceEnabled: boolean;
     totalDiscountedPrice: number;
 }
+
 enum PaymentOption{
     NONE, CARD, GIFT_CARD, INVOICE, MobilePay
 }
-function reducer(state, action) {
+//@TODO make correct variables
+function reducer(state: any, action: any) {
     switch (action.type) {
         case 'updateText':
             return { ...state, text: action.payload };
@@ -20,13 +23,14 @@ function reducer(state, action) {
             return state;
     }
 }
+
 function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
     const [state, dispatch] = useReducer(reducer, { text: ' The inputs are case sensitive ' });
 
     const isInvoiceEnabled: boolean = choosePaymentProps.isInvoiceEnabled;
     const [isPopUpActive, setIsPopUpActive] = useState(false);
-    const [giftCardCopy, setGiftCardCopy] = useState(null);
-    const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
+    const [giftCardCopy, setGiftCardCopy] = useState<Partial< {
+        currentCredit: number, currency:string}>>({ currentCredit: undefined, currency: '' });    const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
     const handlePaymentMethodChange = (paymentOption: PaymentOption) => {
         setPaymentOption(paymentOption)
     };
@@ -101,7 +105,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
                                 className="PaymentIcons"
                                 style={{ height: '30px' }}
                                 alt="Payment option - Gift card"
-                                src={"public/images/Payment icons/GiftCard.png"}
+                                src={"/images/Payment icons/GiftCard.png"}
                             />
                         </div>
                     </label>
@@ -150,7 +154,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
                                 className="PaymentIcons"
                                 style={{ height: '35px'}}
                                 alt="Payment option - Mobile Pay"
-                                src="public/images/Payment icons/MobilePayPNG/MobilePayLogo.png"
+                                src="/images/Payment icons/MobilePayPNG/MobilePayLogo.png"
                             />
                         </div>
 
@@ -201,44 +205,52 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
             }
         </div>
     );
-    async function HandleGiftCardRedeemClick (event){
+    async function HandleGiftCardRedeemClick (event: FormEvent){
         event.preventDefault();
-        const userTypedGiftCardNumber = document.getElementById('giftCardNumber').value;
-        const userTypedGiftCardPIN = document.getElementById('giftCardPIN').value;
+        //const [userTypedGiftCardNumber, setUserTypedGiftCardNumber]= useState("")
+        //const [userTypedGiftCardPIN, setUserTypedGiftCardPIN]= useState("")
 
-        if (userTypedGiftCardNumber.length < 1 || userTypedGiftCardPIN.length < 1) {
-            console.log("No input in number or PIN")
-            dispatch({ type: 'updateText', payload: 'You have to fill in the name and PIN' });
-        } else if (userTypedGiftCardNumber.length < 3 || userTypedGiftCardPIN.length < 3) {
-            console.log("Invalid Number or PIN")
-            dispatch({ type: 'updateText', payload: 'Invalid Number or PIN' });
-        } else {
-            console.log( userTypedGiftCardNumber + " and " + userTypedGiftCardPIN + " are valid inputs!")
-            await giftCardPayment(userTypedGiftCardNumber, userTypedGiftCardPIN)
-                .then((result: GiftCardPaymentResponse) => {
-                    if ('error' in result) {
-                        console.error('Error:', result.error);
-                        dispatch({ type: 'updateText', payload: 'The input did not match a gift-card. Please try again'});
-                    } else {
-                        console.log('Success:', result.giftCard);
-                        dispatch({ type: 'updateText', payload: ''});
-                        setIsPopUpActive(true);
-                        // Clone the giftCard object
-                        const clonedGiftCard = { ...result.giftCard };
-                        // Set the state with the cloned giftCard object
-                        setGiftCardCopy(clonedGiftCard);
-                        handlePaymentMethodChange(PaymentOption.NONE)
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    dispatch({ type: 'updateText', payload: 'Something went wrong. Please try again later'});
-                });
+        const userTypedGiftCardNumber: HTMLInputElement = document.getElementById('giftCardNumber') as HTMLInputElement;
+        const userTypedGiftCardPIN: HTMLInputElement = document.getElementById('giftCardPIN') as HTMLInputElement;
+
+        if (userTypedGiftCardNumber != null && userTypedGiftCardPIN != null) {
+            //setUserTypedGiftCardNumber(document.getElementById('giftCardNumber').value);
+            const userTypedGiftCardNumberValue = userTypedGiftCardNumber.value;
+            const userTypedGiftCardPINValue = userTypedGiftCardPIN.value;
+            if (userTypedGiftCardNumberValue.length < 1 || userTypedGiftCardPINValue.length < 1) {
+                console.log("No input in number or PIN")
+                dispatch({ type: 'updateText', payload: 'You have to fill in the name and PIN' });
+            } else if (userTypedGiftCardNumberValue.length < 3 || userTypedGiftCardPINValue.length < 3) {
+                console.log("Invalid Number or PIN")
+                dispatch({ type: 'updateText', payload: 'Invalid Number or PIN' });
+            } else {
+                console.log( userTypedGiftCardNumber + " and " + userTypedGiftCardPIN + " are valid inputs!")
+                await giftCardPayment(userTypedGiftCardNumberValue, userTypedGiftCardPINValue)
+                    .then((result: GiftCardPaymentResponse) => {
+                        if ('error' in result) {
+                            console.error('Error:', result.error);
+                            dispatch({ type: 'updateText', payload: 'The input did not match a gift-card. Please try again'});
+                        } else {
+                            console.log('Success:', result.giftCard);
+                            dispatch({ type: 'updateText', payload: ''});
+                            setIsPopUpActive(true);
+                            // Clone the giftCard object
+                            const clonedGiftCard = { ...result.giftCard };
+                            // Set the state with the cloned giftCard object
+                            setGiftCardCopy(clonedGiftCard);
+                            handlePaymentMethodChange(PaymentOption.NONE)
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        dispatch({ type: 'updateText', payload: 'Something went wrong. Please try again later'});
+                    });
+            }
         }
     }
     function GiftCardPopUp() {
         useEffect(() => {
-            const slider = document.getElementById("sliderRange");
+            const slider: HTMLInputElement = document.getElementById("sliderRange") as HTMLInputElement;
             const handleSliderChange = () => {
                 if (slider && slider.value !== "100") {
                     // Define a recursive function to decrement the slider value gradually
@@ -282,5 +294,4 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
         )
     }
 }
-
 export default ChoosePayment;
