@@ -154,6 +154,39 @@ p {
     cursor: pointer;
     margin-right: 10px;
 }
+.ErrorText {
+    margin-left: 10px;
+    color: red;
+    scale: .8;
+}
+
+.WholeGiftCardPopUp {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999; /* Ensure it's above everything else */
+    background-color: white;
+    height: 200px;
+    width: 400px;
+    border-radius: 20px;
+    padding: 2%;
+    border: 2px solid;
+    box-shadow: 8px 10px 0 0 rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    animation: glow 4s infinite alternate ease-in, appear 1s;
+}
+.HAndButton {
+    display: flex;
+    justify-content: space-between;
+    button{
+        height: 30px;
+    }
+}
+
 @media screen and (min-width: 769px){
     .stageBoxes{
         width: 60%;
@@ -184,5 +217,74 @@ p {
     }
     #upgradeButton{
         margin: 4px;
+    }
+}
+/*************SLIDER FOR GIFT-CARD REDEMPTION***************/
+.slideContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
+
+/* The slider itself */
+.slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    border-radius: 20px;
+    appearance: none;
+    width: 80%;
+    height: 35px; /* Specified height */
+    background: #ecffec;
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s, color .1s;
+}
+/* Mouse-over effects */
+.slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 35px; /* Set a specific slider handle width */
+    height: 35px; /* Slider handle height */
+    background: silver; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 30px;
+    border: 1px solid gray;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #04AA6D; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+}
+/********ANIMATION OF GIFT-CARD*********/
+
+@keyframes glow {
+    0% {
+        border-color: #f3dbdb;
+    }
+    50% {
+        border-color: #EEFFE5FF;
+    }
+    100% {
+        border-color: #F6F1FFFF;
+    }
+}
+@keyframes appear {
+    from {
+        transform: scale(0);
+        opacity: 0;
+        bottom: -100px;
+        left: -100px;
+    }
+    to {
+        transform: scale(1);
+        opacity: 100%;
     }
 }
