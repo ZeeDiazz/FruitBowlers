@@ -3,7 +3,11 @@
     #titleName {
         border-bottom: 2px solid black;
     }
-    
+
+    .container-connecter{
+        margin-bottom: 10%;
+    }
+      
     .imageLogo{
         width: 100px;
     }
