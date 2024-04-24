@@ -3,6 +3,7 @@ body {
 }
 .body {
     display: flex;
+    background-color: #e6e6e6;
 }
 #titleName{
     text-align: center;
@@ -149,9 +150,13 @@ p {
     margin-right: 10px;
 }
 @media screen and (min-width: 769px){
-    .Discounted {
+    .imageLogo{
+        width: 120px;
+    }
+    #priceTag {
         display: grid;
-        grid-template-columns: auto auto;
+        grid-template-columns: auto auto auto;
+        align-items: center;
         gap: 1%;
     }
     #originalprice{
@@ -185,7 +190,6 @@ p {
       
       .container-connecter::before {
         content: "";
-        /* Hides the pseudo-element from displaying any content */
         position: absolute;
         top: 0;
         bottom: 0;
@@ -195,8 +199,7 @@ p {
         margin-bottom: 10%;
         border: 2px solid rgb(30, 30, 30);
         width: 40%;
-        background-color: rgb(80, 80, 80);
-        /* Ensures the element is positioned behind the content */
+        background-color: lightgreen;
         z-index: -1;
       }
       
