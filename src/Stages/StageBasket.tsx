@@ -83,7 +83,7 @@ export function StageBasket() {
                     {productsError && <p>Error fetching products</p>}
                     {productsLoading || upgradesLoading ? <div className="error">Loading...</div> : productBoxItems}                </div>
             </div>
-            {productsLoading ?  <div className="error">Loading...</div> : <TotalBox products={products} />}
+            {productsLoading ?  <div className="error">Loading...</div> : <TotalBox products={products}/>}
         </>
     )
 }
@@ -99,22 +99,30 @@ function ProductItem({product, totalAmount}: ProductItemProps){
                 </div>
                 <div id="priceTag">
                     
-                    {/*Before the discount is applied */}
+                    {/*{/*Before the discount is applied
                     <span>
                         {product.quantity < product.discountQuantity  && totalAmount} 
-                    </span>
+                    </span>*/}
   
-
-                    {/*After the discount is applied */}
-                    {product.quantity >= product.discountQuantity && product.discountQuantity !== 0 && (
-                        <div className="Discounted">
-                            <span id="originalprice">{product.totalPrice}</span>
-                            <span className="total-amount">{totalAmount}</span>
-                        </div>
-                    )}
+                    {/*After the discount is applied*/}
+                    {product.quantity >= product.discountQuantity && product.discountQuantity !== 0 ? 
+                        (
+                            //After the discount is applied
+                            <div className="Discounted">
+                                <span id="originalprice">{product.totalPrice}</span>
+                                <span className="total-amount">{totalAmount}</span>
+                            </div>
+                        ) : 
+                        (
+                            //Before the discount is applied
+                            <span>
+                                {totalAmount} 
+                            </span>
+                        )
+                    }
 
                     {product.currency}
-                
+
                 </div>
             </div>
             <div className={"productDescriptionBox"}>
