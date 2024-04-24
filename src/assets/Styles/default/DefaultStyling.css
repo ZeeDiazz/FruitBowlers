@@ -186,9 +186,9 @@ p {
         float: left;
         margin: 15px;
         position: relative;
-      }
+    }
       
-      .container-connecter::before {
+    .container-connecter::before {
         content: "";
         position: absolute;
         top: 0;
@@ -201,8 +201,7 @@ p {
         width: 40%;
         background-color: lightgreen;
         z-index: -1;
-      }
-      
+    }
       
     .title-container{
         display: flex;
