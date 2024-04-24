@@ -1,0 +1,83 @@
+/*Optimized for screen 320px*/
+@media screen and (max-width: 768px) {
+    .productImg {
+        height: 50px;
+        width: 50px;
+        float: left;
+    }
+    #productBox {
+        width: 100%;
+        border: 0;
+        padding: 0;
+        margin: 0;
+    }
+    .productStyling {
+        border: 0;
+        padding: 0;
+        margin: 10px;
+    }
+    #quantityBox {
+        padding: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .ProductInfo {
+        margin: 0;
+        display: flex;
+        justify-content: space-between;
+    }
+    .ProductInfo * {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .productDescriptionBox {
+        width: 100%;
+        display: none;
+    }
+
+    .productChangeNavigation {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+    /*.priceTag * {
+        /*display: flex;
+        align-items: center;
+    }*/
+    #priceTag {
+        display: grid;
+        align-items: center;
+        grid-template-columns: auto auto auto;
+        gap: 10%;
+    }
+    #originalprice{
+        color: red;
+        text-decoration: line-through;
+    }
+
+    #totalBox {
+        background-color: #eeeeee;
+        position: fixed;
+        width: 100%;
+        bottom: -20px;
+        border-top: 1px solid black ;
+        border-radius: 20px;
+        padding-bottom: 20px;
+    }
+    #totalBox H2 {
+        margin-left: 20px;
+    }
+
+    #totalContent {
+        margin: 10px;
+    }
+    #totalContent * {
+        margin-bottom: 5px;
+    }
+    #ChoosePaymentBox {
+        margin-bottom: 200px;
+    }
+
+}

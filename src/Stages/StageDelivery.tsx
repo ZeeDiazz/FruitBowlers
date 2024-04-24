@@ -1,5 +1,6 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
+import '../assets/Styles/320px/SmallScreenDelivery.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import React, {FormEvent, useState} from "react";
 
