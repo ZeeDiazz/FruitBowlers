@@ -3,6 +3,8 @@
     #titleName {
         border-bottom: 2px solid black;
     }
+    
+
     .imageLogo{
         width: 100px;
     }
@@ -60,7 +62,9 @@
     }
     .productDescriptionBox {
         width: 100%;
+        display: none;
     }
+
     .productChangeNavigation {
         display: flex;
         align-items: center;
@@ -68,9 +72,22 @@
         width: 100%;
     }
     .priceTag * {
-        display: flex;
-        align-items: center;
+        /*display: flex;
+        align-items: center;*/
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        gap: 10px;
     }
+    .Discounted {
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 10%;
+    }
+    #originalprice{
+        color: red;
+        text-decoration: line-through;
+    }
+
     #totalBox {
         background-color: #eeeeee;
         position: fixed;
@@ -83,6 +100,7 @@
     #totalBox H2 {
         margin-left: 20px;
     }
+
     #totalContent {
         margin: 10px;
     }

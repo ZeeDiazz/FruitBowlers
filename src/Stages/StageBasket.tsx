@@ -28,8 +28,8 @@ export function StageBasket() {
             displays nothing if the item has no discount available
             */}
                     {product.quantity < product.discountQuantity && <p>Buy {product.discountQuantity} for a discount</p>}
-                    {product.quantity >= product.discountQuantity && product.discountQuantity != 0 &&
-                        <p>{product.discountPercent}% discount</p>}
+                    {/*product.quantity >= product.discountQuantity && product.discountQuantity != 0  &&
+                        <p>{product.discountPercent}% discount</p>*/}
                 </div>
 
                 <div id="quantityBox">
@@ -97,10 +97,19 @@ function ProductItem({product, totalAmount}: ProductItemProps){
                     </div>
                 </div>
                 <div id="priceTag">
-                    {"Total amount: "}
                     {/*&nbsp;*/}
-                    {totalAmount}
-                    &nbsp;
+                    {/*Before the discount is applied */}
+                    {product.quantity < product.discountQuantity  && totalAmount}  
+
+                    {/*After the discount is applied */}
+                    <div className="Discounted">
+                        <a id="originalprice">
+                            {product.quantity >= product.discountQuantity && product.discountQuantity != 0  && product.totalPrice }
+                        </a>
+                        <span className="total-amount">
+                            {product.quantity >= product.discountQuantity && product.discountQuantity != 0  && totalAmount}
+                        </span>
+                    </div>
                     {product.currency}
                 </div>
             </div>
@@ -122,4 +131,3 @@ function getImage(product: Product) {
         </>
     )
 }
-

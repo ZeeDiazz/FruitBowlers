@@ -149,6 +149,15 @@ p {
     margin-right: 10px;
 }
 @media screen and (min-width: 769px){
+    .Discounted {
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 1%;
+    }
+    #originalprice{
+        color: red;
+        text-decoration: line-through;
+    }
     .stageBoxes{
         width: 60%;
         border: 2px solid rgb(0, 0, 0);
