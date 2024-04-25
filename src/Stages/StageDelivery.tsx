@@ -208,8 +208,9 @@ export function StageDelivery() {
                 </div>
                 <div className="continue-container">
                     {checkboxes(diffDeliveryAddress, diff)}
+                    {submitButton(diff)}
+
                 </div>
-                {submitButton(diff)}
             </form>
 
             {deliveryAddress(diff)}
