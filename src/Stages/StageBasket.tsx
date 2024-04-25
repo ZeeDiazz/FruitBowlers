@@ -1,13 +1,22 @@
-import {calculateLocalTotalPrice,handleQuantityChange} from "../Components/price.ts";
+import {
+    calculateLocalTotalPrice,
+    getTotalPriceDiscounted,
+    getTotalQuantity,
+    handleQuantityChange
+} from "../Components/price.ts";
 import {handleUpgradeClick, hasUpgradeOption, UpgradeButton} from "../Components/upgrade.tsx"
 import {TotalBox} from "./StageTotal.tsx";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import {useFetch} from "../Components/useFetch.ts";
-
+import { Link } from 'react-router-dom';
+import { DataContext } from '../App';
+import {useContext} from "react";
 
 export function StageBasket() {
+    const priceData = useContext(DataContext).totalPriceDatas;
+
     const base : string= 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/';
     const productsUrl: string = base + 'main/productsList.json';
     const upgradesUrl: string = base + 'main/upgradesList.json';
@@ -70,8 +79,19 @@ export function StageBasket() {
             </div>
         )
     ));
+
+    function handleContinue() {
+        priceData.totalQuantity = getTotalQuantity(products);
+        priceData.totalPrice = getTotalPriceDiscounted(products);
+
+        console.log("price ", priceData.totalPrice);
+        console.log("Quantity ", priceData.totalQuantity);
+    }
+
     return (
         <>
+            <Link to="/StageDelivery"onClick={handleContinue}>Continue</Link>
+
             <div className="stageBoxes">
                 <div className="title-container">
                     <img
