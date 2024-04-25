@@ -6,11 +6,6 @@ import { header } from "./Components/header.tsx";
 import { createContext } from 'react';
 import { Outlet } from "react-router-dom";
 
-
-
-
-
-
 interface formInterface {
     Name: string;
     LastName: string;
@@ -36,23 +31,17 @@ const form: formInterface = {
 }
 interface dataInterface {
     form:formInterface;
-    comment:String,
-    receiveEmails:Boolean,
-    Total,
+    comment:string,
+    receiveEmails:boolean,
+    Total:number,
 
 
 
 }
-
 export const FormContext = createContext(form);
 
 
-
-
-
 export function App() {
-
-
 
     return (
         <>
