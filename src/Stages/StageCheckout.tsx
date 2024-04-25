@@ -1,4 +1,4 @@
-import '../assets/Styles/large/StageTermsNConditions.css'
+import '../assets/Styles/large/StageCheckout.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import { FormEvent, useState } from 'react'

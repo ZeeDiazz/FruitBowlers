@@ -1,5 +1,7 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
+import '../assets/Styles/320px/SmallScreenDelivery.css'
+import '../assets/Styles/default/DefaultStyling.css'
 import {FormEvent, useContext, useState} from "react";
 import { Link } from 'react-router-dom';
 import { DataContext } from '../App';
@@ -198,14 +200,13 @@ export function StageDelivery() {
                         <input type="number" pattern="\d*" name="Telephone"
                                minLength={8} maxLength={8} placeholder="Telephone" required/>
                     </div>
-                    {submitButton(diff)}
                 </div>
+                <div className="continue-container">
+                    {checkboxes(diffDeliveryAddress, diff)}
+                </div>
+                {submitButton(diff)}
             </form>
 
-            <div className="continue-container">
-                {checkboxes(diffDeliveryAddress, diff)}
-
-            </div>
             {deliveryAddress(diff)}
 
         </div>

@@ -8,6 +8,7 @@ import {handleUpgradeClick, hasUpgradeOption, UpgradeButton} from "../Components
 import {TotalBox} from "./StageTotal.tsx";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/320px/SmallScreen.css'
+import '../assets/Styles/320px/SmallScreenBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import {useFetch} from "../Components/useFetch.ts";
 import { Link } from 'react-router-dom';
@@ -33,12 +34,12 @@ export function StageBasket() {
                         totalAmount={calculateLocalTotalPrice(products,index)}
                     />
                     {/*
-            the following two lines of code, displays if there is a local discount available or if a discount has been applied
-            displays nothing if the item has no discount available
-            */}
+                        the following two lines of code, displays if there is a local discount available or if a discount has been applied
+                        displays nothing if the item has no discount available
+                    */}
                     {product.quantity < product.discountQuantity && <p>Buy {product.discountQuantity} for a discount</p>}
-                    {product.quantity >= product.discountQuantity && product.discountQuantity != 0 &&
-                        <p>{product.discountPercent}% discount</p>}
+                    {/*product.quantity >= product.discountQuantity && product.discountQuantity != 0  &&
+                        <p>{product.discountPercent}% discount</p>*/}
                 </div>
 
                 <div id="quantityBox">
@@ -102,7 +103,7 @@ export function StageBasket() {
                     {productsError && <p>Error fetching products</p>}
                     {productsLoading || upgradesLoading ? <div className="error">Loading...</div> : productBoxItems}                </div>
             </div>
-            {productsLoading ?  <div className="error">Loading...</div> : <TotalBox products={products} />}
+            {productsLoading ?  <div className="error">Loading...</div> : <TotalBox products={products}/>}
         </>
     )
 }
@@ -117,11 +118,31 @@ function ProductItem({product, totalAmount}: ProductItemProps){
                     </div>
                 </div>
                 <div id="priceTag">
-                    {"Total amount: "}
-                    {/*&nbsp;*/}
-                    {totalAmount}
-                    &nbsp;
+                    
+                    {/*{/*Before the discount is applied
+                    <span>
+                        {product.quantity < product.discountQuantity  && totalAmount} 
+                    </span>*/}
+  
+                    {/*After the discount is applied*/}
+                    {product.quantity >= product.discountQuantity && product.discountQuantity !== 0 ? 
+                        (
+                            //After the discount is applied
+                            <div className="Discounted">
+                                <span id="originalprice">{product.totalPrice}</span>
+                                <span className="total-amount">{totalAmount}</span>
+                            </div>
+                        ) : 
+                        (
+                            //Before the discount is applied
+                            <span>
+                                {totalAmount} 
+                            </span>
+                        )
+                    }
+
                     {product.currency}
+
                 </div>
             </div>
             <div className={"productDescriptionBox"}>
@@ -142,4 +163,3 @@ function getImage(product: Product) {
         </>
     )
 }
-
