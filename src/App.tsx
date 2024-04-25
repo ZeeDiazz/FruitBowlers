@@ -6,7 +6,7 @@ import { header } from "./Components/header.tsx";
 import {Context, createContext} from 'react';
 import { Outlet } from "react-router-dom";
 
-interface formInterface {
+export interface formInterface {
     Name: string;
     LastName: string;
     Email: string;
@@ -28,7 +28,7 @@ const form: formInterface = {
     streetName: "Main Street",
     Telephone: 12345678
 }
-interface priceInterface{
+export interface priceInterface{
     totalPrice:number,
     totalQuantity:number
 }
@@ -38,7 +38,7 @@ const totalPrisData:priceInterface = {
     totalQuantity:0
 }
 
-interface DataInterface{
+export interface DataInterface{
     forms: formInterface,
     totalPriceDatas: priceInterface
 }
