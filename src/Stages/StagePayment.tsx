@@ -1,5 +1,4 @@
 import {FormEvent, useEffect, useReducer, useState} from "react";
-import {useState} from "react";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
