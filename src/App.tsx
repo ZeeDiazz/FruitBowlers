@@ -2,15 +2,8 @@ import './assets/Styles/large/App.css'
 import './Components/product.ts'
 import './Components/upgrade.tsx'
 import './assets/Styles/default/DefaultStyling.css'
-import { StageDelivery } from './Stages/StageDelivery.tsx'
-import { StageBasket } from './Stages/StageBasket.tsx'
 import { header } from "./Components/header.tsx";
-import ChoosePayment from "./Stages/StagePayment.tsx";
-import {stageTermsNConditions} from "./Stages/StageTermsNConditions.tsx";
-import { useState } from 'react'
 import { createContext } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { Outlet } from "react-router-dom";
 
 
@@ -43,6 +36,10 @@ const form: formInterface = {
 }
 interface dataInterface {
     form:formInterface;
+    comment:String,
+    receiveEmails:Boolean,
+    Total,
+
 
 
 }
@@ -62,7 +59,6 @@ export function App() {
             <header>
                 {header()}
             </header>
-            <Link to="/StageDelivery">Continue</Link>
             <main>
                 <FormContext.Provider value={form}>
                     <div id="detail">

@@ -5,6 +5,7 @@ import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import {useFetch} from "../Components/useFetch.ts";
+import { Link } from 'react-router-dom';
 
 
 export function StageBasket() {
@@ -69,6 +70,8 @@ export function StageBasket() {
     ));
     return (
         <>
+            <Link to="/StageDelivery">Continue</Link>
+
             <div className="stageBoxes">
                 <div className="title-container">
                     <img

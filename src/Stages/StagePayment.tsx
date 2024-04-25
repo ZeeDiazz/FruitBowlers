@@ -1,9 +1,10 @@
-import { useState } from "react";
+import {useContext, useState} from "react";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
 import { Link } from "react-router-dom";
+import {FormContext} from "../App";
 
 /*interface ButtonProps {
     handleGiftCardRedeemClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -32,6 +33,8 @@ enum PaymentOption{
     NONE, CARD, GIFT_CARD, INVOICE, MobilePay
 }
 export function ChoosePayment(choosePaymentProps: ChoosePaymentProps/*, buttonProps: ButtonProps*/) {
+    const form = useContext(FormContext);
+
     const isInvoiceEnabled = choosePaymentProps.isInvoiceEnabled;
     const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
 
