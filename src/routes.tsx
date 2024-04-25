@@ -38,7 +38,7 @@ export const routes: RouteObject = ([
         children: [
 
             {
-                path: "/stageBasket",
+                path: "/",
                 element: <StageBasket />,
                 errorElement: <ErrorPage/>,
             },
