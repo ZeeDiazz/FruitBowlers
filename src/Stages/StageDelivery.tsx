@@ -21,6 +21,9 @@ export function StageDelivery() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [diff, diffDeliveryAddress] = useState(false);
 
+    const [fillForm, setfillForm] = useState(false);
+
+
     /* Learned from lecture and https://www.valentinog.com/blog/await-react/*/
     async function validateZipCode(zipcode: string, zipcodeName: string) {
         try {
@@ -68,6 +71,7 @@ export function StageDelivery() {
         form.streetName = formData.get("streetName")?.toString()|| "tom";
 
         console.log(form.Email)
+        setfillForm(true)
     }
 
     function customError(){
@@ -107,7 +111,8 @@ export function StageDelivery() {
             return (
                 <>
                     <input type="submit" value="Save form" id="button"/>
-                    <Link to="/stagePayment" type="submit" id="button" >Continue</Link>
+
+                    { fillForm && <Link to="/stagePayment" type="submit" id="button" >Continue</Link>}
                 </>
             )
         }
