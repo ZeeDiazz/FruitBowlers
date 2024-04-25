@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import App from "../App.tsx";
-import {debug} from "vitest-preview";
+//import {debug} from "vitest-preview";
 
 describe(App.name, () => {
     it("should render each stage", () => {
@@ -15,7 +15,8 @@ describe(App.name, () => {
         expect(screen.getByText("Billing Address")).toBeInTheDocument();
         expect(screen.getByText("Payment")).toBeInTheDocument();
         expect(screen.getByText("Terms & Conditions")).toBeInTheDocument();
-        debug();
+ //       debug();
+        // TODO consider new routing. Render different stages
     });
 });
 
