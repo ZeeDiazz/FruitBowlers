@@ -2,26 +2,56 @@ import './assets/Styles/large/App.css'
 import './Components/product.ts'
 import './Components/upgrade.tsx'
 import './assets/Styles/default/DefaultStyling.css'
-import { StageDelivery } from './Stages/StageDelivery.tsx'
-import { StageBasket } from './Stages/StageBasket.tsx'
 import { header } from "./Components/header.tsx";
-import ChoosePayment from "./Stages/StagePayment.tsx";
-import {stageTermsNConditions} from "./Stages/StageTermsNConditions.tsx";
-import { useState } from 'react'
+import {Context, createContext} from 'react';
+import { Outlet } from "react-router-dom";
 
-function App() {
-    const [companyVATNumber, setCompanyVATNumber] = useState<string>('');
-    const [firstName, setFirstName] = useState<string>('');
-    const [lastName, setLastName] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [zipcode, setZipcode] = useState<string>('');
-    const [streetName, setStreetName] = useState<string>('');
-    const [telephoneNumber, setTelephoneNumber] = useState<string>('');
-    const [cityName, setCityName] = useState<string>('');
-    const [companyName, setCompanyName] = useState<string>('');
+interface formInterface {
+    Name: string;
+    LastName: string;
+    Email: string;
+    companyName?: string;
+    VATnum?: string;
+    zipcode1: number;
+    City: string;
+    streetName: string;
+    Telephone: number;
+}
 
-    const [totalDiscountedPrice] = useState<number>(0);
-    const isInvoiceEnabled = isValidVATNumber(companyVATNumber);
+const form: formInterface = {
+
+    Name: "Zayd",
+    LastName: "Doe",
+    Email: "zayd.doe@example.com",
+    zipcode1: 12345,
+    City: "Copenhagen",
+    streetName: "Main Street",
+    Telephone: 12345678
+}
+interface priceInterface{
+    totalPrice:number,
+    totalQuantity:number
+}
+
+const totalPrisData:priceInterface = {
+    totalPrice: 0,
+    totalQuantity:0
+}
+
+interface DataInterface{
+    forms: formInterface,
+    totalPriceDatas: priceInterface
+}
+
+const data: DataInterface = {
+    forms: form,
+    totalPriceDatas: totalPrisData
+}
+
+export const DataContext: Context<DataInterface>  = createContext(data);
+
+
+export function App() {
 
     return (
         <>
@@ -29,25 +59,16 @@ function App() {
                 {header()}
             </header>
             <main>
-                <StageBasket/>
-                <StageDelivery setCompanyVATNumber={setCompanyVATNumber} companyVATNumber={companyVATNumber}
-                    setFirstName={setFirstName} firstName={firstName}
-                    setLastName={setLastName} lastName={lastName}
-                    setEmail={setEmail} email={email}
-                    setZipcode={setZipcode} zipcode={zipcode}
-                    setStreetName={setStreetName} streetName={streetName}
-                    setTelephoneNumber={setTelephoneNumber} telephoneNumber={telephoneNumber}
-                    setCityName={setCityName} cityName={cityName}
-                    setCompanyName={setCompanyName} companyName={companyName}
-                    />
-                <ChoosePayment totalDiscountedPrice={totalDiscountedPrice} isInvoiceEnabled={isInvoiceEnabled} />
-                {stageTermsNConditions()}
+                <DataContext.Provider value={data}>
+                    <div id="detail">
+                        <Outlet />
+                    </div>
+                </DataContext.Provider>
+
             </main>
         </>
     );
 }
 
-function isValidVATNumber(companyVATNumber: string) : boolean{
-    return companyVATNumber.length === 8;
-}
+
 export default App

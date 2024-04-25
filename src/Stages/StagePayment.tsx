@@ -1,10 +1,22 @@
 import {FormEvent, useEffect, useReducer, useState} from "react";
+import {useState} from "react";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
 import {giftCardPayment} from "../Components/giftCardPayment.ts";
 import {GiftCardPaymentResponse} from "../Components/giftCardPayment.ts";
+import { Link } from "react-router-dom";
+
+
+
+function backBotton(){
+        return(
+            <>
+                <Link to="/StageDelivery">Back to form</Link>
+            </>
+            )
+    }
 
 interface ChoosePaymentProps {
     isInvoiceEnabled: boolean;
@@ -37,6 +49,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
 
     return (
         <div className="stageBoxes">
+            {backBotton()}
             <div className="title-container">
                 <img
                     src={`/images/stage3-fat.png`}
