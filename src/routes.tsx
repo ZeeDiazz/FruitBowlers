@@ -6,23 +6,8 @@ import { StageBasket } from './Stages/StageBasket.tsx'
 import {StageCheckout} from './Stages/StageCheckout.tsx'
 const one: number= 1;
 const enabled = false;
-import { useRouteError } from "react-router-dom";
+import {ErrorPage} from "./ErrorPage.tsx";
 
-
-function ErrorPage() {
-  const error = useRouteError();
-  console.error(error);
-
-  return (
-      <div id="error-page">
-        <h1>Oops!</h1>
-        <p>Sorry, an unexpected error has occurred.</p>
-        <p>
-          <i>{error.statusText || error.message}</i>
-        </p>
-      </div>
-  );
-}
 
 export const routes: RouteObject[] = [
     {
