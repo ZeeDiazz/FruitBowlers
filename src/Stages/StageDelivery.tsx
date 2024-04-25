@@ -135,7 +135,7 @@ export function StageDelivery() {
                                 <input name="zipcode2" pattern="\d*"type="number" placeholder="ZipCode"
                                        onChange={e => validateZipCode(e.target.value.toString(), "zipcode2")} required/>
 
-                                <input name="City" placeholder="City" value={textDelivery} required/>
+                                <input name="City" placeholder="City" defaultValue={textDelivery} required/>
                                 <br/>
                                 <input name="streetName" type="text" placeholder="Street Name" required/>
                             </div>
@@ -187,7 +187,7 @@ export function StageDelivery() {
                         <input name="zipcode1" pattern="\d*" type="number" placeholder="ZipCode"
                                onChange={e => validateZipCode(e.target.value.toString(), "zipcode1")} />
 
-                        <input name="City" placeholder="City" value={text} required/>
+                        <input name="City" placeholder="City" defaultValue={text} required/>
                         <br/>
                         <input name="streetName" type="text" placeholder="Street Name" required/>
                     </div>

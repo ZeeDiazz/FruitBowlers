@@ -18,7 +18,6 @@ interface formInterface {
     Telephone: number;
 }
 
-
 const form: formInterface = {
 
     Name: "Zayd",
