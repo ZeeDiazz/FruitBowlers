@@ -105,7 +105,7 @@ export function StageDelivery() {
             return (
                 <>
                     <input type="submit" value="Save form" id="button"/>
-                    <Link to="/stagepayment" type="submit" id="button" >Continue</Link>
+                    <Link to="/stagePayment" type="submit" id="button" >Continue</Link>
                 </>
             )
         }

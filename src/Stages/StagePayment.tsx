@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 function backBotton(){
         return(
             <>
-                <Link to="/StageDelivery">Back to form</Link>
+                <Link to="/stageDelivery">Back to form</Link>
             </>
             )
     }
@@ -215,6 +215,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
             { isPopUpActive &&
                 <GiftCardPopUp></GiftCardPopUp>
             }
+            <Link to="/stageCheckout" type="submit" id="button" >Continue</Link>
         </div>
     );
     async function HandleGiftCardRedeemClick (event: FormEvent){
