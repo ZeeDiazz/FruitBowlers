@@ -117,7 +117,7 @@ export function StageDelivery() {
                 <>
                     <h2 id="title">Delivery address</h2>
 
-                    <form>
+                    <form onSubmit={handleFormSubmit}>
                         <div id="inputBox">
                             <input name="Name" type="text"
                                    placeholder="First Name" required/>
