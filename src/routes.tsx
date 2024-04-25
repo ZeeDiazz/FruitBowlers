@@ -7,8 +7,6 @@ import { StageBasket } from './Stages/StageBasket.tsx'
 const one: number= 1;
 const enabled = false;
 import { useRouteError } from "react-router-dom";
-import {useState} from "react";
-
 
 
 
@@ -30,7 +28,7 @@ function ErrorPage() {
 
 
 
-export const routes: RouteObject = ([
+export const routes: RouteObject[] = [
     {
         path: "/",
         element: <App/>,
@@ -55,4 +53,4 @@ export const routes: RouteObject = ([
             },
         ]
     }
-]);
+];
