@@ -1,10 +1,9 @@
-import {useContext, useState} from "react";
+import {useState} from "react";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
 import { Link } from "react-router-dom";
-import {FormContext} from "../App";
 
 /*interface ButtonProps {
     handleGiftCardRedeemClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -17,14 +16,9 @@ function backBotton(){
             <>
                 <Link to="/StageDelivery">Back to form</Link>
             </>
-
             )
     }
 
-
-
-const one: number= 1;
-const enabled = false;
 interface ChoosePaymentProps {
     isInvoiceEnabled: boolean;
     totalDiscountedPrice: number;
@@ -33,8 +27,6 @@ enum PaymentOption{
     NONE, CARD, GIFT_CARD, INVOICE, MobilePay
 }
 export function ChoosePayment(choosePaymentProps: ChoosePaymentProps/*, buttonProps: ButtonProps*/) {
-    const form = useContext(FormContext);
-
     const isInvoiceEnabled = choosePaymentProps.isInvoiceEnabled;
     const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
 

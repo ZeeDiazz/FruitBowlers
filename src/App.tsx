@@ -3,7 +3,7 @@ import './Components/product.ts'
 import './Components/upgrade.tsx'
 import './assets/Styles/default/DefaultStyling.css'
 import { header } from "./Components/header.tsx";
-import { createContext } from 'react';
+import {Context, createContext} from 'react';
 import { Outlet } from "react-router-dom";
 
 interface formInterface {
@@ -29,16 +29,27 @@ const form: formInterface = {
     streetName: "Main Street",
     Telephone: 12345678
 }
-interface dataInterface {
-    form:formInterface;
-    comment:string,
-    receiveEmails:boolean,
-    Total:number,
-
-
-
+interface priceInterface{
+    totalPrice:number,
+    totalQuantity:number
 }
-export const FormContext = createContext(form);
+
+const totalPrisData:priceInterface = {
+    totalPrice: 0,
+    totalQuantity:0
+}
+
+interface DataInterface{
+    forms: formInterface,
+    totalPriceDatas: priceInterface
+}
+
+const data: DataInterface = {
+    forms: form,
+    totalPriceDatas: totalPrisData
+}
+
+export const DataContext: Context<DataInterface>  = createContext(data);
 
 
 export function App() {
@@ -49,11 +60,11 @@ export function App() {
                 {header()}
             </header>
             <main>
-                <FormContext.Provider value={form}>
+                <DataContext.Provider value={data}>
                     <div id="detail">
                         <Outlet />
                     </div>
-                </FormContext.Provider>
+                </DataContext.Provider>
 
             </main>
         </>

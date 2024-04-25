@@ -9,8 +9,6 @@ const enabled = false;
 import { useRouteError } from "react-router-dom";
 
 
-
-
 function ErrorPage() {
   const error = useRouteError();
   console.error(error);
@@ -25,8 +23,6 @@ function ErrorPage() {
       </div>
   );
 }
-
-
 
 export const routes: RouteObject[] = [
     {

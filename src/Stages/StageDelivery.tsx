@@ -1,23 +1,12 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
-import {useContext, useState} from "react";
+import {FormEvent, useContext, useState} from "react";
 import { Link } from 'react-router-dom';
-import { FormContext } from '../App';
-
-
-
+import { DataContext } from '../App';
 
 
 export function StageDelivery() {
-    const form = useContext(FormContext);
-
-
-
-
-
-
-
-
+    const form = useContext(DataContext).forms;
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [hasError, setHasError] = useState(false);
@@ -63,28 +52,22 @@ export function StageDelivery() {
             return false;
         }
     }
-    function handleFormSubmit(event: any) {
+    function handleFormSubmit(event:FormEvent<HTMLFormElement>):void {
         event.preventDefault();
-        const formData = new FormData(event.target);
+        const formData:FormData = new FormData(event.currentTarget);
 
-        form.Name = formData.get("Name").toString();
-        form.LastName = formData.get("LastName").toString();
-        form.Email = formData.get("Email").toString();
-        form.companyName = formData.get("companyName")?.toString() || "tom" ;
-        form.VATnum = formData.get("VATnum")?.toString()  || "tom" ;
+        form.Name = formData.get("Name")?.toString()||"tom";
+        form.LastName = formData.get("LastName")?.toString()|| "tom";
+        form.Email = formData.get("Email")?.toString()|| "tom";
+        form.companyName = formData.get("companyName")?.toString() || "tom";
+        form.VATnum = formData.get("VATnum")?.toString() || "tom";
         form.zipcode1 = parseInt(formData.get("zipcode1")?.toString() || formData.get("zipcode2")?.toString() || '');
-        form.City = formData.get("City").toString();
-        form.streetName = formData.get("streetName").toString();
-
+        form.City = formData.get("City")?.toString()|| "tom";
+        form.streetName = formData.get("streetName")?.toString()|| "tom";
 
         console.log(form.Email)
-
-
-
-
-
-
     }
+
     function customError(){
         return(<>
             <div id="message">
@@ -95,8 +78,6 @@ export function StageDelivery() {
 
             </>
             )
-
-
     }
 
     function checkboxes(diffDeliveryAddress: React.Dispatch<React.SetStateAction<boolean>>, diff: boolean) {
@@ -117,24 +98,16 @@ export function StageDelivery() {
 
             </div>
         );
-
-
     }
 
-    function subbmitButton(checked: boolean){
+    function submitButton(checked: boolean){
         if(!checked) {
             return (
                 <>
-
-                    <input type="submit" value="Save form" id="button"
-                    onSubmit={handleFormSubmit}
-                    />
-                    <Link to="/stagepayment">Continue</Link>
-
+                    <input type="submit" value="Save form" id="button"/>
+                    <Link to="/stagepayment" type="submit" id="button" >Continue</Link>
                 </>
-
             )
-
         }
     }
 
@@ -142,10 +115,9 @@ export function StageDelivery() {
         if (diff) {
             return (
                 <>
-
                     <h2 id="title">Delivery address</h2>
 
-                    <form method="post" onSubmit={handleFormSubmit}>
+                    <form>
                         <div id="inputBox">
                             <input name="Name" type="text"
                                    placeholder="First Name" required/>
@@ -173,14 +145,13 @@ export function StageDelivery() {
                                 <input type="digits" pattern="\d*"name="Telephone"
                                        minLength={8} maxLength={8} placeholder="Telephone" required/>
                             </div>
-                            {subbmitButton(!diff)}
+                            {submitButton(!diff)}
                         </div>
                     </form>
                 </>
             );
         }
     }
-
 
     return (
         <div className={"stageBoxes"}>
@@ -194,7 +165,7 @@ export function StageDelivery() {
                 />
                 <h2>Billing Address</h2>
             </div>
-            <form method="post" onSubmit={handleFormSubmit}>
+            <form onSubmit={handleFormSubmit}>
                 <div id="inputBox">
                     <input name="Name" type="text" placeholder="First Name" required/>
                     <br/>
@@ -227,8 +198,7 @@ export function StageDelivery() {
                         <input type="number" pattern="\d*" name="Telephone"
                                minLength={8} maxLength={8} placeholder="Telephone" required/>
                     </div>
-                    {subbmitButton(diff)}
-
+                    {submitButton(diff)}
                 </div>
             </form>
 
