@@ -1,28 +1,15 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
-import {useState} from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import {useContext, useState,createContext} from "react";
+import { Link } from 'react-router-dom';
+import { FormContext } from '../App';
 
 
-import { input } from '@testing-library/user-event/dist/cjs/event/input.js';
 
 
-interface formInterface {
-    Name: string;
-    LastName: string;
-    Email: string;
-    companyName?: string;
-    VATnum?: string;
-    zipcode1: number;
-    City: string;
-    streetName: string;
-    Telephone: number;
-}
-interface StageDeliveryProps {
-    form: formInterface;
-}
-export function StageDelivery(props: StageDeliveryProps) {
-    const navigate = useNavigate();
+
+export function StageDelivery() {
+    const form = useContext(FormContext);
 
 
 
@@ -30,7 +17,6 @@ export function StageDelivery(props: StageDeliveryProps) {
 
 
 
-    const [toPayment, setToPayment] = useState(false);
 
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -81,20 +67,20 @@ export function StageDelivery(props: StageDeliveryProps) {
         event.preventDefault();
         const formData = new FormData(event.target);
 
-        props.form.Name = formData.get("Name").toString();
-        props.form.LastName = formData.get("LastName").toString();
-        props.form.Email = formData.get("Email").toString();
-        props.form.companyName = formData.get("companyName")?.toString() || "tom" ;
-        props.form.VATnum = formData.get("VATnum")?.toString()  || "tom" ;
-        props.form.zipcode1 = parseInt(formData.get("zipcode1")?.toString() || formData.get("zipcode2")?.toString() || '');
-        props.form.City = formData.get("City").toString();
-        props.form.streetName = formData.get("streetName").toString();
-        props.form.Telephone = parseInt(formData.get("Telephone").toString());
+        form.Name = formData.get("Name").toString();
+        form.LastName = formData.get("LastName").toString();
+        form.Email = formData.get("Email").toString();
+        form.companyName = formData.get("companyName")?.toString() || "tom" ;
+        form.VATnum = formData.get("VATnum")?.toString()  || "tom" ;
+        form.zipcode1 = parseInt(formData.get("zipcode1")?.toString() || formData.get("zipcode2")?.toString() || '');
+        form.City = formData.get("City").toString();
+        form.streetName = formData.get("streetName").toString();
 
-        // Access form properties
-        console.log(props.form.Name);
-        console.log(props.form.zipcode1);
-        window.location.href = '/stagepayment';
+
+        console.log(form.Email)
+
+
+
 
 
 
@@ -140,7 +126,11 @@ export function StageDelivery(props: StageDeliveryProps) {
             return (
                 <>
 
-                    <input type="submit" value="Continue To Payment" id="button"/>
+                    <input type="submit" value="Save form" id="button"
+                    onSubmit={handleFormSubmit}
+                    />
+                    <Link to="/stagepayment">Continue</Link>
+
                 </>
 
             )
@@ -152,7 +142,9 @@ export function StageDelivery(props: StageDeliveryProps) {
         if (diff) {
             return (
                 <>
+
                     <h2 id="title">Delivery address</h2>
+
                     <form method="post" onSubmit={handleFormSubmit}>
                         <div id="inputBox">
                             <input name="Name" type="text"
@@ -188,13 +180,12 @@ export function StageDelivery(props: StageDeliveryProps) {
             );
         }
     }
-    function updateCompanyVAT(event: React.FormEvent<HTMLInputElement>) {
-        const VATNumber = event.currentTarget.value;
-        //setCompanyVATNumber(VATNumber)
-    }
+
 
     return (
         <div className={"stageBoxes"}>
+            <Link to="/">Back to basket</Link>
+
             <div className="title-container">
                 <img
                     src={`/images/stage2-fat.png`}
@@ -213,7 +204,7 @@ export function StageDelivery(props: StageDeliveryProps) {
                     <br/>
 
                     <input name="companyName" type="text" placeholder="*(Optional) Company Name"/>
-                    <input type="digits" name="VATnum" minLength={8} maxLength={8}  onChange={updateCompanyVAT}
+                    <input type="digits" name="VATnum" minLength={8} maxLength={8}
                            placeholder="*(Optional) Company VAT"/>
                     <br/>
                     <div className="addressBox">
@@ -223,7 +214,7 @@ export function StageDelivery(props: StageDeliveryProps) {
 
                         {hasError && customError()}
                         <input name="zipcode1" pattern="\d*" type="number" placeholder="ZipCode"
-                               onChange={e => validateZipCode(e.target.value.toString(), "zipcode1")} required disabled={toPayment}/>
+                               onChange={e => validateZipCode(e.target.value.toString(), "zipcode1")} />
 
                         <input name="City" placeholder="City" value={text} required/>
                         <br/>
@@ -237,6 +228,7 @@ export function StageDelivery(props: StageDeliveryProps) {
                                minLength={8} maxLength={8} placeholder="Telephone" required/>
                     </div>
                     {subbmitButton(diff)}
+
                 </div>
             </form>
 

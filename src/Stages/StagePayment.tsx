@@ -10,36 +10,23 @@ import { Link } from "react-router-dom";
     handleCheckboxChange: (event: React.MouseEvent<HTMLButtonElement>) => void;
     isChecked: boolean;
 }*/
-function navigateBack(){
-    window.location.href = '/';
-}
+
 function backBotton(){
         return(
-            <><>
-            </><input type="submit" value="Back to main" id="button" onClick={
-                navigateBack
-            }/></>
+            <>
+                <Link to="/StageDelivery">Back to form</Link>
+            </>
+
             )
     }
 
 
-interface formInterface {
-    Name: string;
-    LastName: string;
-    Email: string;
-    companyName?: string;
-    VATnum?: string;
-    zipcode1: number;
-    City: string;
-    streetName: string;
-    Telephone: number;
-}
+
 const one: number= 1;
 const enabled = false;
 interface ChoosePaymentProps {
     isInvoiceEnabled: boolean;
     totalDiscountedPrice: number;
-    form :formInterface;
 }
 enum PaymentOption{
     NONE, CARD, GIFT_CARD, INVOICE, MobilePay
@@ -51,7 +38,6 @@ export function ChoosePayment(choosePaymentProps: ChoosePaymentProps/*, buttonPr
     const handlePaymentMethodChange = (paymentOption: PaymentOption) => {
         setPaymentOption(paymentOption)
     };
-    console.log(choosePaymentProps.form.Name)
 
     return (
         <div className="stageBoxes">
