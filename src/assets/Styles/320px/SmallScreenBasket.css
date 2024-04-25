@@ -1,5 +1,8 @@
 /*Optimized for screen 320px*/
 @media screen and (max-width: 768px) {
+    .wholeProduct{
+        margin-bottom: 10%;
+    }
     .productImg {
         height: 50px;
         width: 50px;
