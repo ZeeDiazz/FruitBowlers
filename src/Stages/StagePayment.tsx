@@ -7,9 +7,7 @@ import {giftCardPayment} from "../Components/giftCardPayment.ts";
 import {GiftCardPaymentResponse} from "../Components/giftCardPayment.ts";
 import { Link } from "react-router-dom";
 
-
-
-function backBotton(){
+function backButton(){
         return(
             <>
                 <Link to="/stageDelivery">Back to form</Link>
@@ -59,7 +57,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
 
     return (
         <body className="stageBoxes">
-            {backBotton()}
+            {backButton()}
             <hgroup className="title-container">
                 <img
                     src={`/images/stage3-fat.png`}
@@ -217,22 +215,19 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
             dispatch({ type: 'updateText', payload: 'You have to fill in the name and PIN' });
 
             if (userTypedGiftCardNumber.value.length < 3 || userTypedGiftCardPIN.value.length < 3) {
-                console.log("Invalid Number or PIN")
                 dispatch({ type: 'updateText', payload: 'Invalid Number or PIN' });
             } else {
-                console.log( userTypedGiftCardNumber + " and " + userTypedGiftCardPIN + " are valid inputs!")
                 await giftCardPayment(userTypedGiftCardNumber.value, userTypedGiftCardPIN.value)
-                    .then((result: GiftCardPaymentResponse) => {
+                    .then((result: GiftCardPaymentResponse): void => {
                         if ('error' in result) {
                             console.error('Error:', result.error);
                             dispatch({ type: 'updateText', payload: 'The input did not match a gift-card. Please try again'});
                         } else {
-                            console.log('Success:', result.giftCard);
                             dispatch({ type: 'updateText', payload: ''});
                             setIsPopUpActive(true);
                             // Clone the giftCard object
                             const clonedGiftCard:{currentCredit: number, currency: string } = { ...result.giftCard };
-                            // updates shown giftCard with result
+                            // updates shown giftCard with result and closes the input field
                             setGiftCardCopy(clonedGiftCard);
                             handlePaymentMethodChange(PaymentOption.NONE)
                         }
