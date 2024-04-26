@@ -8,14 +8,19 @@ import {GiftCardPaymentResponse} from "../Components/giftCardPayment.ts";
 
 interface ChoosePaymentProps {
     isInvoiceEnabled: boolean;
-    totalDiscountedPrice: number;
+    totalDiscountedPrice: number; //Not in use right now. Could have been used in gift-card, but we decided not to.
 }
-
 enum PaymentOption{
     NONE, CARD, GIFT_CARD, INVOICE, MobilePay
 }
-//@TODO make correct variables
-function reducer(state: any, action: any) {
+interface State {
+    text: string;
+}
+interface Action {
+    type: string,
+    payload: string
+}
+function reducer(state: State, action: Action) {
     switch (action.type) {
         case 'updateText':
             return { ...state, text: action.payload };
@@ -25,29 +30,35 @@ function reducer(state: any, action: any) {
 }
 
 function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
-    const [state, dispatch] = useReducer(reducer, { text: ' The inputs are case sensitive ' });
+    const [state, dispatch] = useReducer(reducer, { text: ' Gift card number is case sensitive ' });
 
+    //From App.tsx. Listens to invoice input-number. If input is 8 characters it returns true.
     const isInvoiceEnabled: boolean = choosePaymentProps.isInvoiceEnabled;
+
+    //Controls gift-card pop up visibility.
     const [isPopUpActive, setIsPopUpActive] = useState(false);
     const [giftCardCopy, setGiftCardCopy] = useState<Partial< {
-        currentCredit: number, currency:string}>>({ currentCredit: undefined, currency: '' });    const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
-    const handlePaymentMethodChange = (paymentOption: PaymentOption) => {
+        currentCredit: number, currency:string}>>({ currentCredit: undefined, currency: '' });
+
+    //Controls which payment is chosen and ensures maximum one at a time.
+    const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
+    const handlePaymentMethodChange = (paymentOption: PaymentOption):void => {
         setPaymentOption(paymentOption)
     };
 
     return (
-        <div className="stageBoxes">
-            <div className="title-container">
+        <body className="stageBoxes">
+            <hgroup className="title-container">
                 <img
                     src={`/images/stage3-fat.png`}
                     alt="Step 1"
                     className="stageIcons"
                 />
                 <h2>Payment</h2>
-            </div>
+            </hgroup>
 
             <nav className={"PaymentOptionsBox"}>
-                <div className="PaymentTypeOuterBox">
+                <section className="PaymentTypeOuterBox">
                     <label className={"PaymentTypeBox"}>
                         <div className={"PaymentText"}>
                             <input
@@ -66,7 +77,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
                         </div>
                     </label>
                     {paymentOption === PaymentOption.CARD && (
-                        <form id="cardForm" className={"PaymentInputs"}>
+                        <form id="cardForm" className={"PaymentInputs"} method={"POST"}>
                             <input
                                 type={"text"}
                                 placeholder={"Card number (1234 5678 9012 3456)"}
@@ -87,9 +98,9 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
                             />
                         </form>
                     )}
-                </div>
+                </section>
 
-                <div className="PaymentTypeOuterBox">
+                <section className="PaymentTypeOuterBox">
                     <label className={"PaymentTypeBox"}>
                         <div className={"PaymentText"}>
                             <input
@@ -111,10 +122,10 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
                     </label>
                     {paymentOption === PaymentOption.GIFT_CARD   && (
                         <div>
-                            <p className={"ErrorText"}>
-                                {state.text}
-                            </p>
-                            <form id="giftCard" className={"PaymentInputs"} onSubmit={HandleGiftCardRedeemClick}>
+                            <strong className={"ErrorText"}>
+                                <small>{state.text}</small>
+                            </strong>
+                            <form id="giftCard" className={"PaymentInputs"} onSubmit={HandleGiftCardRedeemClick} method={"POST"}>
                                 <input
                                     id={"giftCardNumber"}
                                     type={"text"}
@@ -136,9 +147,9 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
                         </div>
 
                     )}
-                </div>
+                </section>
 
-                <div className="PaymentTypeOuterBox">
+                <section className="PaymentTypeOuterBox">
                     <label className={"PaymentTypeBox"}>
                         <div className={"PaymentText"}>
                             <input
@@ -159,11 +170,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
                         </div>
 
                     </label>
-                    {paymentOption === PaymentOption.MobilePay}
-
-                    </div>
-
-                {/*//Only show invoice choice if billing address has company VAT number */}
+                </section>
 
                 {isInvoiceEnabled ?
                     <div className="PaymentTypeOuterBox">
@@ -178,54 +185,30 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
                                 <p>Invoice </p>
                             </div>
                         </label>
-                        {paymentOption === PaymentOption.INVOICE && (
-                            <form id="invoiceForm" className={"PaymentInputs"}>
-                                <input
-                                    type={"text"}
-                                    placeholder={"Card number (1234 5678 9012 3456)"}
-                                />
-                                <div className={"SubInputs"}>
-                                    <input
-                                        type={"text"}
-                                        placeholder={"MM/YYYY"}
-                                    />
-                                </div>
-                                <input
-                                    type={"text"}
-                                    placeholder={"Card holders name"}
-                                />
-                            </form>
-                        )}
                     </div>
                     : null
                 }
             </nav>
-            { isPopUpActive &&
+            { isPopUpActive &&  //Shows when a gift-card is successfully called
                 <GiftCardPopUp></GiftCardPopUp>
             }
-        </div>
+        </body>
     );
     async function HandleGiftCardRedeemClick (event: FormEvent){
         event.preventDefault();
-        //const [userTypedGiftCardNumber, setUserTypedGiftCardNumber]= useState("")
-        //const [userTypedGiftCardPIN, setUserTypedGiftCardPIN]= useState("")
 
         const userTypedGiftCardNumber: HTMLInputElement = document.getElementById('giftCardNumber') as HTMLInputElement;
         const userTypedGiftCardPIN: HTMLInputElement = document.getElementById('giftCardPIN') as HTMLInputElement;
 
         if (userTypedGiftCardNumber != null && userTypedGiftCardPIN != null) {
-            //setUserTypedGiftCardNumber(document.getElementById('giftCardNumber').value);
-            const userTypedGiftCardNumberValue = userTypedGiftCardNumber.value;
-            const userTypedGiftCardPINValue = userTypedGiftCardPIN.value;
-            if (userTypedGiftCardNumberValue.length < 1 || userTypedGiftCardPINValue.length < 1) {
-                console.log("No input in number or PIN")
-                dispatch({ type: 'updateText', payload: 'You have to fill in the name and PIN' });
-            } else if (userTypedGiftCardNumberValue.length < 3 || userTypedGiftCardPINValue.length < 3) {
+            dispatch({ type: 'updateText', payload: 'You have to fill in the name and PIN' });
+
+            if (userTypedGiftCardNumber.value.length < 3 || userTypedGiftCardPIN.value.length < 3) {
                 console.log("Invalid Number or PIN")
                 dispatch({ type: 'updateText', payload: 'Invalid Number or PIN' });
             } else {
                 console.log( userTypedGiftCardNumber + " and " + userTypedGiftCardPIN + " are valid inputs!")
-                await giftCardPayment(userTypedGiftCardNumberValue, userTypedGiftCardPINValue)
+                await giftCardPayment(userTypedGiftCardNumber.value, userTypedGiftCardPIN.value)
                     .then((result: GiftCardPaymentResponse) => {
                         if ('error' in result) {
                             console.error('Error:', result.error);
@@ -235,8 +218,8 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
                             dispatch({ type: 'updateText', payload: ''});
                             setIsPopUpActive(true);
                             // Clone the giftCard object
-                            const clonedGiftCard = { ...result.giftCard };
-                            // Set the state with the cloned giftCard object
+                            const clonedGiftCard:{currentCredit: number, currency: string } = { ...result.giftCard };
+                            // updates shown giftCard with result
                             setGiftCardCopy(clonedGiftCard);
                             handlePaymentMethodChange(PaymentOption.NONE)
                         }
@@ -254,7 +237,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
             const handleSliderChange = () => {
                 if (slider && slider.value !== "100") {
                     // Define a recursive function to decrement the slider value gradually
-                    const decrementSlider = () => {
+                    const decrementSlider = () :void => {
                         // Check if the slider value is not yet 1
                         if (slider.value !== "1") {
                             // Decrement the slider value
@@ -264,7 +247,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
                         }
                     }; decrementSlider();
                 } else {
-                    //@TODO: else if slider == 100 {call HandleGiftCardRedemption}
+                    //@TODO: else slider == 100 {call HandleGiftCardRedemption}
                 }
             };
             if (slider) {
