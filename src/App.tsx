@@ -59,12 +59,9 @@ export function App() {
                 {header()}
             </header>
             <main>
-                <DataContext.Provider value={data}>
-                    <div id="detail">
-                        <Outlet />
-                    </div>
-                </DataContext.Provider>
-
+                <div id="detail">
+                    <Outlet />
+                </div>
             </main>
         </>
     );

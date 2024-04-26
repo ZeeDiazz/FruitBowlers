@@ -9,23 +9,39 @@ import {TotalBox} from "./StageTotal.tsx";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
-import {useFetch} from "../Components/useFetch.ts";
+import {fetchData, useFetch} from "../Components/useFetch.ts";
 import { Link } from 'react-router-dom';
-import { DataContext } from '../App';
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
+import {useBasketDispatch, useBasketState} from "./BasketContext.tsx";
 
 export function StageBasket() {
-    const priceData = useContext(DataContext).totalPriceDatas;
+
 
     const base : string= 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/';
     const productsUrl: string = base + 'main/productsList.json';
     const upgradesUrl: string = base + 'main/upgradesList.json';
 
-    const [products, setProducts, productsLoading, productsError] = useFetch(productsUrl);
-    const [upgrades, , upgradesLoading, upgradesError] = useFetch(upgradesUrl);
+    const { products, isLoading, hasError } = useBasketState();
+    const dispatch = useBasketDispatch();
+
+    const fetchData = async (url: string) => {
+        dispatch({ type: "fetching"} ); // Set isLoading to true before fetch
+
+        try {
+            const response = await fetch(url);
+            const fetchedProducts = await response.json();
+            dispatch({ type: "fetched", payload: { products: fetchedProducts } });
+        } catch (error) {
+            dispatch({ type: "error", payload: { error: true } }); // Set error message
+        }
+    };
+
+    useEffect(() => {
+        fetchData(productsUrl);
+    }, [productsUrl]); // Fetch data only when productsUrl changes 
 
     const productBoxItems = products && products.map((product:Product, index:number) => (
-        !productsError && product.quantity > 0 && (
+        !hasError && product.quantity > 0 && (
             <div className={"wholeProduct"} key={product.id}>
                 <div className={"productStyling"}>
                     <ProductItem
@@ -42,7 +58,7 @@ export function StageBasket() {
                 </div>
 
                 <div id="quantityBox">
-                    {!upgradesError &&
+                    {/*!upgradesError &&
                         <UpgradeButton
                             product={product}
                             upgrades={upgrades}
@@ -53,25 +69,26 @@ export function StageBasket() {
                                 }
                             }}
                         />
-                    }
+                    */}
                     <nav className={"productChangeNavigation"}>
                         <div>
                             <button className="decrease"
                                     data-testid="decrease-button"
-                                    onClick={() => setProducts(handleQuantityChange(products, index, -1))}
+                                    onClick={() =>  dispatch({ type: "fetched", payload: { products: handleQuantityChange(products, index, -1) } })}
                                     disabled={product.quantity <= 1}>
                                 -
                             </button>
                             <span data-testid="quantity">{product.quantity}</span>
                             <button className="increase"
                                     data-testid="increase-button"
-                                    onClick={() => setProducts(handleQuantityChange(products, index, +1))}>
+                                    onClick={() =>  dispatch({ type: "fetched", payload: { products: handleQuantityChange(products, index, +1) } })}
+                                    >
                                 +
                             </button>
                         </div>
                         <button className="remove"
                                 data-testid="remove-button"
-                                onClick={() => setProducts(handleQuantityChange(products, index, 0))}>
+                                onClick={() =>  dispatch({ type: "fetched", payload: { products: handleQuantityChange(products, index, 0) } })}>
                             remove
                         </button>
                     </nav>
@@ -80,17 +97,9 @@ export function StageBasket() {
         )
     ));
 
-    function handleContinue() {
-        priceData.totalQuantity = getTotalQuantity(products);
-        priceData.totalPrice = getTotalPriceDiscounted(products);
-
-        console.log("price ", priceData.totalPrice);
-        console.log("Quantity ", priceData.totalQuantity);
-    }
-
     return (
         <>
-            <Link to="/StageDelivery"onClick={handleContinue}>Continue</Link>
+            <Link to="/StageDelivery" >Continue</Link>
 
             <div className="stageBoxes">
                 <div className="title-container">
@@ -102,10 +111,10 @@ export function StageBasket() {
                     <h2>Basket</h2>
                 </div>
                 <div id="productBox">
-                    {productsError && <p>Error fetching products</p>}
-                    {productsLoading || upgradesLoading ? <div className="error">Loading...</div> : productBoxItems}                </div>
+                    {hasError && <p>Error fetching products</p>}
+                    {isLoading /*|| upgradesLoading*/ ? <div className="error">Loading...</div> : productBoxItems}                </div>
             </div>
-            {productsLoading ?  <div className="error">Loading...</div> : <TotalBox products={products} />}
+            {isLoading ?  <div className="error">Loading...</div> : <TotalBox products={products} />}
         </>
     )
 }
@@ -145,4 +154,3 @@ function getImage(product: Product) {
         </>
     )
 }
-

@@ -6,6 +6,9 @@ import { DataContext } from '../App';
 
 
 export function StageDelivery() {
+    if(useContext(DataContext).forms === null){
+        throw new Error("Unexpected useMyState without parent");
+    }
     const form = useContext(DataContext).forms;
 
     // eslint-disable-next-line react-hooks/rules-of-hooks

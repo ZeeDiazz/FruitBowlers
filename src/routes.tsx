@@ -27,7 +27,7 @@ function ErrorPage() {
 export const routes: RouteObject[] = [
     {
         path: "/",
-        element: <App/>,
+        element: <StageBasket/>,
         errorElement: <ErrorPage/>,
         children: [
 
