@@ -1,7 +1,5 @@
 import {
     calculateLocalTotalPrice,
-    getTotalPriceDiscounted,
-    getTotalQuantity,
     handleQuantityChange
 } from "../Components/price.ts";
 import {handleUpgradeClick, hasUpgradeOption, UpgradeButton} from "../Components/upgrade.tsx"
@@ -9,9 +7,9 @@ import {TotalBox} from "./StageTotal.tsx";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
-import {fetchData, useFetch} from "../Components/useFetch.ts";
+import {useFetch} from "../Components/useFetch.ts";
 import { Link } from 'react-router-dom';
-import {useContext, useEffect, useRef} from "react";
+import {useEffect, useRef} from "react";
 import {useBasketDispatch, useBasketState} from "./BasketContext.tsx";
 
 export function StageBasket() {
@@ -78,7 +76,7 @@ export function StageBasket() {
                             onUpgradeClick = {() => {
                                 const upgradeOption = hasUpgradeOption(product, upgrades);
                                 if (upgradeOption.hasUpgrade && upgradeOption.moreExpensiveOption) {
-                                    dispatch({type:"quantityChange",  payload:  { products: handleUpgradeClick(products, upgradeOption.moreExpensiveOption, product. quantity,index)}})
+                                    dispatch({type:"upgradeProduct",  payload:  { upgrade: handleUpgradeClick(products, upgradeOption.moreExpensiveOption, product. quantity,index)}})
                                 }
                             }}
                         />

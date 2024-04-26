@@ -1,5 +1,5 @@
 // Type of state
-import {createContext, useContext, useEffect, useReducer} from "react";
+import {createContext, useContext, useReducer} from "react";
 
 interface BasketState {
     products: Product[];
@@ -20,6 +20,7 @@ type BasketAction =
     | { type: 'fetchedProduct', payload: { products: Product[] } }
     | { type: 'productsError', payload: { failed: boolean} }
     | { type: 'quantityChange', payload: { products: Product[] }}
+    | {type: 'upgradeProduct', payload: { upgrade: Product[] } }
 ;
 
 // Reducer
@@ -48,6 +49,13 @@ const basketReducer = (state: BasketState, action: BasketAction) => {
             return {
                 ...state,
                 products: action.payload.products,
+            }
+        case 'upgradeProduct':
+            return {
+                ...state,
+                products: action.payload.upgrade,
+                isProductsLoading: false,
+                productsError: false
             }
         default:
             return state;
