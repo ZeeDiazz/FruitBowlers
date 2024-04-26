@@ -4,8 +4,10 @@ import './Components/upgrade.tsx'
 import './assets/Styles/default/DefaultStyling.css'
 import { header } from "./Components/header.tsx";
 import {Context, createContext} from 'react';
-import { Outlet } from "react-router-dom";
 import {StageBasket} from "./Stages/StageBasket.tsx";
+import {TotalBox} from "./Stages/StageTotal.tsx";
+import {useBasketState} from "./Complex/BasketContext.tsx";
+
 
 export interface formInterface {
     Name: string;
@@ -53,7 +55,7 @@ export const DataContext: Context<DataInterface>  = createContext(data);
 
 
 export function App() {
-
+    const {products} = useBasketState();
     return (
         <>
             <header>
@@ -61,6 +63,7 @@ export function App() {
             </header>
             <main>
                 <StageBasket />
+                <TotalBox products={products}/>
             </main>
         </>
     );
