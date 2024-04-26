@@ -11,7 +11,7 @@ import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import {fetchData, useFetch} from "../Components/useFetch.ts";
 import { Link } from 'react-router-dom';
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useRef} from "react";
 import {useBasketDispatch, useBasketState} from "./BasketContext.tsx";
 
 export function StageBasket() {
@@ -26,6 +26,7 @@ export function StageBasket() {
 
 
     const dispatch = useBasketDispatch();
+    const hasFetchedProducts = useRef(false); // Flag to track fetch status
 
     const fetchProduct = async (url: string) => {
         dispatch({ type: "fetchingProduct"} ); // Set isLoading to true before fetch
@@ -38,26 +39,18 @@ export function StageBasket() {
             dispatch({ type: "productsError", payload: { failed: true } }); // Set error message
         }
     };
-   /* const fetchUpgrade = async (url: string) => {
-        dispatch({ type: "fetchingUpgrade"} ); // Set isLoading to true before fetch
-
-        try {
-            const response = await fetch(url);
-            const fetchedProducts = await response.json();
-            dispatch({ type: "fetchedUpgrades", payload: { upgrades: fetchedProducts } });
-        } catch (error) {
-            dispatch({ type: "upgradesError", payload: { upgrade: true } }); // Set error message
-        }
-    };*/
 
     useEffect(() => {
-        fetchProduct(productsUrl);
-    }, [productsUrl]);
-
-    /*useEffect(() => {
-        fetchUpgrade(upgradesUrl);
-    }, [upgradesUrl]);*/
-
+        if (!hasFetchedProducts.current && !products.length) {
+            // Only fetch if products are empty and haven't been fetched yet
+            dispatch({ type: "fetchingProduct" }); // Set isLoading to true before fetch
+            fetchProduct(productsUrl)
+                .then(() => (hasFetchedProducts.current = true)) // Mark fetch completed
+                .catch((error) =>
+                    dispatch({ type: "productsError", payload: { failed: true } })
+                );
+        }
+    }, [products, productsUrl, dispatch]);
 
     const productBoxItems = products && products.map((product:Product, index:number) => (
         !productsError && product.quantity > 0 && (
