@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
 import { routes } from './routes.tsx'
 import { createBrowserRouter } from "react-router-dom";
-import {BasketProvider, useBasketState} from "./Complex/BasketContext.tsx";
+import {BasketProvider} from "./Complex/BasketContext.tsx";
 import {TotalProvider} from "./Complex/TotalContext.tsx";
 
 

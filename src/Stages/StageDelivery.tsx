@@ -10,6 +10,8 @@ export function StageDelivery() {
         throw new Error("Unexpected useMyState without parent");
     }
     const form = useContext(DataContext).forms;
+    /*const {firstName, lastName, email, phoneNumber,zipcode, companyVatNumber, streetName,cityName,companyName} = useDeliveryState();
+    const dispatch = useDeliveryDispatch();*/
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [hasError, setHasError] = useState(false);
@@ -107,8 +109,9 @@ export function StageDelivery() {
         if(!checked) {
             return (
                 <>
-                    <input type="submit" value="Save form" id="button"/>
-                    <Link to="/stagepayment" type="submit" id="button" >Continue</Link>
+                    <Link to="/stagepayment" type="submit">
+                        <button id="button" type="submit">Continue</button>
+                    </Link>
                 </>
             )
         }
