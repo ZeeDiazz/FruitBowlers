@@ -7,6 +7,7 @@ import { StageBasket } from './Stages/StageBasket.tsx'
 const one: number= 1;
 const enabled = false;
 import { useRouteError } from "react-router-dom";
+import StagePayment from "./Stages/StagePayment";
 
 
 function ErrorPage() {
@@ -27,26 +28,15 @@ function ErrorPage() {
 export const routes: RouteObject[] = [
     {
         path: "/",
-        element: <StageBasket/>,
-        errorElement: <ErrorPage/>,
-        children: [
+        element: <App />,
+    },
+    {
+        path: "/stageDelivery",
+        element: <StageDelivery />,
+    },
+    {
+        path: "/stagePayment",
+        element: <ChoosePayment totalDiscountedPrice={one} isInvoiceEnabled={enabled} />,
+    },
 
-            {
-                path: "/",
-                element: <StageBasket />,
-                errorElement: <ErrorPage/>,
-            },
-            {
-                path: "/stageDelivery",
-                element: <StageDelivery/>,
-                errorElement: <ErrorPage/>,
-            }
-            ,
-            {
-                path: "/stagepayment",
-                element: <ChoosePayment totalDiscountedPrice={one} isInvoiceEnabled={enabled}/>,
-                errorElement: <ErrorPage/>,
-            },
-        ]
-    }
 ];

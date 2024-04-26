@@ -5,6 +5,7 @@ import './assets/Styles/default/DefaultStyling.css'
 import { header } from "./Components/header.tsx";
 import {Context, createContext} from 'react';
 import { Outlet } from "react-router-dom";
+import {StageBasket} from "./Stages/StageBasket.tsx";
 
 export interface formInterface {
     Name: string;
@@ -59,9 +60,7 @@ export function App() {
                 {header()}
             </header>
             <main>
-                <div id="detail">
-                    <Outlet />
-                </div>
+                <StageBasket />
             </main>
         </>
     );
