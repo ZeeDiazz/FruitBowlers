@@ -3,67 +3,85 @@ import {createContext, useContext, useReducer} from "react";
 
 interface BasketState {
     products: Product[];
-    isLoading: boolean;
-    hasError: boolean;
-    totalPrice: number;
-    totalQuantity: number;
+    //upgrades: Product[];
+    isProductsLoading: boolean;
+    productsError: boolean;
+    //isUpgradesLoading: boolean;
+    //upgradesError: boolean;
 }
 
 // Initial state
 const initialBasketState: BasketState = {
     products: [],
-    isLoading: true,
-    hasError: false,
-    totalPrice: 0,
-    totalQuantity: 0,
+    //upgrades: [],
+    isProductsLoading: true,
+    productsError: false,
+    //isUpgradesLoading: true,
+    //upgradesError: false
 };
 
 // Type of actions
 type BasketAction =
-    | { type: 'fetching' }
+    | { type: 'fetchingProduct' }
+    | { type: 'fetchedProduct', payload: { products: Product[] } }
+    | { type: 'productsError', payload: { failed: boolean} }
     | { type: 'quantityChange', payload: { products: Product[] }}
-    | { type: 'fetched', payload: { products: Product[] } }
-    | { type: 'giveQuantity', payload : { amount: number}}
-    | { type: 'givePrice', payload : { amount: number}}
-    | { type: 'error', payload: {error: boolean} };
-
+    //| { type: 'fetchingUpgrade' }
+    //| { type: 'fetchedUpgrades', payload: { upgrades: Product[] } }
+    //| { type: 'upgradesError', payload: { failed: boolean} }
+    //| { type: 'upgrading', payload: { products: Product[]} };
+;
 
 // Reducer
 const basketReducer = (state: BasketState, action: BasketAction) => {
     switch(action.type) {
-        case 'fetching':
+        case 'fetchingProduct':
             return {
                 ...state,
-                isLoading: true,
-                hasError: false
+                isProductsLoading: true,
+                productsError: false
             };
-        case 'fetched':
+        case 'fetchedProduct':
             return {
                 ...state,
                 products: action.payload.products,
-                isLoading: false,
-                hasError: false
+                isProductsLoading: false,
+                productsError: false
             };
-        case 'error':
+        case 'productsError':
             return {
                 ...state,
-                isLoading: false,
-                hasError: true
+                isProductsLoading: false,
+                productsError: action.payload.failed
             };
         case 'quantityChange':
             return {
                 ...state,
                 products: action.payload.products,
             }
-        case 'givePrice':
+       /* case 'fetchingUpgrade':
             return {
                 ...state,
-                totalPrice: action.payload.amount,
+                isUpgradesLoading: true,
+                productsError: false
+            };
+        case 'fetchedUpgrades':
+            return {
+                ...state,
+                upgrades: action.payload.upgrades,
+                isLoading: false,
+                hasError: false,
             }
-        case 'giveQuantity':
+        case 'upgradesError':
             return {
                 ...state,
-                totalQuantity: action.payload.amount,
+                isUpgradesLoading: false,
+                upgradesError: true,
+            }*/
+        case 'upgrading':
+            return {
+                ...state,
+                products: action.payload.upgrades
             }
         default:
             return state;

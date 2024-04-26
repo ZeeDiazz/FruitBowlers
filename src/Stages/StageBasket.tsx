@@ -21,28 +21,48 @@ export function StageBasket() {
     const productsUrl: string = base + 'main/productsList.json';
     const upgradesUrl: string = base + 'main/upgradesList.json';
 
-    const { products, isLoading, hasError } = useBasketState();
+    const { products, isProductsLoading, productsError } = useBasketState();
+    const [upgrades, , isUpgradesLoading, upgradesError] = useFetch(upgradesUrl);
+
+
     const dispatch = useBasketDispatch();
 
-    const fetchData = async (url: string) => {
-        dispatch({ type: "fetching"} ); // Set isLoading to true before fetch
+    const fetchProduct = async (url: string) => {
+        dispatch({ type: "fetchingProduct"} ); // Set isLoading to true before fetch
 
         try {
             const response = await fetch(url);
             const fetchedProducts = await response.json();
-            dispatch({ type: "fetched", payload: { products: fetchedProducts } });
+            dispatch({ type: "fetchedProduct", payload: { products: fetchedProducts } });
         } catch (error) {
-            dispatch({ type: "error", payload: { error: true } }); // Set error message
+            dispatch({ type: "productsError", payload: { failed: true } }); // Set error message
         }
     };
+   /* const fetchUpgrade = async (url: string) => {
+        dispatch({ type: "fetchingUpgrade"} ); // Set isLoading to true before fetch
+
+        try {
+            const response = await fetch(url);
+            const fetchedProducts = await response.json();
+            dispatch({ type: "fetchedUpgrades", payload: { upgrades: fetchedProducts } });
+        } catch (error) {
+            dispatch({ type: "upgradesError", payload: { upgrade: true } }); // Set error message
+        }
+    };*/
 
     useEffect(() => {
-        fetchData(productsUrl);
-    }, [productsUrl]); // Fetch data only when productsUrl changes 
+        fetchProduct(productsUrl);
+    }, [productsUrl]);
+
+    /*useEffect(() => {
+        fetchUpgrade(upgradesUrl);
+    }, [upgradesUrl]);*/
+
 
     const productBoxItems = products && products.map((product:Product, index:number) => (
-        !hasError && product.quantity > 0 && (
+        !productsError && product.quantity > 0 && (
             <div className={"wholeProduct"} key={product.id}>
+
                 <div className={"productStyling"}>
                     <ProductItem
                         product={product}
@@ -58,37 +78,37 @@ export function StageBasket() {
                 </div>
 
                 <div id="quantityBox">
-                    {/*!upgradesError &&
+                    {!upgradesError &&
                         <UpgradeButton
                             product={product}
                             upgrades={upgrades}
                             onUpgradeClick = {() => {
                                 const upgradeOption = hasUpgradeOption(product, upgrades);
                                 if (upgradeOption.hasUpgrade && upgradeOption.moreExpensiveOption) {
-                                    setProducts(handleUpgradeClick(products, upgradeOption.moreExpensiveOption, product.quantity, index));
+                                    dispatch({type:"quantityChange",  payload:  { products: handleUpgradeClick(products, upgradeOption.moreExpensiveOption, product. quantity,index)}})
                                 }
                             }}
                         />
-                    */}
+                    }
                     <nav className={"productChangeNavigation"}>
                         <div>
                             <button className="decrease"
                                     data-testid="decrease-button"
-                                    onClick={() =>  dispatch({ type: "fetched", payload: { products: handleQuantityChange(products, index, -1) } })}
+                                    onClick={() =>  dispatch({ type: "quantityChange", payload: { products: handleQuantityChange(products, index, -1) } })}
                                     disabled={product.quantity <= 1}>
                                 -
                             </button>
                             <span data-testid="quantity">{product.quantity}</span>
                             <button className="increase"
                                     data-testid="increase-button"
-                                    onClick={() =>  dispatch({ type: "fetched", payload: { products: handleQuantityChange(products, index, +1) } })}
+                                    onClick={() =>  dispatch({ type: "quantityChange", payload: { products: handleQuantityChange(products, index, +1) } })}
                                     >
                                 +
                             </button>
                         </div>
                         <button className="remove"
                                 data-testid="remove-button"
-                                onClick={() =>  dispatch({ type: "fetched", payload: { products: handleQuantityChange(products, index, 0) } })}>
+                                onClick={() =>  dispatch({ type: "quantityChange", payload: { products: handleQuantityChange(products, index, 0) } })}>
                             remove
                         </button>
                     </nav>
@@ -111,10 +131,10 @@ export function StageBasket() {
                     <h2>Basket</h2>
                 </div>
                 <div id="productBox">
-                    {hasError && <p>Error fetching products</p>}
-                    {isLoading /*|| upgradesLoading*/ ? <div className="error">Loading...</div> : productBoxItems}                </div>
+                    {productsError && <p>Error fetching products</p>}
+                    {isProductsLoading || isUpgradesLoading ? <div className="error">Loading...</div> : productBoxItems}                </div>
             </div>
-            {isLoading ?  <div className="error">Loading...</div> : <TotalBox products={products} />}
+            {isProductsLoading ?  <div className="error">Loading...</div> : <TotalBox products={products} />}
         </>
     )
 }

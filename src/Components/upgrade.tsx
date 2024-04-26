@@ -4,7 +4,11 @@ interface UpgradeButtonProps {
     onUpgradeClick: () => void;
 }
 
-export const findMoreExpensiveProduct = (upsellProductId: string | null, upgrades: Product[]): Product | null => {
+export const findMoreExpensiveProduct = (upsellProductId: string | null, upgrades: Product[] | undefined): Product | null => {
+    if (upgrades === undefined || upgrades.length === 0) {
+        return null;
+    }
+
     const upgrade: Product | undefined = upgrades.find((upgrade) => upsellProductId === upgrade.id);
     if (upgrade) {
         return upgrade;
