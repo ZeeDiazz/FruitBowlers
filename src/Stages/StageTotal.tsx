@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {getDiscountMessage, getTotalPriceDiscounted, getTotalQuantity} from '../Components/price.ts'
 import '../assets/Styles/320px/SmallScreen.css'
+import '../assets/Styles/320px/SmallScreenTotalBox.css'
 import '../assets/Styles/large/TotalBox.css'
 
 export function TotalBox({products}: {products: Product[]} ){
@@ -23,10 +24,12 @@ export function TotalBox({products}: {products: Product[]} ){
     return (
         <div id="totalBox">
             <div id="totalBoxText">
-                <h2>Total</h2>
+                <h2 id="TotalTitle">Total</h2>
+                <span>
                 <p>Total Quantity: {totalQuantity}</p>
                 <p>{discountMessage}</p>
-                <p>Total Price: {totalPriceDiscounted + ' DKK'}</p>
+                </span>
+                <p className="centered">Total Price: {totalPriceDiscounted + ' DKK'}</p>
             </div>
         </div>
     )

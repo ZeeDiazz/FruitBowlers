@@ -5,6 +5,17 @@ import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
 import {giftCardPayment} from "../Components/giftCardPayment.ts";
 import {GiftCardPaymentResponse} from "../Components/giftCardPayment.ts";
+import { Link } from "react-router-dom";
+
+
+
+function backBotton(){
+        return(
+            <>
+                <Link to="/stageDelivery">Back to form</Link>
+            </>
+            )
+    }
 
 interface ChoosePaymentProps {
     isInvoiceEnabled: boolean;
@@ -48,6 +59,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
 
     return (
         <body className="stageBoxes">
+            {backBotton()}
             <hgroup className="title-container">
                 <img
                     src={`/images/stage3-fat.png`}
@@ -192,6 +204,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
             { isPopUpActive &&  //Shows when a gift-card is successfully called
                 <GiftCardPopUp></GiftCardPopUp>
             }
+            <Link to="/stageCheckout" type="submit" id="button" >Continue</Link>
         </body>
     );
     async function HandleGiftCardRedeemClick (event: FormEvent){

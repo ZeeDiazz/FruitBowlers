@@ -1,9 +1,10 @@
-import '../assets/Styles/large/StageTermsNConditions.css'
+import '../assets/Styles/large/StageCheckout.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import { FormEvent, useState } from 'react'
 import { getTotalPriceDiscounted } from '../Components/price';
-export function stageTermsNConditions() {
+import {Link} from "react-router-dom";
+export function StageCheckout() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [isChecked, setIsChecked] = useState(false);
 
@@ -32,6 +33,7 @@ export function stageTermsNConditions() {
     return (
         <nav>
             <div className={"stageBoxes"}>
+                <Link to="/stagePayment">Back to payment</Link>
                 <div className="title-container">
                     <img
                         src={`/images/stage4-fat.png`}
