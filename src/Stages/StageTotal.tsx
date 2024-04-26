@@ -2,20 +2,17 @@ import { useEffect, useState } from 'react';
 import {getDiscountMessage, getTotalPriceDiscounted, getTotalQuantity} from '../Components/price.ts'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/large/TotalBox.css'
+import {useTotalDispatch, useTotalState} from "../Complex/TotalContext.tsx";
 
 export function TotalBox({products}: {products: Product[]} ){
-    const [totalQuantity, setTotalQuantity] = useState(0);
-    const [totalPriceDiscounted, setTotalPriceDiscounted] = useState(0);
+    const {totalQuantity, totalPrice} = useTotalState();
+    const dispatch = useTotalDispatch();
     const [discountMessage, setDiscountMessage] = useState('loading');
-    {/*
-        const totalPriceDiscounted = getTotalPriceDiscounted(products);
-    setTotalDiscountedPrice(totalPriceDiscounted)
-    */}
-
+    
     useEffect(() => {
         if(products){
-            setTotalQuantity(getTotalQuantity(products));
-            setTotalPriceDiscounted(getTotalPriceDiscounted(products));
+            dispatch({type: 'TotalPrice', payload: {priceAmount: getTotalPriceDiscounted(products)}});
+            dispatch({type: 'TotalQuantity', payload: {quantityAmount: getTotalQuantity(products)}});
             setDiscountMessage(getDiscountMessage(getTotalPriceDiscounted(products)));
         }
     }, [products]);
@@ -26,7 +23,7 @@ export function TotalBox({products}: {products: Product[]} ){
                 <h2>Total</h2>
                 <p data-testid="quantity-paragraph">Total Quantity: {totalQuantity}</p>
                 <p data-testid="discount-paragraph">{discountMessage}</p>
-                <p data-testid="totalprice-paragraph">Total Price: {totalPriceDiscounted + ' DKK'}</p>
+                <p data-testid="totalprice-paragraph">Total Price: {totalPrice + ' DKK'}</p>
             </div>
         </div>
     )

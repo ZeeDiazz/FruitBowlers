@@ -3,14 +3,13 @@ import {
     handleQuantityChange
 } from "../Components/price.ts";
 import {handleUpgradeClick, hasUpgradeOption, UpgradeButton} from "../Components/upgrade.tsx"
-import {TotalBox} from "./StageTotal.tsx";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import {useFetch} from "../Components/useFetch.ts";
 import { Link } from 'react-router-dom';
 import {useEffect, useRef} from "react";
-import {useBasketDispatch, useBasketState} from "./BasketContext.tsx";
+import {useBasketDispatch, useBasketState} from "../Complex/BasketContext.tsx";
 
 export function StageBasket() {
 
@@ -125,7 +124,7 @@ export function StageBasket() {
                     {productsError && <p>Error fetching products</p>}
                     {isProductsLoading || isUpgradesLoading ? <div className="error">Loading...</div> : productBoxItems}                </div>
             </div>
-            {isProductsLoading ?  <div className="error">Loading...</div> : <TotalBox products={products} />}
+            {/*isProductsLoading ?  <div className="error">Loading...</div> : <TotalBox products={products} />*/}
         </>
     )
 }
