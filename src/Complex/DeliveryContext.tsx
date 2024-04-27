@@ -11,6 +11,7 @@ interface DeliveryState {
     streetName: string | undefined;
     cityName: string | undefined;
     companyName: string | undefined;
+    sendToBilling: boolean | undefined;
 }
 
 
@@ -24,7 +25,8 @@ const deliveryState: DeliveryState = {
     companyVatNumber: '',
     streetName: '',
     cityName: '',
-    companyName: ''
+    companyName: '',
+    sendToBilling: true
 };
 
 // Type of actions
@@ -41,7 +43,6 @@ type DeliveryAction =
         cityName: string|undefined,
         companyName: string|undefined }
     }*/
-    | { type: 'submitForm'; payload: DeliveryState }
     | { type: 'cityNamed'; payload: { cityName: string } }
     | { type: 'firstName'; payload: { firstName: string } }
     | { type: 'lastName'; payload: { lastName: string } }
@@ -51,6 +52,9 @@ type DeliveryAction =
     | { type: 'companyVatNumber'; payload: { companyVatNumber: string } }
     | { type: 'streetName'; payload: { streetName: string } }
     | { type: 'companyName'; payload: { companyName: string } }
+    | {type: 'sendToBilling'; payload: {sendToBilling:boolean}}
+    ;
+
 
 // Reducer
 const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
@@ -112,6 +116,11 @@ const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
             return {
                 ...state,
                 companyName: action.payload.companyName,
+            };
+        case "sendToBilling":
+            return {
+                ...state,
+                sendToBilling: action.payload.sendToBilling,
             };
         default:
             return state;

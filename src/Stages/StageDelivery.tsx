@@ -7,19 +7,15 @@ import {useDeliveryDispatch, useDeliveryState} from "../Complex/DeliveryContext.
 
 export function StageDelivery() {
 
-    const {firstName, lastName, email, phoneNumber,zipcode, companyVatNumber, streetName,cityName,companyName} = useDeliveryState();
+    const {firstName, lastName, email, phoneNumber,zipcode, companyVatNumber, streetName,cityName,companyName,sendToBilling} = useDeliveryState();
     const dispatch = useDeliveryDispatch();
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [hasError, setHasError] = useState(false);
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    //const [text, setText] = useState('');
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [textDelivery, setTextDelivery] = useState('');
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [hasErrorDelivery, setHasErrorDelivery] = useState(false);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [diff, diffDeliveryAddress] = useState(false);
 
     /* Learned from lecture and https://www.valentinog.com/blog/await-react/*/
     async function validateZipCode(zipcode: string, zipcodeName: string) {
@@ -69,11 +65,12 @@ export function StageDelivery() {
             cityName: {value: string};
             streetName: {value: string};
         };
+        const firstname = formElements.firstName.value;
 
         dispatch({
             type: 'submitForm',
             payload: {
-                firstName: formElements.firstName.value,
+                firstName: firstname,
                 lastName: formElements.lastName.value,
                 email: formElements.email.value,
                 phoneNumber: formElements.phoneNumber.value,
@@ -98,13 +95,13 @@ export function StageDelivery() {
             )
     }
 
-    function checkboxes(diffDeliveryAddress: React.Dispatch<React.SetStateAction<boolean>>, diff: boolean) {
+    function checkboxes(diff: boolean) {
         return (
             <div className="checkboxText">
                 <input type="checkbox" name="Delivery Address" value="yes" id="checkbox"
-                       defaultChecked={true}
+                       defaultChecked={sendToBilling}
                        onChange={() => {
-                           diffDeliveryAddress(!diff);
+                           dispatch({ type: 'sendToBilling', payload: { sendToBilling: !sendToBilling } });
                            console.log(diff);
                        }}
                 />
@@ -125,7 +122,7 @@ export function StageDelivery() {
         return (
             <>
                 <Link to="/stagepayment">
-                    <button id="button">Continue</button>
+                    <button id="button" type="submit" >Continue</button>
                 </Link>
             </>
         )
@@ -198,7 +195,6 @@ export function StageDelivery() {
                 dispatch({ type: 'companyName', payload: { companyName: value } });
                 break;
         }
-
     }
 
     const handleInputChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -217,7 +213,7 @@ export function StageDelivery() {
                 />
                 <h2>Billing Address</h2>
             </div>
-            <form >
+            <form>
                 <div id="inputBox">
                     <input name="Name" pattern="[a-zA-Z]+" type="text" placeholder="First Name" defaultValue={firstName} onChange={handleInputChange} required/>
                     <br/>
@@ -228,8 +224,10 @@ export function StageDelivery() {
 
                     <input name="companyName" type="text" placeholder="*(Optional) Company Name" defaultValue={companyName} onChange={handleInputChange}/>
                     <input type="digits" name="VATnum" minLength={8} maxLength={8}
-                           placeholder="*(Optional) Company VAT" defaultValue={companyVatNumber} onChange={handleInputChange} required/>
+                           placeholder="*(Optional) Company VAT" defaultValue={companyVatNumber}
+                           onChange={handleInputChange} required/>
                     <br/>
+
                     <div className="addressBox">
                         <br/>
                         <input name="Country" type="text" value="Danmark" onChange={handleInputChange} disabled/>
@@ -237,28 +235,26 @@ export function StageDelivery() {
 
                         {hasError && customError()}
                         <input name="zipcode1" pattern="\d*" type="number" placeholder="ZipCode" defaultValue={zipcode}
-                               onChange={e => validateZipCode(e.target.value.toString(), "zipcode1")} />
+                               onChange={e => validateZipCode(e.target.value.toString(), "zipcode1")}/>
 
                         <input name="City" placeholder="City" defaultValue={cityName} onChange={handleInputChange} required/>
                         <br/>
-                        <input name="streetName" type="text" placeholder="Street Name" defaultValue={streetName} onChange={handleInputChange} required/>
+                        <input name="streetName" type="text" placeholder="Street Name" defaultValue={streetName}  onChange={handleInputChange} required/>
                     </div>
                     <br/>
                     <div id="phoneBox">
                         <input name="Landcode" placeholder="Landcode" value="+45" disabled/>
 
-                        <input type="number" pattern="\d*" name="Telephone"
-                               minLength={8} maxLength={8} placeholder="Telephone" defaultValue={phoneNumber} onChange={handleInputChange} required/>
+                        <input type="number" pattern="\d*" name="Telephone" minLength={8} maxLength={8}
+                               placeholder="Telephone" defaultValue={phoneNumber} onChange={handleInputChange} required/>
                     </div>
-                    {submitButton(diff)}
+                    {submitButton(!sendToBilling)}
+                </div>
+                <div className="continue-container">
+                    {checkboxes(!sendToBilling)}
                 </div>
             </form>
-
-            <div className="continue-container">
-                {checkboxes(diffDeliveryAddress, diff)}
-
-            </div>
-            {deliveryAddress(diff)}
+            {deliveryAddress(!sendToBilling)}
 
         </div>
     )
