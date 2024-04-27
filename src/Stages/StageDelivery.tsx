@@ -7,7 +7,7 @@ import {useDeliveryDispatch, useDeliveryState} from "../Complex/DeliveryContext.
 
 export function StageDelivery() {
 
-    const {firstName, lastName, email, phoneNumber,zipcode, companyVatNumber, streetName,cityName,companyName,sendToBilling} = useDeliveryState();
+    const {firstName, lastName, email, phoneNumber,zipcode, companyVatNumber, streetName,cityName,companyName,sendToBilling,firstNameDelivery,lastNameDelivery,streetNameDelivery,emailDelivery,cityNameDelivery,phoneNumberDelivery,zipcodeDelivery} = useDeliveryState();
     const dispatch = useDeliveryDispatch();
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -35,7 +35,8 @@ export function StageDelivery() {
                 setHasError(false);
             }
             if (zipcodeName == "zipcode2") {
-                setTextDelivery(navn);
+                dispatch({type:"cityNameDelivery", payload: {cityName: navn}})
+                dispatch({type:"zipcodeDelivery", payload: {zipcode: zipcode}})
                 setHasErrorDelivery(false);
             }
             return true;
@@ -51,37 +52,6 @@ export function StageDelivery() {
             return false;
         }
     }
-    /*function handleFormSubmit(event:FormEvent){
-        event.preventDefault();
-        const form = event.target as HTMLFormElement;
-        const formElements = form.elements as typeof form.elements & {
-            firstName: {value: string};
-            lastName: {value: string};
-            email: {value: string};
-            phoneNumber: {value: string};
-            companyName: {value: string};
-            companyVatNumber: {value: string};
-            zipcode: {value: string};
-            cityName: {value: string};
-            streetName: {value: string};
-        };
-        const firstname = formElements.firstName.value;
-
-        dispatch({
-            type: 'submitForm',
-            payload: {
-                firstName: firstname,
-                lastName: formElements.lastName.value,
-                email: formElements.email.value,
-                phoneNumber: formElements.phoneNumber.value,
-                companyName: formElements.companyName.value,
-                companyVatNumber: formElements.companyVatNumber.value,
-                zipcode: formElements.zipcode.value,
-                cityName: formElements.cityName.value,
-                streetName: formElements.streetName.value,
-            }}
-        );
-    }*/
 
     function customError(){
         return(<>
@@ -136,31 +106,30 @@ export function StageDelivery() {
 
                     <form>
                         <div id="inputBox">
-                            <input name="Name" type="text"
-                                   placeholder="First Name" required/>
+                            <input name="firstNameDelivery" type="text" placeholder="First Name" defaultValue={firstNameDelivery} onChange={handleInputChange} required/>
                             <br/>
-                            <input name="LastName" type="text" placeholder="Last Name" required/>
+                            <input name="lastNameDelivery" type="text" placeholder="Last Name" defaultValue={lastNameDelivery} onChange={handleInputChange} required/>
                             <br/>
-                            <input type="email" name="Email" placeholder="Email" required/>
+                            <input name="emailDelivery" type="email"  placeholder="Email" defaultValue={emailDelivery} onChange={handleInputChange} required/>
                             <br/>
                             <div className="addressBox">
                                 <br/>
-                                <input name="Country" type="text" value="Danmark" disabled/>
+                                <input name="country" type="text" value="Danmark" disabled/>
                                 <br/>
 
                                 {hasErrorDelivery && customError()}
-                                <input name="zipcode2" pattern="\d*"type="number" placeholder="ZipCode"
+                                <input name="zipcode2Delivery" pattern="\d*" type="number" placeholder="ZipCode" defaultValue={zipcodeDelivery}
                                        onChange={e => validateZipCode(e.target.value.toString(), "zipcode2")} required/>
 
-                                <input name="City" placeholder="City" defaultValue={textDelivery} required/>
+                                <input name="cityDelivery" placeholder="City" defaultValue={cityNameDelivery} required/>
                                 <br/>
-                                <input name="streetName" type="text" placeholder="Street Name" required/>
+                                <input name="streetNameDelivery" type="text" placeholder="Street Name" defaultValue={streetNameDelivery} onChange={handleInputChange} required/>
                             </div>
                             <br/>
                             <div id="phoneBox">
-                                <input name="Landcode" placeholder="Landcode" value="+45" disabled/>
-                                <input type="digits" pattern="\d*"name="Telephone"
-                                       minLength={8} maxLength={8} placeholder="Telephone" required/>
+                                <input name="landcode" placeholder="Landcode" value="+45" disabled/>
+                                <input name="telephoneDelivery" type="digits" pattern="\d*" defaultValue={phoneNumberDelivery}
+                                       minLength={8} maxLength={8} placeholder="Telephone" onChange={handleInputChange} required/>
                             </div>
                             {submitButton(!diff)}
                         </div>
@@ -194,6 +163,22 @@ export function StageDelivery() {
             case 'companyName':
                 dispatch({ type: 'companyName', payload: { companyName: value } });
                 break;
+            case 'firstNameDelivery':
+                dispatch({ type: 'firstNameDelivery', payload: { firstName: value } });
+                break;
+            case "lastNameDelivery":
+                dispatch({ type: 'lastNameDelivery', payload: { lastName: value } })
+                break;
+            case "emailDelivery":
+                dispatch({ type: 'emailDelivery', payload: { email: value } })
+                break;
+            case 'telephoneDelivery':
+                dispatch({ type: 'phoneNumberDelivery', payload: { phoneNumber: value } });
+                break;
+            case 'streetNameDelivery':
+                dispatch({ type: 'streetNameDelivery', payload: { streetName: value } });
+                break;
+
         }
     }
 
@@ -219,7 +204,7 @@ export function StageDelivery() {
                     <br/>
                     <input name="LastName" type="text" placeholder="Last Name" defaultValue={lastName} onChange={handleInputChange} required/>
                     <br/>
-                    <input type="email" name="Email" placeholder="Email" defaultValue={email} onChange={handleInputChange} required/>
+                    <input name="Email" type="email" placeholder="Email" defaultValue={email} onChange={handleInputChange} required/>
                     <br/>
 
                     <input name="companyName" type="text" placeholder="*(Optional) Company Name" defaultValue={companyName} onChange={handleInputChange}/>
@@ -237,7 +222,7 @@ export function StageDelivery() {
                         <input name="zipcode1" pattern="\d*" type="number" placeholder="ZipCode" defaultValue={zipcode}
                                onChange={e => validateZipCode(e.target.value.toString(), "zipcode1")}/>
 
-                        <input name="City" placeholder="City" defaultValue={cityName} onChange={handleInputChange} required/>
+                        <input name="City" placeholder="City" defaultValue={cityName} required/>
                         <br/>
                         <input name="streetName" type="text" placeholder="Street Name" defaultValue={streetName}  onChange={handleInputChange} required/>
                     </div>

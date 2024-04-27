@@ -12,10 +12,38 @@ interface DeliveryState {
     cityName: string | undefined;
     companyName: string | undefined;
     sendToBilling: boolean | undefined;
+    firstNameDelivery: string | undefined;
+    lastNameDelivery: string | undefined;
+    emailDelivery: string | undefined;
+    phoneNumberDelivery: string|undefined;
+    zipcodeDelivery: string|undefined;
+    streetNameDelivery: string | undefined;
+    cityNameDelivery: string | undefined;
 }
 
+/*interface DeliveryFormState{
+    firstName: string | undefined;
+    lastName: string | undefined;
+    email: string | undefined;
+    phoneNumber: string|undefined;
+    zipcode: string|undefined;
+    streetName: string | undefined;
+    cityName: string | undefined;
+
+}
 
 // Initial state
+const deliveryFormState: DeliveryFormState = {
+    firstNameDelivery: '',
+    lastNameDelivery: '',
+    emailDelivery: '',
+    phoneNumberDelivery: '',
+    zipcodeDelivery: '',
+    streetNameDelivery: '',
+    cityNameDelivery: '',
+};
+*/
+
 const deliveryState: DeliveryState = {
     firstName: '',
     lastName: '',
@@ -26,23 +54,19 @@ const deliveryState: DeliveryState = {
     streetName: '',
     cityName: '',
     companyName: '',
-    sendToBilling: true
+    sendToBilling: true,
+    //deliveryForm: deliveryFormState
+    firstNameDelivery: '',
+    lastNameDelivery: '',
+    emailDelivery: '',
+    phoneNumberDelivery: '',
+    zipcodeDelivery: '',
+    streetNameDelivery: '',
+    cityNameDelivery: '',
 };
 
 // Type of actions
 type DeliveryAction =
-    /*| { type: 'submitForm',
-        payload: {
-        firstName: string|undefined,
-        lastName: string|undefined,
-        email: string|undefined,
-        phoneNumber: string|undefined,
-        zipcode: string|undefined,
-        companyVatNumber: string|undefined,
-        streetName: string|undefined,
-        cityName: string|undefined,
-        companyName: string|undefined }
-    }*/
     | { type: 'cityNamed'; payload: { cityName: string } }
     | { type: 'firstName'; payload: { firstName: string } }
     | { type: 'lastName'; payload: { lastName: string } }
@@ -53,25 +77,19 @@ type DeliveryAction =
     | { type: 'streetName'; payload: { streetName: string } }
     | { type: 'companyName'; payload: { companyName: string } }
     | {type: 'sendToBilling'; payload: {sendToBilling:boolean}}
+    | { type: 'cityNameDelivery'; payload: { cityName: string } }
+    | { type: 'firstNameDelivery'; payload: { firstName: string } }
+    | { type: 'lastNameDelivery'; payload: { lastName: string } }
+    | { type: 'emailDelivery'; payload: { email: string } }
+    | { type: 'phoneNumberDelivery'; payload: { phoneNumber: string } }
+    | { type: 'zipcodeDelivery'; payload: { zipcode: string } }
+    | { type: 'streetNameDelivery'; payload: { streetName: string } }
     ;
 
 
 // Reducer
 const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
     switch(action.type) {
-        /*case 'submitForm':
-          return {
-              ...state,
-              firstName: action.payload.firstName,
-              lastName: action.payload.lastName,
-              email: action.payload.email,
-              phoneNumber: action.payload.phoneNumber,
-              zipcode: action.payload.zipcode,
-              companyVatNumber: action.payload.companyVatNumber,
-              streetName: action.payload.streetName,
-              cityName: action.payload.cityName,
-              companyName: action.payload.companyName,
-          }*/
           case 'cityNamed':
               return {
                   ...state,
@@ -121,6 +139,41 @@ const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
             return {
                 ...state,
                 sendToBilling: action.payload.sendToBilling,
+            };
+        case 'cityNameDelivery':
+            return {
+                ...state,
+                cityNameDelivery: action.payload.cityName,
+            };
+        case 'firstNameDelivery':
+            return {
+                ...state,
+                firstNameDelivery: action.payload.firstName,
+            };
+        case 'lastNameDelivery':
+            return {
+                ...state,
+                lastNameDelivery: action.payload.lastName,
+            };
+        case 'emailDelivery':
+            return {
+                ...state,
+                emailDelivery: action.payload.email,
+            };
+        case 'phoneNumberDelivery':
+            return {
+                ...state,
+                phoneNumberDelivery: action.payload.phoneNumber,
+            };
+        case 'zipcodeDelivery':
+            return {
+                ...state,
+                zipcodeDelivery: action.payload.zipcode,
+            };
+        case 'streetNameDelivery':
+            return {
+                ...state,
+                streetNameDelivery: action.payload.streetName,
             };
         default:
             return state;
