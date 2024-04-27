@@ -7,7 +7,7 @@ import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import {useFetch} from "../Components/useFetch.ts";
-import { Link } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {useEffect, useRef} from "react";
 import {useBasketDispatch, useBasketState} from "../Complex/BasketContext.tsx";
 
@@ -20,7 +20,7 @@ export function StageBasket() {
 
     const { products, isProductsLoading, productsError } = useBasketState();
     const [upgrades, , isUpgradesLoading, upgradesError] = useFetch(upgradesUrl);
-
+    const navigate = useNavigate();
 
     const dispatch = useBasketDispatch();
     const hasFetchedProducts = useRef(false); // Flag to track fetch status
@@ -109,7 +109,7 @@ export function StageBasket() {
 
     return (
         <>
-            <Link to="/StageDelivery" >Continue</Link>
+            <button onClick={() => navigate('/Delivery')}>Continue</button>
 
             <div className="stageBoxes">
                 <div className="title-container">

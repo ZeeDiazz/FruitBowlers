@@ -3,7 +3,7 @@ import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
-import { Link } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 /*interface ButtonProps {
     handleGiftCardRedeemClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -11,13 +11,6 @@ import { Link } from "react-router-dom";
     isChecked: boolean;
 }*/
 
-function backBotton(){
-        return(
-            <>
-                <Link to="/StageDelivery">Back to form</Link>
-            </>
-            )
-    }
 
 interface ChoosePaymentProps {
     isInvoiceEnabled: boolean;
@@ -29,14 +22,14 @@ enum PaymentOption{
 export function ChoosePayment(choosePaymentProps: ChoosePaymentProps/*, buttonProps: ButtonProps*/) {
     const isInvoiceEnabled = choosePaymentProps.isInvoiceEnabled;
     const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
-
+    const navigate = useNavigate();
     const handlePaymentMethodChange = (paymentOption: PaymentOption) => {
         setPaymentOption(paymentOption)
     };
 
     return (
         <div className="stageBoxes">
-            {backBotton()}
+            <button onClick={() => navigate('/Delivery')}>Back to Delivery</button>
             <div className="title-container">
                 <img
                     src={`/images/stage3-fat.png`}

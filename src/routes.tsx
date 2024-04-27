@@ -30,12 +30,12 @@ export const routes: RouteObject[] = [
         errorElement: <ErrorPage/>,
     },
     {
-        path: "/stageDelivery",
+        path: "/Delivery",
         element: <StageDelivery />,
         errorElement: <ErrorPage/>,
     },
     {
-        path: "/stagePayment",
+        path: "/Payment",
         element: <ChoosePayment totalDiscountedPrice={one} isInvoiceEnabled={enabled} />,
         errorElement: <ErrorPage/>,
     },
