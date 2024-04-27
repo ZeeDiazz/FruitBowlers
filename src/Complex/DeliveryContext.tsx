@@ -66,8 +66,8 @@ const deliveryState: DeliveryState = {
 };
 
 // Type of actions
-type DeliveryAction =
-    | { type: 'cityNamed'; payload: { cityName: string } }
+export type DeliveryAction =
+    | { type: 'cityName'; payload: { cityName: string } }
     | { type: 'firstName'; payload: { firstName: string } }
     | { type: 'lastName'; payload: { lastName: string } }
     | { type: 'email'; payload: { email: string } }
@@ -90,7 +90,7 @@ type DeliveryAction =
 // Reducer
 const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
     switch(action.type) {
-          case 'cityNamed':
+          case 'cityName':
               return {
                   ...state,
                   cityName: action.payload.cityName,
