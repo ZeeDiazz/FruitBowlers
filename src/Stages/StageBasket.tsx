@@ -43,7 +43,7 @@ export function StageBasket() {
             dispatch({ type: "fetchingProduct" }); // Set isLoading to true before fetch
             fetchProduct(productsUrl)
                 .then(() => (hasFetchedProducts.current = true)) // Mark fetch completed
-                .catch((error) =>
+                .catch(() =>
                     dispatch({ type: "productsError", payload: { failed: true } })
                 );
         }
