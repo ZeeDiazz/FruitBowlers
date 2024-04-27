@@ -1,8 +1,11 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
-import {useState} from "react";
-import { Link } from 'react-router-dom';
-import {useDeliveryDispatch, useDeliveryState} from "../Complex/DeliveryContext.tsx";
+import React, {useState} from "react";
+import {useNavigate} from 'react-router-dom';
+import {
+    useDeliveryDispatch,
+    useDeliveryState,
+} from "../Complex/DeliveryContext.tsx";
 
 
 export function StageDelivery() {
@@ -10,11 +13,9 @@ export function StageDelivery() {
     const {firstName, lastName, email, phoneNumber,zipcode, companyVatNumber, streetName,cityName,companyName,sendToBilling,firstNameDelivery,lastNameDelivery,streetNameDelivery,emailDelivery,cityNameDelivery,phoneNumberDelivery,zipcodeDelivery} = useDeliveryState();
     const dispatch = useDeliveryDispatch();
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const navigate = useNavigate();
+
     const [hasError, setHasError] = useState(false);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [textDelivery, setTextDelivery] = useState('');
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [hasErrorDelivery, setHasErrorDelivery] = useState(false);
 
     /* Learned from lecture and https://www.valentinog.com/blog/await-react/*/
@@ -29,12 +30,12 @@ export function StageDelivery() {
             console.log('Valid Zip Code');
             console.log(`Zip Code: ${nr}, City: ${navn}`);
 
-            if (zipcodeName == "zipcode1") {
-                dispatch({type:"cityNamed", payload: {cityName: navn}})
+            if (zipcodeName == "zipcodeBilling") {
+                dispatch({type:"cityName", payload: {cityName: navn}})
                 dispatch({type:"zipcode", payload: {zipcode: zipcode}})
                 setHasError(false);
             }
-            if (zipcodeName == "zipcode2") {
+            if (zipcodeName == "zipcodeDelivery") {
                 dispatch({type:"cityNameDelivery", payload: {cityName: navn}})
                 dispatch({type:"zipcodeDelivery", payload: {zipcode: zipcode}})
                 setHasErrorDelivery(false);
@@ -44,8 +45,9 @@ export function StageDelivery() {
         } catch (error) {
             console.log('Unvalid Zip Code');
             console.log(error);
-            if (zipcodeName == "zipcode1") {
+            if (zipcodeName == "zipcodeBilling") {
                 setHasError(true);
+                console.log({hasError});
             } else {
                 setHasErrorDelivery(true);
             }
@@ -58,14 +60,12 @@ export function StageDelivery() {
             <div id="message">
                 <img src="images/validate.png" alt="exclamtion icon"/>
                 <p id = "invalidZip">InvalidZip  </p>
-
             </div>
-
             </>
             )
     }
 
-    function checkboxes(diff: boolean) {
+    function checkbox(diff: boolean) {
         return (
             <div className="checkboxText">
                 <input type="checkbox" name="Delivery Address" value="yes" id="checkbox"
@@ -85,16 +85,10 @@ export function StageDelivery() {
         );
     }
 
-    function submitButton(checked: boolean){
-        if(checked) {
-            return null;
-        }
+    function submitButton(checked: boolean | undefined){
+        if(checked) return null;
         return (
-            <>
-                <Link to="/stagepayment">
-                    <button id="button" type="submit" >Continue</button>
-                </Link>
-            </>
+            <button id="button" type="submit">Continue</button>
         )
     }
 
@@ -104,7 +98,7 @@ export function StageDelivery() {
                 <>
                     <h2 id="title">Delivery address</h2>
 
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div id="inputBox">
                             <input name="firstNameDelivery" type="text" placeholder="First Name" defaultValue={firstNameDelivery} onChange={handleInputChange} required/>
                             <br/>
@@ -118,8 +112,8 @@ export function StageDelivery() {
                                 <br/>
 
                                 {hasErrorDelivery && customError()}
-                                <input name="zipcode2Delivery" pattern="\d*" type="number" placeholder="ZipCode" defaultValue={zipcodeDelivery}
-                                       onChange={e => validateZipCode(e.target.value.toString(), "zipcode2")} required/>
+                                <input name="zipcodeDelivery" pattern="\d*" type="number" placeholder="ZipCode" defaultValue={zipcodeDelivery}
+                                       onChange={e => validateZipCode(e.target.value.toString(), "zipcodeDelivery")} required/>
 
                                 <input name="cityDelivery" placeholder="City" defaultValue={cityNameDelivery} required/>
                                 <br/>
@@ -142,19 +136,19 @@ export function StageDelivery() {
     function updateInputValue(event: React.FormEvent<HTMLInputElement>, fieldName: string) {
         const value = event.currentTarget.value;
         switch (fieldName){
-            case "Name":
+            case "firstName":
                 dispatch({ type: 'firstName', payload: { firstName: value } })
                 break;
-            case "LastName":
+            case "lastName":
                 dispatch({ type: 'lastName', payload: { lastName: value } })
                 break;
-            case "Email":
+            case "email":
                 dispatch({ type: 'email', payload: { email: value } })
                 break;
-            case 'Telephone':
+            case 'telephone':
                 dispatch({ type: 'phoneNumber', payload: { phoneNumber: value } });
                 break;
-            case 'VATnum':
+            case 'companyVATnumber':
                 dispatch({ type: 'companyVatNumber', payload: { companyVatNumber: value } });
                 break;
             case 'streetName':
@@ -178,7 +172,6 @@ export function StageDelivery() {
             case 'streetNameDelivery':
                 dispatch({ type: 'streetNameDelivery', payload: { streetName: value } });
                 break;
-
         }
     }
 
@@ -186,9 +179,28 @@ export function StageDelivery() {
         updateInputValue(event, event.currentTarget.name);
     };
 
+    /**/
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const isValid = await validateForm();
+        if (isValid) {
+            navigate('/Payment');
+        }
+    };
+
+    function validateForm(): Promise<boolean> {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(true);
+            }, 500); //a bit of delay
+        });
+    }
+
     return (
         <div className={"stageBoxes"}>
-            <Link to="/">Back to basket</Link>
+
+            <button onClick={() => navigate('/')}>Back to Basket</button>
 
             <div className="title-container">
                 <img
@@ -198,45 +210,45 @@ export function StageDelivery() {
                 />
                 <h2>Billing Address</h2>
             </div>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div id="inputBox">
-                    <input name="Name" pattern="[a-zA-Z]+" type="text" placeholder="First Name" defaultValue={firstName} onChange={handleInputChange} required/>
+                    <input name="firstName" pattern="[a-zA-Z]+" type="text" placeholder="First Name" defaultValue={firstName} onChange={handleInputChange} required/>
                     <br/>
-                    <input name="LastName" type="text" placeholder="Last Name" defaultValue={lastName} onChange={handleInputChange} required/>
+                    <input name="lastName" type="text" placeholder="Last Name" defaultValue={lastName} onChange={handleInputChange} required/>
                     <br/>
-                    <input name="Email" type="email" placeholder="Email" defaultValue={email} onChange={handleInputChange} required/>
+                    <input name="email" type="email" placeholder="Email" defaultValue={email} onChange={handleInputChange} required/>
                     <br/>
 
                     <input name="companyName" type="text" placeholder="*(Optional) Company Name" defaultValue={companyName} onChange={handleInputChange}/>
-                    <input type="digits" name="VATnum" minLength={8} maxLength={8}
+                    <input name="companyVATnumber" type="digits" minLength={8} maxLength={8}
                            placeholder="*(Optional) Company VAT" defaultValue={companyVatNumber}
-                           onChange={handleInputChange} required/>
+                           onChange={handleInputChange}/>
                     <br/>
 
                     <div className="addressBox">
                         <br/>
-                        <input name="Country" type="text" value="Danmark" onChange={handleInputChange} disabled/>
+                        <input name="country" type="text" value="Danmark" onChange={handleInputChange} disabled/>
                         <br/>
 
                         {hasError && customError()}
-                        <input name="zipcode1" pattern="\d*" type="number" placeholder="ZipCode" defaultValue={zipcode}
-                               onChange={e => validateZipCode(e.target.value.toString(), "zipcode1")}/>
+                        <input name="zipcode" pattern="\d*" type="number" placeholder="ZipCode" defaultValue={zipcode}
+                               onChange={e => validateZipCode(e.target.value.toString(), "zipcodeBilling")}/>
 
-                        <input name="City" placeholder="City" defaultValue={cityName} required/>
+                        <input name="city" placeholder="City" defaultValue={cityName} required/>
                         <br/>
                         <input name="streetName" type="text" placeholder="Street Name" defaultValue={streetName}  onChange={handleInputChange} required/>
                     </div>
                     <br/>
                     <div id="phoneBox">
-                        <input name="Landcode" placeholder="Landcode" value="+45" disabled/>
+                        <input name="landcode" placeholder="Landcode" value="+45" disabled/>
 
-                        <input type="number" pattern="\d*" name="Telephone" minLength={8} maxLength={8}
+                        <input name="telephone" type="number" pattern="\d*" minLength={8} maxLength={8}
                                placeholder="Telephone" defaultValue={phoneNumber} onChange={handleInputChange} required/>
                     </div>
                     {submitButton(!sendToBilling)}
                 </div>
                 <div className="continue-container">
-                    {checkboxes(!sendToBilling)}
+                    {checkbox(!sendToBilling)}
                 </div>
             </form>
             {deliveryAddress(!sendToBilling)}
