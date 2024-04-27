@@ -1,22 +1,19 @@
 import '../assets/Styles/large/StageDelivery.css'
 import '../assets/Styles/320px/SmallScreen.css'
-import {FormEvent, useContext, useState} from "react";
+import {useState} from "react";
 import { Link } from 'react-router-dom';
-import { DataContext } from '../App';
+import {useDeliveryDispatch, useDeliveryState} from "../Complex/DeliveryContext.tsx";
 
 
 export function StageDelivery() {
-    if(useContext(DataContext).forms === null){
-        throw new Error("Unexpected useMyState without parent");
-    }
-    const form = useContext(DataContext).forms;
-    /*const {firstName, lastName, email, phoneNumber,zipcode, companyVatNumber, streetName,cityName,companyName} = useDeliveryState();
-    const dispatch = useDeliveryDispatch();*/
+
+    const {firstName, lastName, email, phoneNumber,zipcode, companyVatNumber, streetName,cityName,companyName} = useDeliveryState();
+    const dispatch = useDeliveryDispatch();
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [hasError, setHasError] = useState(false);
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [text, setText] = useState('');
+    //const [text, setText] = useState('');
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [textDelivery, setTextDelivery] = useState('');
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -37,7 +34,8 @@ export function StageDelivery() {
             console.log(`Zip Code: ${nr}, City: ${navn}`);
 
             if (zipcodeName == "zipcode1") {
-                setText(navn);
+                dispatch({type:"cityNamed", payload: {cityName: navn}})
+                dispatch({type:"zipcode", payload: {zipcode: zipcode}})
                 setHasError(false);
             }
             if (zipcodeName == "zipcode2") {
@@ -57,21 +55,36 @@ export function StageDelivery() {
             return false;
         }
     }
-    function handleFormSubmit(event:FormEvent<HTMLFormElement>):void {
+    /*function handleFormSubmit(event:FormEvent){
         event.preventDefault();
-        const formData:FormData = new FormData(event.currentTarget);
+        const form = event.target as HTMLFormElement;
+        const formElements = form.elements as typeof form.elements & {
+            firstName: {value: string};
+            lastName: {value: string};
+            email: {value: string};
+            phoneNumber: {value: string};
+            companyName: {value: string};
+            companyVatNumber: {value: string};
+            zipcode: {value: string};
+            cityName: {value: string};
+            streetName: {value: string};
+        };
 
-        form.Name = formData.get("Name")?.toString()||"tom";
-        form.LastName = formData.get("LastName")?.toString()|| "tom";
-        form.Email = formData.get("Email")?.toString()|| "tom";
-        form.companyName = formData.get("companyName")?.toString() || "tom";
-        form.VATnum = formData.get("VATnum")?.toString() || "tom";
-        form.zipcode1 = parseInt(formData.get("zipcode1")?.toString() || formData.get("zipcode2")?.toString() || '');
-        form.City = formData.get("City")?.toString()|| "tom";
-        form.streetName = formData.get("streetName")?.toString()|| "tom";
-
-        console.log(form.Email)
-    }
+        dispatch({
+            type: 'submitForm',
+            payload: {
+                firstName: formElements.firstName.value,
+                lastName: formElements.lastName.value,
+                email: formElements.email.value,
+                phoneNumber: formElements.phoneNumber.value,
+                companyName: formElements.companyName.value,
+                companyVatNumber: formElements.companyVatNumber.value,
+                zipcode: formElements.zipcode.value,
+                cityName: formElements.cityName.value,
+                streetName: formElements.streetName.value,
+            }}
+        );
+    }*/
 
     function customError(){
         return(<>
@@ -106,15 +119,16 @@ export function StageDelivery() {
     }
 
     function submitButton(checked: boolean){
-        if(!checked) {
-            return (
-                <>
-                    <Link to="/stagepayment" type="submit">
-                        <button id="button" type="submit">Continue</button>
-                    </Link>
-                </>
-            )
+        if(checked) {
+            return null;
         }
+        return (
+            <>
+                <Link to="/stagepayment">
+                    <button id="button">Continue</button>
+                </Link>
+            </>
+        )
     }
 
     function deliveryAddress(diff: boolean) {
@@ -123,7 +137,7 @@ export function StageDelivery() {
                 <>
                     <h2 id="title">Delivery address</h2>
 
-                    <form onSubmit={handleFormSubmit}>
+                    <form>
                         <div id="inputBox">
                             <input name="Name" type="text"
                                    placeholder="First Name" required/>
@@ -159,6 +173,38 @@ export function StageDelivery() {
         }
     }
 
+    function updateInputValue(event: React.FormEvent<HTMLInputElement>, fieldName: string) {
+        const value = event.currentTarget.value;
+        switch (fieldName){
+            case "Name":
+                dispatch({ type: 'firstName', payload: { firstName: value } })
+                break;
+            case "LastName":
+                dispatch({ type: 'lastName', payload: { lastName: value } })
+                break;
+            case "Email":
+                dispatch({ type: 'email', payload: { email: value } })
+                break;
+            case 'Telephone':
+                dispatch({ type: 'phoneNumber', payload: { phoneNumber: value } });
+                break;
+            case 'VATnum':
+                dispatch({ type: 'companyVatNumber', payload: { companyVatNumber: value } });
+                break;
+            case 'streetName':
+                dispatch({ type: 'streetName', payload: { streetName: value } });
+                break;
+            case 'companyName':
+                dispatch({ type: 'companyName', payload: { companyName: value } });
+                break;
+        }
+
+    }
+
+    const handleInputChange = (event: React.FormEvent<HTMLInputElement>) => {
+        updateInputValue(event, event.currentTarget.name);
+    };
+
     return (
         <div className={"stageBoxes"}>
             <Link to="/">Back to basket</Link>
@@ -171,38 +217,38 @@ export function StageDelivery() {
                 />
                 <h2>Billing Address</h2>
             </div>
-            <form onSubmit={handleFormSubmit}>
+            <form >
                 <div id="inputBox">
-                    <input name="Name" type="text" placeholder="First Name" required/>
+                    <input name="Name" pattern="[a-zA-Z]+" type="text" placeholder="First Name" defaultValue={firstName} onChange={handleInputChange} required/>
                     <br/>
-                    <input name="LastName" type="text" placeholder="Last Name" required/>
+                    <input name="LastName" type="text" placeholder="Last Name" defaultValue={lastName} onChange={handleInputChange} required/>
                     <br/>
-                    <input type="email" name="Email" placeholder="Email" required/>
+                    <input type="email" name="Email" placeholder="Email" defaultValue={email} onChange={handleInputChange} required/>
                     <br/>
 
-                    <input name="companyName" type="text" placeholder="*(Optional) Company Name"/>
+                    <input name="companyName" type="text" placeholder="*(Optional) Company Name" defaultValue={companyName} onChange={handleInputChange}/>
                     <input type="digits" name="VATnum" minLength={8} maxLength={8}
-                           placeholder="*(Optional) Company VAT"/>
+                           placeholder="*(Optional) Company VAT" defaultValue={companyVatNumber} onChange={handleInputChange} required/>
                     <br/>
                     <div className="addressBox">
                         <br/>
-                        <input name="Country" type="text" value="Danmark" disabled/>
+                        <input name="Country" type="text" value="Danmark" onChange={handleInputChange} disabled/>
                         <br/>
 
                         {hasError && customError()}
-                        <input name="zipcode1" pattern="\d*" type="number" placeholder="ZipCode"
+                        <input name="zipcode1" pattern="\d*" type="number" placeholder="ZipCode" defaultValue={zipcode}
                                onChange={e => validateZipCode(e.target.value.toString(), "zipcode1")} />
 
-                        <input name="City" placeholder="City" defaultValue={text} required/>
+                        <input name="City" placeholder="City" defaultValue={cityName} onChange={handleInputChange} required/>
                         <br/>
-                        <input name="streetName" type="text" placeholder="Street Name" required/>
+                        <input name="streetName" type="text" placeholder="Street Name" defaultValue={streetName} onChange={handleInputChange} required/>
                     </div>
                     <br/>
                     <div id="phoneBox">
                         <input name="Landcode" placeholder="Landcode" value="+45" disabled/>
 
                         <input type="number" pattern="\d*" name="Telephone"
-                               minLength={8} maxLength={8} placeholder="Telephone" required/>
+                               minLength={8} maxLength={8} placeholder="Telephone" defaultValue={phoneNumber} onChange={handleInputChange} required/>
                     </div>
                     {submitButton(diff)}
                 </div>
