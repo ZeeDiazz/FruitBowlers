@@ -21,29 +21,6 @@ interface DeliveryState {
     cityNameDelivery: string | undefined;
 }
 
-/*interface DeliveryFormState{
-    firstName: string | undefined;
-    lastName: string | undefined;
-    email: string | undefined;
-    phoneNumber: string|undefined;
-    zipcode: string|undefined;
-    streetName: string | undefined;
-    cityName: string | undefined;
-
-}
-
-// Initial state
-const deliveryFormState: DeliveryFormState = {
-    firstNameDelivery: '',
-    lastNameDelivery: '',
-    emailDelivery: '',
-    phoneNumberDelivery: '',
-    zipcodeDelivery: '',
-    streetNameDelivery: '',
-    cityNameDelivery: '',
-};
-*/
-
 const deliveryState: DeliveryState = {
     firstName: '',
     lastName: '',
@@ -55,7 +32,6 @@ const deliveryState: DeliveryState = {
     cityName: '',
     companyName: '',
     sendToBilling: true,
-    //deliveryForm: deliveryFormState
     firstNameDelivery: '',
     lastNameDelivery: '',
     emailDelivery: '',
@@ -90,7 +66,7 @@ export type DeliveryAction =
 // Reducer
 const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
     switch(action.type) {
-          case 'cityName':
+        case 'cityName':
               return {
                   ...state,
                   cityName: action.payload.cityName,
