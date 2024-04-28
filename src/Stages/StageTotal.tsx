@@ -9,7 +9,6 @@ export function TotalBox({products}: {products: Product[]} ){
     const {totalQuantity, totalPrice} = useTotalState();
     const dispatch = useTotalDispatch();
     const [discountMessage, setDiscountMessage] = useState('loading');
-
     useEffect(() => {
         if(products){
             dispatch({type: 'TotalPrice', payload: {priceAmount: getTotalPriceDiscounted(products)}});
