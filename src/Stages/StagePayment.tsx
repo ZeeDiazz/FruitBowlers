@@ -9,14 +9,14 @@ import {useNavigate} from "react-router-dom";
 import {ChoosePaymentProps, PaymentOption, usePaymentDispatch, usePaymentState} from "../Complex/PaymentContext.tsx";
 
 function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
-    const {updateText, paymentOption} =  usePaymentState();
+    const {updateText, paymentOption,  isPopUpActive} =  usePaymentState();
     const dispatch = usePaymentDispatch();
 
     //From App.tsx. Listens to invoice input-number. If input is 8 characters it returns true.
     const isInvoiceEnabled: boolean = choosePaymentProps.isInvoiceEnabled;
 
     //Controls gift-card pop up visibility.
-    const [isPopUpActive, setIsPopUpActive] = useState(false);
+    //const [isPopUpActive, setIsPopUpActive] = useState(false);
     const [giftCardCopy, setGiftCardCopy] = useState<Partial< {
         currentCredit: number, currency:string}>>({ currentCredit: undefined, currency: '' });
 
@@ -28,6 +28,9 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
     };
     const handleTextUpdate = (newText: string): void => {
         dispatch({type: "updateText", payload: { update: newText}})
+    }
+    const togglePopUp = (toggle: boolean): void => {
+        dispatch( {type:  "togglePopUp", payload: { toggle: toggle}})
     }
 
     return (
@@ -201,7 +204,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
                             handleTextUpdate('The input did not match a gift-card. Please try again');
                         } else {
                             handleTextUpdate('');
-                            setIsPopUpActive(true);
+                            togglePopUp(true);
                             // Clone the giftCard object
                             const clonedGiftCard:{currentCredit: number, currency: string } = { ...result.giftCard };
                             // updates shown giftCard with result and closes the input field
@@ -247,7 +250,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
             <div className={"WholeGiftCardPopUp"}>
                 <div className={"HAndButton"}>
                     <h3>Your gift card is ready</h3>
-                    <button onClick={()=> setIsPopUpActive(false)}>
+                    <button onClick={()=> togglePopUp(false)}>
                         Cancel
                     </button>
                 </div>

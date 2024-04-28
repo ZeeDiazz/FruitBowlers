@@ -10,14 +10,17 @@ export enum PaymentOption{
 interface PaymentState {
     updateText: string;
     paymentOption: PaymentOption;
+    isPopUpActive: boolean;
 }
 const initialPaymentState: PaymentState = {
     updateText: '  Gift card is case sensitive ',
-    paymentOption: PaymentOption.NONE
+    paymentOption: PaymentOption.NONE,
+    isPopUpActive: false
 };
 type PaymentAction =
     | { type: 'updateText', payload: {update: string}}
-    | { type: 'changePaymentOption',  payload: {newOption:  PaymentOption}
+    | { type: 'changePaymentOption',  payload: {newOption:  PaymentOption}}
+    | { type: 'togglePopUp',  payload: {toggle:  boolean}
 };
 
 
@@ -33,6 +36,11 @@ const paymentReducer = (state: PaymentState, action: PaymentAction) => {
             return {
                 ...state,
                 paymentOption: action.payload.newOption
+            }
+        case 'togglePopUp':
+            return {
+                ...state,
+                isPopUpActive: action.payload.toggle
             }
         default:
             return state;
