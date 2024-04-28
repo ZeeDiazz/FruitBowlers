@@ -97,8 +97,6 @@ export function StageDelivery() {
             return (
                 <>
                     <h2 id="title">Delivery address</h2>
-
-                    <form onSubmit={handleSubmit}>
                         <div id="inputBox">
                             <input name="firstNameDelivery" type="text" placeholder="First Name" defaultValue={firstNameDelivery} onChange={handleInputChange} required/>
                             <br/>
@@ -127,7 +125,6 @@ export function StageDelivery() {
                             </div>
                             {submitButton(!diff)}
                         </div>
-                    </form>
                 </>
             );
         }
@@ -250,8 +247,8 @@ export function StageDelivery() {
                 <div className="continue-container">
                     {checkbox(!sendToBilling)}
                 </div>
+                {deliveryAddress(!sendToBilling)}
             </form>
-            {deliveryAddress(!sendToBilling)}
 
         </div>
     )
