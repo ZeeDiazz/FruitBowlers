@@ -5,15 +5,8 @@ import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
 import {giftCardPayment} from "../Components/giftCardPayment.ts";
 import {GiftCardPaymentResponse} from "../Components/giftCardPayment.ts";
-import { Link } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
-function backButton(){
-        return(
-            <>
-                <Link to="/stageDelivery">Back to form</Link>
-            </>
-            )
-    }
 
 interface ChoosePaymentProps {
     isInvoiceEnabled: boolean;
@@ -51,13 +44,14 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
 
     //Controls which payment is chosen and ensures maximum one at a time.
     const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
+    const navigate = useNavigate();
     const handlePaymentMethodChange = (paymentOption: PaymentOption):void => {
         setPaymentOption(paymentOption)
     };
 
     return (
         <body className="stageBoxes">
-            {backButton()}
+        <button onClick={() => navigate('/Delivery')}>Back to Delivery</button>
             <hgroup className="title-container">
                 <img
                     src={`/images/stage3-fat.png`}

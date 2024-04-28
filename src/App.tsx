@@ -4,9 +4,12 @@ import './Components/upgrade.tsx'
 import './assets/Styles/default/DefaultStyling.css'
 import { header } from "./Components/header.tsx";
 import {Context, createContext} from 'react';
-import { Outlet } from "react-router-dom";
+import {StageBasket} from "./Stages/StageBasket.tsx";
+import {TotalBox} from "./Stages/StageTotal.tsx";
+import {useBasketState} from "./Complex/BasketContext.tsx";
 
-interface formInterface {
+
+export interface formInterface {
     Name: string;
     LastName: string;
     Email: string;
@@ -28,7 +31,7 @@ const form: formInterface = {
     streetName: "Main Street",
     Telephone: 12345678
 }
-interface priceInterface{
+export interface priceInterface{
     totalPrice:number,
     totalQuantity:number
 }
@@ -38,7 +41,7 @@ const totalPrisData:priceInterface = {
     totalQuantity:0
 }
 
-interface DataInterface{
+export interface DataInterface{
     forms: formInterface,
     totalPriceDatas: priceInterface
 }
@@ -52,19 +55,15 @@ export const DataContext: Context<DataInterface>  = createContext(data);
 
 
 export function App() {
-
+    const {products} = useBasketState();
     return (
         <>
             <header>
                 {header()}
             </header>
             <main>
-                <DataContext.Provider value={data}>
-                    <div id="detail">
-                        <Outlet />
-                    </div>
-                </DataContext.Provider>
-
+                <StageBasket />
+                <TotalBox products={products}/>
             </main>
         </>
     );

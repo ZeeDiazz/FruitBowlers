@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-async function fetchData (url: string): Promise<Product[]> {
+export async function fetchData (url: string): Promise<Product[]> {
     try {
         const response = await fetch(url);
         if (!response.ok) {

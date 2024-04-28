@@ -1,29 +1,52 @@
 import {
     calculateLocalTotalPrice,
-    getTotalPriceDiscounted,
-    getTotalQuantity,
     handleQuantityChange
 } from "../Components/price.ts";
 import {handleUpgradeClick, hasUpgradeOption, UpgradeButton} from "../Components/upgrade.tsx"
-import {TotalBox} from "./StageTotal.tsx";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/320px/SmallScreenBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import {useFetch} from "../Components/useFetch.ts";
-import { Link } from 'react-router-dom';
-import { DataContext } from '../App';
-import {useContext} from "react";
+import {useNavigate} from 'react-router-dom';
+import {useEffect, useRef} from "react";
+import {useBasketDispatch, useBasketState} from "../Complex/BasketContext.tsx";
 
 export function StageBasket() {
-    const priceData = useContext(DataContext).totalPriceDatas;
-
     const base : string= 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/';
     const productsUrl: string = base + 'main/productsList.json';
     const upgradesUrl: string = base + 'main/upgradesList.json';
 
-    const [products, setProducts, productsLoading, productsError] = useFetch(productsUrl);
-    const [upgrades, , upgradesLoading, upgradesError] = useFetch(upgradesUrl);
+    const { products, isProductsLoading, productsError } = useBasketState();
+    const [upgrades, , isUpgradesLoading, upgradesError] = useFetch(upgradesUrl);
+    const navigate = useNavigate();
+
+    const dispatch = useBasketDispatch();
+    const hasFetchedProducts = useRef(false); // Flag to track fetch status
+
+    const fetchProduct = async (url: string) => {
+        dispatch({ type: "fetchingProduct"} ); // Set isLoading to true before fetch
+
+        try {
+            const response = await fetch(url);
+            const fetchedProducts = await response.json();
+            dispatch({ type: "fetchedProduct", payload: { products: fetchedProducts } });
+        } catch (error) {
+            dispatch({ type: "productsError", payload: { failed: true } }); // Set error message
+        }
+    };
+
+    useEffect(() => {
+        if (!hasFetchedProducts.current && !products.length) {
+            // Only fetch if products are empty and haven't been fetched yet
+            dispatch({ type: "fetchingProduct" }); // Set isLoading to true before fetch
+            fetchProduct(productsUrl)
+                .then(() => (hasFetchedProducts.current = true)) // Mark fetch completed
+                .catch(() =>
+                    dispatch({ type: "productsError", payload: { failed: true } })
+                );
+        }
+    }, [products, productsUrl, dispatch]);
 
     const productBoxItems = products && products.map((product:Product, index:number) => (
         !productsError && product.quantity > 0 && (
@@ -50,7 +73,7 @@ export function StageBasket() {
                             onUpgradeClick = {() => {
                                 const upgradeOption = hasUpgradeOption(product, upgrades);
                                 if (upgradeOption.hasUpgrade && upgradeOption.moreExpensiveOption) {
-                                    setProducts(handleUpgradeClick(products, upgradeOption.moreExpensiveOption, product.quantity, index));
+                                    dispatch({type:"upgradeProduct",  payload:  { upgrade: handleUpgradeClick(products, upgradeOption.moreExpensiveOption, product. quantity,index)}})
                                 }
                             }}
                         />
@@ -58,18 +81,22 @@ export function StageBasket() {
                     <nav className={"productChangeNavigation"}>
                         <div>
                             <button className="decrease"
-                                    onClick={() => setProducts(handleQuantityChange(products, index, -1))}
+                                    data-testid="decrease-button"
+                                    onClick={() =>  dispatch({ type: "quantityChange", payload: { products: handleQuantityChange(products, index, -1) } })}
                                     disabled={product.quantity <= 1}>
                                 -
                             </button>
-                            <span>{product.quantity}</span>
+                            <span data-testid="quantity">{product.quantity}</span>
                             <button className="increase"
-                                    onClick={() => setProducts(handleQuantityChange(products, index, +1))}>
+                                    data-testid="increase-button"
+                                    onClick={() =>  dispatch({ type: "quantityChange", payload: { products: handleQuantityChange(products, index, +1) } })}
+                                    >
                                 +
                             </button>
                         </div>
                         <button className="remove"
-                                onClick={() => setProducts(handleQuantityChange(products, index, 0))}>
+                                data-testid="remove-button"
+                                onClick={() =>  dispatch({ type: "quantityChange", payload: { products: handleQuantityChange(products, index, 0) } })}>
                             remove
                         </button>
                     </nav>
@@ -78,17 +105,9 @@ export function StageBasket() {
         )
     ));
 
-    function handleContinue() {
-        priceData.totalQuantity = getTotalQuantity(products);
-        priceData.totalPrice = getTotalPriceDiscounted(products);
-
-        console.log("price ", priceData.totalPrice);
-        console.log("Quantity ", priceData.totalQuantity);
-    }
-
     return (
         <>
-            <Link to="/StageDelivery"onClick={handleContinue}>Continue</Link>
+            <button onClick={() => navigate('/Delivery')}>Continue</button>
 
             <div className="stageBoxes">
                 <div className="title-container">
@@ -101,9 +120,9 @@ export function StageBasket() {
                 </div>
                 <div id="productBox">
                     {productsError && <p>Error fetching products</p>}
-                    {productsLoading || upgradesLoading ? <div className="error">Loading...</div> : productBoxItems}                </div>
+                    {isProductsLoading || isUpgradesLoading ? <div className="error">Loading...</div> : productBoxItems}                </div>
             </div>
-            {productsLoading ?  <div className="error">Loading...</div> : <TotalBox products={products}/>}
+            {/*isProductsLoading ?  <div className="error">Loading...</div> : <TotalBox products={products} />*/}
         </>
     )
 }
@@ -118,29 +137,28 @@ function ProductItem({product, totalAmount}: ProductItemProps){
                     </div>
                 </div>
                 <div id="priceTag">
-                    
+
                     {/*{/*Before the discount is applied
                     <span>
-                        {product.quantity < product.discountQuantity  && totalAmount} 
+                        {product.quantity < product.discountQuantity  && totalAmount}
                     </span>*/}
-  
+
                     {/*After the discount is applied*/}
-                    {product.quantity >= product.discountQuantity && product.discountQuantity !== 0 ? 
+                    {product.quantity >= product.discountQuantity && product.discountQuantity !== 0 ?
                         (
                             //After the discount is applied
                             <div className="Discounted">
                                 <span id="originalprice">{product.totalPrice}</span>
                                 <span className="total-amount">{totalAmount}</span>
                             </div>
-                        ) : 
+                        ) :
                         (
                             //Before the discount is applied
                             <span>
-                                {totalAmount} 
+                                {totalAmount}
                             </span>
                         )
                     }
-
                     {product.currency}
 
                 </div>
