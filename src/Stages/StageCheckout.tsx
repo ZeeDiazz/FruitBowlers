@@ -1,12 +1,13 @@
 import '../assets/Styles/large/StageCheckout.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
-import React, { FormEvent, useState } from 'react'
+import React, {FormEvent, useState} from 'react'
 import {useNavigate} from 'react-router-dom';
-import {useCheckoutDispatch, useCheckoutState} from "../Complex/CheckoutContext.tsx";
+import {useCheckoutDispatch, useCheckoutState} from "../Context/CheckoutContext.tsx";
+import {header} from "../Components/header.tsx";
 
 export function StageCheckout() {
-    const { commentText,receiveEmail } = useCheckoutState();
+    const { commentText,receiveEmail,hasPaid } = useCheckoutState();
     const dispatch = useCheckoutDispatch();
 
     const [isChecked, setIsChecked] = useState(false);
@@ -15,7 +16,7 @@ export function StageCheckout() {
     //TODO need to implement this correct
     async function ServerCall (e: FormEvent){
         e.preventDefault()
-        const logUrl = 'https://eovlje4urovlbav.m.pipedream.net';
+        const logUrl = 'https://eopdtwzz2bt0la6.m.pipedream.net';
 
         const logResponse = await fetch(logUrl, {
             method: "POST",
@@ -24,11 +25,16 @@ export function StageCheckout() {
             },
             body: JSON.stringify({receiveEmail, commentText})
         });
-        if(!logResponse.status){
+        if(logResponse.ok){
+            dispatch({ type: 'HasPaid', payload: {hasPaid:true} });
+            navigate('/OrderSubmitted');
+        }
+        else {
+            dispatch({ type: 'HasPaid', payload: {hasPaid:false} });
             console.error("Failed to log search", logResponse.statusText)
         }
     }
-    
+
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setIsChecked(event.target.checked);
         console.log("state of isChecked: " + event.target.checked);
@@ -36,6 +42,9 @@ export function StageCheckout() {
 
     return (
         <nav>
+            <header>
+                {header()}
+            </header>
             <div className={"stageBoxes"}>
                 <button onClick={() => navigate('/Payment')}>Back to Basket</button>
                 <div className="title-container">
@@ -63,7 +72,7 @@ export function StageCheckout() {
                         type="checkbox"
                         name="MarketingNudge"
                         checked={receiveEmail}
-                        onChange={(e) => dispatch({type:'ReceiveEmail', payload:{receiveEmail: e.target.checked}})}
+                        onChange={(e) => dispatch({type: 'ReceiveEmail', payload: {receiveEmail: e.target.checked}})}
                     />
                     <p>Receive marketing emails</p>
                 </div>
@@ -72,7 +81,7 @@ export function StageCheckout() {
                     className={"CommentBox"}
                     placeholder={"Comment for the order"}
                     defaultValue={commentText}
-                    onChange={(e) => dispatch({ type: 'CommentText', payload: { commentText: e.currentTarget.value } })}
+                    onChange={(e) => dispatch({type: 'CommentText', payload: {commentText: e.currentTarget.value}})}
                 />
                 <button className={"NudgeButton"} onClick={ServerCall}>Pay now</button>
             </div>
