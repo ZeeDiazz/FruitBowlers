@@ -1,4 +1,4 @@
-import {FormEvent, useEffect, useReducer, useState} from "react";
+import {FormEvent, useEffect, useState} from "react";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
@@ -6,33 +6,11 @@ import '../Stages/StageTotal.tsx'
 import {giftCardPayment} from "../Components/giftCardPayment.ts";
 import {GiftCardPaymentResponse} from "../Components/giftCardPayment.ts";
 import {useNavigate} from "react-router-dom";
-
-
-interface ChoosePaymentProps {
-    isInvoiceEnabled: boolean;
-    totalDiscountedPrice: number; //Not in use right now. Could have been used in gift-card, but we decided not to.
-}
-enum PaymentOption{
-    NONE, CARD, GIFT_CARD, INVOICE, MobilePay
-}
-interface State {
-    text: string;
-}
-interface Action {
-    type: string,
-    payload: string
-}
-function reducer(state: State, action: Action) {
-    switch (action.type) {
-        case 'updateText':
-            return { ...state, text: action.payload };
-        default:
-            return state;
-    }
-}
+import {ChoosePaymentProps, PaymentOption, usePaymentDispatch, usePaymentState} from "../Complex/PaymentContext.tsx";
 
 function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
-    const [state, dispatch] = useReducer(reducer, { text: ' Gift card number is case sensitive ' });
+    const state =  usePaymentState();
+    const dispatch = usePaymentDispatch();
 
     //From App.tsx. Listens to invoice input-number. If input is 8 characters it returns true.
     const isInvoiceEnabled: boolean = choosePaymentProps.isInvoiceEnabled;
