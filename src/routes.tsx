@@ -2,7 +2,6 @@ import { RouteObject } from "react-router-dom";
 import { App } from "./App";
 import ChoosePayment from "./Stages/StagePayment";
 import { StageDelivery } from './Stages/StageDelivery.tsx'
-import { StageBasket } from './Stages/StageBasket.tsx'
 import {StageCheckout} from './Stages/StageCheckout.tsx'
 const one: number= 1;
 const enabled = false;

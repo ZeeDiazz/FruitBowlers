@@ -4,6 +4,7 @@ import '../assets/Styles/default/DefaultStyling.css'
 import { FormEvent, useState } from 'react'
 import { getTotalPriceDiscounted } from '../Components/price';
 import {Link} from "react-router-dom";
+
 export function StageCheckout() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [isChecked, setIsChecked] = useState(false);
