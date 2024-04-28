@@ -9,7 +9,7 @@ import {useNavigate} from "react-router-dom";
 import {ChoosePaymentProps, PaymentOption, usePaymentDispatch, usePaymentState} from "../Complex/PaymentContext.tsx";
 
 function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
-    const state =  usePaymentState();
+    const {updateText, paymentOption} =  usePaymentState();
     const dispatch = usePaymentDispatch();
 
     //From App.tsx. Listens to invoice input-number. If input is 8 characters it returns true.
@@ -21,11 +21,14 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
         currentCredit: number, currency:string}>>({ currentCredit: undefined, currency: '' });
 
     //Controls which payment is chosen and ensures maximum one at a time.
-    const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
+    //const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
     const navigate = useNavigate();
     const handlePaymentMethodChange = (paymentOption: PaymentOption):void => {
-        setPaymentOption(paymentOption)
+        dispatch({type: "changePaymentOption", payload: { newOption: paymentOption}})
     };
+    const handleTextUpdate = (newText: string): void => {
+        dispatch({type: "updateText", payload: { update: newText}})
+    }
 
     return (
         <body className="stageBoxes">
@@ -105,7 +108,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
                 {paymentOption === PaymentOption.GIFT_CARD && (
                     <div>
                         <strong className={"ErrorText"}>
-                            <small>{state.text}</small>
+                            <small>{updateText}</small>
                         </strong>
                         <form id="giftCard" className={"PaymentInputs"} onSubmit={HandleGiftCardRedeemClick}
                               method={"POST"}>
@@ -186,18 +189,18 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
         const userTypedGiftCardPIN: HTMLInputElement = document.getElementById('giftCardPIN') as HTMLInputElement;
 
         if (userTypedGiftCardNumber != null && userTypedGiftCardPIN != null) {
-            dispatch({ type: 'updateText', payload: 'You have to fill in the name and PIN' });
-
+            handleTextUpdate('You have to fill  in the name and PIN');
             if (userTypedGiftCardNumber.value.length < 3 || userTypedGiftCardPIN.value.length < 3) {
-                dispatch({ type: 'updateText', payload: 'Invalid Number or PIN' });
+                handleTextUpdate('Invalid Number or PIN');
+                dispatch({ type: 'updateText', payload: {update: 'Invalid Number or PIN'} });
             } else {
                 await giftCardPayment(userTypedGiftCardNumber.value, userTypedGiftCardPIN.value)
                     .then((result: GiftCardPaymentResponse): void => {
                         if ('error' in result) {
                             console.error('Error:', result.error);
-                            dispatch({ type: 'updateText', payload: 'The input did not match a gift-card. Please try again'});
+                            handleTextUpdate('The input did not match a gift-card. Please try again');
                         } else {
-                            dispatch({ type: 'updateText', payload: ''});
+                            handleTextUpdate('');
                             setIsPopUpActive(true);
                             // Clone the giftCard object
                             const clonedGiftCard:{currentCredit: number, currency: string } = { ...result.giftCard };
@@ -208,7 +211,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        dispatch({ type: 'updateText', payload: 'Something went wrong. Please try again later'});
+                        handleTextUpdate('Something went wrong. Please try again later')
                     });
             }
         }

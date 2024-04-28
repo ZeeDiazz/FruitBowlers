@@ -8,20 +8,32 @@ export enum PaymentOption{
     NONE, CARD, GIFT_CARD, INVOICE, MobilePay
 }
 interface PaymentState {
-    text: string;
+    updateText: string;
+    paymentOption: PaymentOption;
 }
 const initialPaymentState: PaymentState = {
-    text: '  Gift card is case sensitive '
+    updateText: '  Gift card is case sensitive ',
+    paymentOption: PaymentOption.NONE
 };
-interface PaymentAction {
-    type: string,
-    payload: string
-}
+type PaymentAction =
+    | { type: 'updateText', payload: {update: string}}
+    | { type: 'changePaymentOption',  payload: {newOption:  PaymentOption}
+};
+
+
 
 const paymentReducer = (state: PaymentState, action: PaymentAction) => {
     switch (action.type) {
         case 'updateText':
-            return { ...state, text: action.payload };
+            return {
+                ...state,
+                text: action.payload
+            };
+        case 'changePaymentOption':
+            return {
+                ...state,
+                paymentOption: action.payload.newOption
+            }
         default:
             return state;
     }
