@@ -2,25 +2,27 @@ import '../assets/Styles/large/StageCheckout.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import React, { FormEvent, useState } from 'react'
-import { getTotalPriceDiscounted } from '../Components/price';
 import {useNavigate} from 'react-router-dom';
+import {useCheckoutDispatch, useCheckoutState} from "../Complex/CheckoutContext.tsx";
 
 export function StageCheckout() {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { commentText,receiveEmail } = useCheckoutState();
+    const dispatch = useCheckoutDispatch();
+
     const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
 
     //TODO need to implement this correct
     async function ServerCall (e: FormEvent){
         e.preventDefault()
-        const logUrl = 'https://eohuzfa0giiahrs.m.pipedream.net';
+        const logUrl = 'https://eovlje4urovlbav.m.pipedream.net';
+
         const logResponse = await fetch(logUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-
-            body: JSON.stringify({getTotalPriceDiscounted})
+            body: JSON.stringify({receiveEmail, commentText})
         });
         if(!logResponse.status){
             console.error("Failed to log search", logResponse.statusText)
@@ -60,15 +62,18 @@ export function StageCheckout() {
                     <input
                         type="checkbox"
                         name="MarketingNudge"
-                        //onChange={need to push this to the server}
+                        checked={receiveEmail}
+                        onChange={(e) => dispatch({type:'ReceiveEmail', payload:{receiveEmail: e.target.checked}})}
                     />
                     <p>Receive marketing emails</p>
                 </div>
-                {/*payment button here*/}
+
                 <textarea
                     className={"CommentBox"}
-                    placeholder={"Comment for the order"}>
-                </textarea>
+                    placeholder={"Comment for the order"}
+                    defaultValue={commentText}
+                    onChange={(e) => dispatch({ type: 'CommentText', payload: { commentText: e.currentTarget.value } })}
+                />
                 <button className={"NudgeButton"} onClick={ServerCall}>Pay now</button>
             </div>
         </nav>
