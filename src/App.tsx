@@ -5,8 +5,7 @@ import './assets/Styles/default/DefaultStyling.css'
 import { header } from "./Components/header.tsx";
 import {StageBasket} from "./Stages/StageBasket.tsx";
 import {TotalBox} from "./Stages/StageTotal.tsx";
-import {useBasketState} from "./Complex/BasketContext.tsx";
-
+import {useBasketState} from "./Context/BasketContext.tsx";
 
 export function App() {
     const {products} = useBasketState();
