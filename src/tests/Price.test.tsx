@@ -81,9 +81,9 @@ describe('price functions', () => {
         const expectedTotalMixed = price.calculateTotalPrice(products);
         // when product has a totalprice of 300 but have a discount that should be applies before the total discount
         const expectedTotalEdge = price.calculateTotalPrice(edgeProduct);
-        expect(expectedTotalWhenEqual).toBe(270);
-        expect(expectedTotalMixed).toBe(318.6);
-        expect(expectedTotalEdge).toBe(150);
+        expect(expectedTotalMixed).toBe('318.60');
+        expect(expectedTotalWhenEqual).toBe('270.00');
+        expect(expectedTotalEdge).toBe('150.00');
    });
     it('should handle quantity change properly by setting both the quantity and  the total price', () => {
         // when remove an item quantity and totalprice should be zero

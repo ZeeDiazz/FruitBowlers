@@ -1,8 +1,12 @@
 import {fireEvent, render, screen} from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import {describe, expect, it, vi} from "vitest";
 import Payment from '../Stages/StagePayment.tsx';
-import {debug} from "vitest-preview";
 
+const mockedUsedNavigate = vi.fn();
+vi.mock('react-router-dom', () => ({
+    ...vi.importActual('react-router-dom') as any,
+    useNavigate: () => mockedUsedNavigate,
+}));
 describe('payment stage', () => {
     it('should render', () => {
         render(<Payment  isInvoiceEnabled totalDiscountedPrice={147.5}/>);
@@ -25,7 +29,6 @@ describe('payment stage', () => {
         fireEvent.click(checkBox);
         expect(checkBox).toBeChecked();
         expect(checkBox).toBeTruthy
-        debug();
     });
 
     it('handles receive marketing checkbox behavior ', () => {
@@ -40,7 +43,6 @@ describe('payment stage', () => {
         fireEvent.click(checkBoxMarketing);
         expect(checkBoxMarketing).toBeChecked();
         expect(checkBoxMarketing).toBeTruthy
-        debug();
     });
 })
 

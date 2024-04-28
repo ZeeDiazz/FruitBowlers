@@ -1,6 +1,7 @@
 import { render, screen} from "@testing-library/react";
 import {beforeEach, describe, expect, it, vi} from "vitest";
 import {TotalBox} from "../Stages/StageTotal.tsx";
+import {TotalProvider} from "../Complex/TotalContext.tsx";
 const productsDiscountsNotValid = [{
     "id": "apple-bag",
     "name": "Apples",
@@ -82,39 +83,63 @@ describe('TotalBox components', () => {
         vi.clearAllMocks();
     })
     it('should display the correct values of the products when do discounts are available', () => {
-        const { getByText } = render(<TotalBox products={productsDiscountsNotValid}/>);
+        const { getByText } = render(
+           <TotalProvider>
+                <TotalBox products={productsDiscountsNotValid}/>
+           </TotalProvider>
+        );
 
-        expect(getByText('Total Price: 25 DKK')).toBeInTheDocument();
-        expect(getByText('Get 10% discount when buying for 275 DKK more!'));
+        expect(getByText('Total Price: 25.00 DKK')).toBeInTheDocument();
+        expect(getByText('Get 10% discount when buying for 275.00 DKK more!'));
     });
     it('should display the correct values of the products when local discount is available', () => {
-        const { getByText } = render(<TotalBox products={productsLocalDiscountValid}/>);
+        const { getByText } = render(
+            <TotalProvider>
+                <TotalBox products={productsLocalDiscountValid}/>
+            </TotalProvider>
+        );
 
-        expect(getByText('Total Price: 45 DKK')).toBeInTheDocument();
-        expect(getByText('Get 10% discount when buying for 255 DKK more!'));
+        expect(getByText('Total Price: 45.00 DKK')).toBeInTheDocument();
+        expect(getByText('Get 10% discount when buying for 255.00 DKK more!'));
     });
     it('should display the correct values of the products when local and global discount is available', () => {
-        const { getByText } = render(<TotalBox products={productsLocalAndGlobalDiscountValid}/>);
+        const { getByText } = render(
+            <TotalProvider>
+                <TotalBox products={productsLocalAndGlobalDiscountValid}/>
+            </TotalProvider>
+        );
 
-        expect(getByText('Total Price: 405 DKK')).toBeInTheDocument();
+        expect(getByText('Total Price: 405.00 DKK')).toBeInTheDocument();
         expect(getByText('You get 10% discount!'));
     });
     it('should display the correct values of the products when price before any discount is 300', () => {
-        const { getByText } = render(<TotalBox products={expensiveProduct}/>);
+        const { getByText } = render(
+            <TotalProvider>
+                <TotalBox products={expensiveProduct}/>
+            </TotalProvider>
+        );
 
-        expect(getByText('Total Price: 270 DKK')).toBeInTheDocument();
-        expect(getByText('Get 10% discount when buying for 30 DKK more!'));
+        expect(getByText('Total Price: 270.00 DKK')).toBeInTheDocument();
+        expect(getByText('Get 10% discount when buying for 30.00 DKK more!'));
     });
     it('should display correct messages when basket is empty', () => {
-        const { getByText } = render(<TotalBox products={emptyBasket}/>);
+        const { getByText } = render(
+            <TotalProvider>
+                <TotalBox products={emptyBasket}/>
+            </TotalProvider>
+        );
 
-        expect(getByText('Total Price: 0 DKK')).toBeInTheDocument();
-        expect(getByText('Get 10% discount when buying for 300 DKK more!'));
+        expect(getByText('Total Price: 0.00 DKK')).toBeInTheDocument();
+        expect(getByText('Get 10% discount when buying for 300.00 DKK more!'));
         expect(getByText('Total Quantity: 0')).toBeInTheDocument();
 
     });
     it('should not display more than 2 decimals on discount number ', () => {
-        render(<TotalBox products={floatingDiscountProduct}/>);
+        render(
+            <TotalProvider>
+                <TotalBox products={floatingDiscountProduct}/>
+            </TotalProvider>
+        );
 
         const paragraphElement = screen.getByTestId('discount-paragraph');
 
@@ -126,11 +151,15 @@ describe('TotalBox components', () => {
             const extractedPrice = parseFloat(paragraphText!.replace('Get 10% discount when buying for ', '').replace(' DKK more!', ''));
 
             // Assert that the extracted totalPriceDiscounted value matches the expected value
-            expect(extractedPrice).toBe(8.39);
+            expect(extractedPrice).toBe(8.4);
         }
     });
     it('should not display more than 2 decimals on totalprice number ', () => {
-        render(<TotalBox products={floatingTotalPriceProduct}/>);
+        render(
+            <TotalProvider>
+                <TotalBox products={floatingTotalPriceProduct}/>
+            </TotalProvider>
+        );
 
         const paragraphElement = screen.getByTestId('totalprice-paragraph');
 

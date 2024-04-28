@@ -23,9 +23,9 @@ export function TotalBox({products}: {products: Product[]} ){
                 <h2 id="TotalTitle">Total</h2>
                 <span>
                     <p>Total Quantity: {totalQuantity}</p>
-                    <p>{discountMessage}</p>
+                    <p data-testid = "discount-paragraph">{discountMessage}</p>
                 </span>
-                <p className="centered">Total Price: {totalPrice + ' DKK'}</p>
+                <p className="centered" data-testid = "totalprice-paragraph">Total Price: {totalPrice + ' DKK'}</p>
             </div>
         </div>
     )
