@@ -5,24 +5,24 @@ export function calculateLocalTotalPrice(products: Product[],index: number): num
     }
         return products[index].totalPrice;
     }
-export function calculateTotalPrice(products: Product[]) {
+export function calculateTotalPrice(products: Product[]) : string {
     let totalPrice: number = 0;
     for (let i = 0; i < products.length; i++) {
         totalPrice += calculateLocalTotalPrice(products,i);
     }
     if (totalPrice < 300) {
-        return totalPrice;
+        return totalPrice.toFixed(2);
     } else {
-        return totalPrice * 0.9;
+        return (totalPrice * 0.9).toFixed(2);
     }
 }
 
 export function getTotalQuantity(products: Product[]): number {
     return products.reduce((acc, product) => acc + product.quantity, 0);
 }
-export function getTotalPriceDiscounted(products: Product[]): number {
-    const totalPriceDiscounted: number = calculateTotalPrice(products);
-    return totalPriceDiscounted;
+export function getTotalPriceDiscounted(products: Product[]): string {
+    const totalPriceDiscounted: string = calculateTotalPrice(products);
+    return totalPriceDiscounted.toString();
 }
 
 export function handleQuantityChange(products: Product[], index: number, newQuantity: number): Product[] {
@@ -41,10 +41,10 @@ export function handleQuantityChange(products: Product[], index: number, newQuan
     return newProducts; //when using this function, remember to set the state with the new products
 }
 
-export function getDiscountMessage(totalPriceDiscount: number): string {
-    const remainingAmountForDiscount = 300 - totalPriceDiscount;
-    if (totalPriceDiscount < 300) {
-        return `Get 10% discount when buying for ${remainingAmountForDiscount} DKK more!`;
+export function getDiscountMessage(totalPriceDiscount: string): string {
+    const remainingAmountForDiscount = 300 - Number(totalPriceDiscount);
+    if (Number(totalPriceDiscount) < 300) {
+        return `Get 10% discount when buying for ${remainingAmountForDiscount.toFixed(2)} DKK more!`;
     } else {
         return 'You get 10% discount!';
     }

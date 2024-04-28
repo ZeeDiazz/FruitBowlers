@@ -4,7 +4,11 @@ interface UpgradeButtonProps {
     onUpgradeClick: () => void;
 }
 
-const findMoreExpensiveProduct = (upsellProductId: string | null, upgrades: Product[]): Product | null => {
+export const findMoreExpensiveProduct = (upsellProductId: string | null, upgrades: Product[] | undefined): Product | null => {
+    if (upgrades === undefined || upgrades.length === 0) {
+        return null;
+    }
+
     const upgrade: Product | undefined = upgrades.find((upgrade) => upsellProductId === upgrade.id);
     if (upgrade) {
         return upgrade;
@@ -44,6 +48,7 @@ export const UpgradeButton: React.FC<UpgradeButtonProps> = ({ product, upgrades,
             {hasUpgrade && (
                 <button
                     className={"nudgeButton"}
+                    data-testid="upgrade-button"
                     onClick={() =>  onUpgradeClick()}>
                     Organic available! Change for {priceDifference} DKK a piece?
                 </button>
