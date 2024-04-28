@@ -13,30 +13,21 @@ export const routes: RouteObject[] = [
     {
         path: "/",
         element: <App/>,
+        errorElement: <ErrorPage/>
+    },
+    {
+        path: "/Delivery",
+        element: <StageDelivery/>,
         errorElement: <ErrorPage/>,
-        children: [
-
-            {
-                path: "/",
-                element: <StageBasket />,
-                errorElement: <ErrorPage/>,
-            },
-            {
-                path: "/Delivery",
-                element: <StageDelivery/>,
-                errorElement: <ErrorPage/>,
-            }
-            ,
-            {
-                path: "/Payment",
-                element: <ChoosePayment totalDiscountedPrice={one} isInvoiceEnabled={enabled}/>,
-                errorElement: <ErrorPage/>,
-            },
-            {
-                path: "/Checkout",
-                element: <StageCheckout/>,
-                errorElement: <ErrorPage/>,
-            },
-        ]
-    }
+    },
+    {
+        path: "/Payment",
+        element: <ChoosePayment totalDiscountedPrice={one} isInvoiceEnabled={enabled}/>,
+        errorElement: <ErrorPage/>,
+    },
+    {
+        path: "/Checkout",
+        element: <StageCheckout/>,
+        errorElement: <ErrorPage/>,
+    },
 ];
