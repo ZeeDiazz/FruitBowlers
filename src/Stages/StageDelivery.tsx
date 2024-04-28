@@ -195,8 +195,8 @@ export function StageDelivery() {
     return (
         <div className={"stageBoxes"}>
 
-            <button onClick={() => navigate('/')}>Back to Basket</button>
-
+            <button onClick={() => navigate('/')} className="previous round">&#8249;</button>
+            
             <div className="title-container">
                 <img
                     src={`/images/stage2-fat.png`}

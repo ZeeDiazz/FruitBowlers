@@ -51,7 +51,8 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
 
     return (
         <body className="stageBoxes">
-        <button onClick={() => navigate('/Delivery')}>Back to Delivery</button>
+        <button onClick={() => navigate('/Delivery')} className="previous round">&#8249;</button>
+       
         <hgroup className="title-container">
             <img
                 src={`/images/stage3-fat.png`}
