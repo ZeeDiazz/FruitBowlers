@@ -86,7 +86,7 @@ export function StageDelivery() {
     function submitButton(checked: boolean | undefined){
         if(checked) return null;
         return (
-            <button id="button" type="submit">Continue</button>
+            <button className={"NudgeButton"} type="submit">Continue</button>
         )
     }
 
@@ -240,11 +240,11 @@ export function StageDelivery() {
                         <input name="telephone" type="number" pattern="\d*" minLength={8} maxLength={8}
                                placeholder="Telephone" defaultValue={phoneNumber} onChange={handleInputChange} required/>
                     </div>
-                    {submitButton(!sendToBilling)}
                 </div>
                 <div className="continue-container">
                     {checkbox(!sendToBilling)}
                 </div>
+                {submitButton(!sendToBilling)}
                 {deliveryAddress(!sendToBilling)}
             </form>
 

@@ -197,7 +197,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
         {isPopUpActive &&  //Shows when a gift-card is successfully called
             <GiftCardPopUp></GiftCardPopUp>
         }
-        <button type="submit" id="button" onClick={() => navigate('/Checkout')} >Continue</button>
+        <button type="submit" className={"NudgeButton"} onClick={() => navigate('/Checkout')} >Continue</button>
         </body>
     );
 

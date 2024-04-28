@@ -118,10 +118,10 @@ export function StageBasket() {
                 </div>
                 <div id="productBox">
                     {productsError && <p>Error fetching products</p>}
-                    {isProductsLoading || isUpgradesLoading ?
-                        <div className="error">Loading...</div> : productBoxItems}</div>
+                    {isProductsLoading || isUpgradesLoading ? <div className="error">Loading...</div> : productBoxItems}
+                </div>
+                <button className={"NudgeButton"} onClick={() => navigate('/Delivery')}>Continue</button>
             </div>
-            <button onClick={() => navigate('/Delivery')}>Continue</button>
             {/*isProductsLoading ?  <div className="error">Loading...</div> : <TotalBox products={products} />*/}
         </>
     )
