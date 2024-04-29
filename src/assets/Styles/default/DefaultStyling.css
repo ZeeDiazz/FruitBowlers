@@ -15,6 +15,7 @@ p {
 .productDescriptionBox{
     color: rgb(121, 121, 121);
 }
+
 .nudgeButton {
     margin-bottom: 10px;
     padding: 5px;
@@ -22,9 +23,11 @@ p {
     border: 0;
     border-radius: 10px;
 }
+
 .productChangeNavigation span {
     margin: 0 5px 0 5px;
 }
+
 .productImg {
     height: 50px;
     width: 50px;
@@ -137,6 +140,9 @@ p {
     background-color: #b6ffa0;
     color: #797979;
     box-shadow: 2px 2px #00000019;
+}
+.NudgeButton:active {
+    transform: translateY(4px);
 }
 .CheckBoxWithDescription {
     display: flex;
@@ -346,3 +352,11 @@ p {
     height: 40px;
     margin: 2px;
   }
+
+.previous.round:hover {
+    background-color: #b9b8b8
+}
+
+.previous.round:active{
+    transform: translateY(4px);
+}
