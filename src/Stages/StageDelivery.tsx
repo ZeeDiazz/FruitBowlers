@@ -144,7 +144,8 @@ export function StageDelivery() {
                                        }
                                    }
                                    placeholder="Telephone" defaultValue={billingAddressValues.phoneNumber}
-                                   onChange={handleInputChange} required/>
+                                   onChange={handleInputChange} 
+                                   required/>
                         </div>
                         {submitButton(!diff)}
                     </div>
@@ -166,6 +167,9 @@ export function StageDelivery() {
                 dispatch({type: 'email', payload: {email: value}})
                 break;
             case 'telephone':
+                dispatch({type: 'phoneNumber', payload: {phoneNumber: value}});
+                break;
+            case 'telephone2':
                 dispatch({type: 'phoneNumber', payload: {phoneNumber: value}});
                 break;
             case 'companyVATnumber':
