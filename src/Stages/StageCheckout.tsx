@@ -6,9 +6,36 @@ import React, {FormEvent, useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom';
 import {useCheckoutDispatch, useCheckoutState} from "../Context/CheckoutContext.tsx";
 import {header} from "../Components/header.tsx";
+import {useBasketState} from "../Context/BasketContext.tsx";
+import {useTotalState} from "../Context/TotalContext.tsx";
+import {usePaymentState} from "../Context/PaymentContext.tsx";
+import {useDeliveryState} from "../Context/DeliveryContext.tsx";
 
 export function StageCheckout() {
     const { commentText,receiveEmail,hasPaid } = useCheckoutState();
+    const {products} = useBasketState();
+    const {totalPrice, totalQuantity} = useTotalState();
+    const {paymentOption} = usePaymentState();
+    const {
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        zipcode,
+        companyVatNumber,
+        streetName,
+        cityName,
+        companyName,
+        sendToBilling,
+        firstNameDelivery,
+        lastNameDelivery,
+        streetNameDelivery,
+        emailDelivery,
+        cityNameDelivery,
+        phoneNumberDelivery,
+        zipcodeDelivery
+    } = useDeliveryState();
+
     const dispatch = useCheckoutDispatch();
 
     const [isChecked, setIsChecked] = useState(false);
@@ -32,7 +59,9 @@ export function StageCheckout() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({receiveEmail, commentText})
+                body: JSON.stringify({receiveEmail, commentText,
+                    products, totalPrice, totalQuantity, paymentOption,
+                    firstName,lastName,email,phoneNumber,zipcode,companyVatNumber,companyName,streetName,cityName,sendToBilling,firstNameDelivery,lastNameDelivery,emailDelivery,phoneNumberDelivery,streetNameDelivery,cityNameDelivery,zipcodeDelivery})
             });
             if(logResponse.ok){
                 dispatch({ type: 'HasPaid', payload: {hasPaid:true} });
