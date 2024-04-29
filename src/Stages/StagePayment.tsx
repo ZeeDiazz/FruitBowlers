@@ -89,17 +89,26 @@ function ChoosePayment() {
                     {paymentOption === PaymentOption.CARD && (
                         <form id="cardForm" className={"PaymentInputs"} method={"POST"}>
                             <input
-                                type={"text"}
-                                placeholder={"Card number (1234 5678 9012 3456)"}
-                            />
+                            type="text"
+                            inputMode="numeric"
+                            maxLength={16}
+                            minLength={16}
+                            placeholder="Card number (1234 5678 9012 3456)"
+                            pattern="\d{16}"
+    
+                        />
                             <div className={"SubInputs"}>
                                 <input
                                     type={"text"}
-                                    placeholder={"MM/YYYY"}
+                                    placeholder = {"MM/YY"}
+                                    pattern = "(0[1-9]|1[0-2])\/[0-9]{2}" //Virker ikke?
+                                
                                 />
                                 <input
                                     type={"password"}
-                                    placeholder={"Security code"}
+                                    placeholder={"Security code (000)"}
+                                    maxLength={3}
+                                    minLength={3}
                                 />
                             </div>
                             <input
