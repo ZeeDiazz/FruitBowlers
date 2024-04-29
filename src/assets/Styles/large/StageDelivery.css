@@ -33,11 +33,10 @@
     #message{
         margin-left: 50px;
         height: 40px;
-        width: 20%;
-        border: 1px solid #ced4da;
+        width: 22%;
+        border: 1px solid #ff0000;
         display: flex;
         justify-content:flex-start;
-
 
 
     }

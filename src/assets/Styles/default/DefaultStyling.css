@@ -16,14 +16,6 @@ p {
     color: rgb(121, 121, 121);
 }
 
-.nudgeButton {
-    margin-bottom: 10px;
-    padding: 5px;
-    background-color: #95f195;
-    border: 0;
-    border-radius: 10px;
-}
-
 .productChangeNavigation span {
     margin: 0 5px 0 5px;
 }

@@ -13,7 +13,6 @@ export function StageDelivery() {
     const dispatch = useDeliveryDispatch();
 
     const navigate = useNavigate();
-
     const [hasError, setHasError] = useState(false);
     const [hasErrorDelivery, setHasErrorDelivery] = useState(false);
 
@@ -57,7 +56,16 @@ export function StageDelivery() {
         return(<>
             <div id="message">
                 <img src="images/validate.png" alt="exclamtion icon"/>
-                <p id = "invalidZip">InvalidZip  </p>
+                <p id = "invalidZip">Invalid Zip-code  </p>
+            </div>
+            </>
+            )
+    }  
+    function customErrorPhoneNumber(){
+        return(<>
+            <div id="message">
+                <img src="images/validate.png" alt="exclamtion icon"/>
+                <p id = "PhoneNumber">Invalid Phonenumber </p>
             </div>
             </>
             )
@@ -118,7 +126,7 @@ export function StageDelivery() {
                             <br/>
                             <div id="phoneBox">
                                 <input name="landcode" placeholder="Landcode" value="+45" disabled/>
-                                <input name="telephoneDelivery" type="digits" pattern="[0-9]{10}" defaultValue={phoneNumberDelivery}
+                                <input name="telephoneDelivery" type="digits" pattern="[0-9]{8}" defaultValue={phoneNumberDelivery}
                                        minLength={8} maxLength={8} placeholder="Telephone" onChange={handleInputChange} required/>
                             </div>
                             {submitButton(!diff)}
@@ -172,6 +180,8 @@ export function StageDelivery() {
 
     const handleInputChange = (event: React.FormEvent<HTMLInputElement>) => {
         updateInputValue(event, event.currentTarget.name);
+
+        event.currentTarget.setCustomValidity('')
     };
 
     /**/
@@ -179,9 +189,16 @@ export function StageDelivery() {
         event.preventDefault();
 
         const isValid = await validateForm();
+        if (hasError || hasErrorDelivery) {
+            alert("Please correct the errors before continuing.");
+            return; // Prevent navigation if there are errors.
+        }
+
+
         if (isValid) {
             navigate('/Payment');
         }
+        
     };
 
     function validateForm(): Promise<boolean> {
@@ -216,8 +233,10 @@ export function StageDelivery() {
 
                     <input name="companyName" type="text" placeholder="*(Optional) Company Name" defaultValue={companyName} onChange={handleInputChange}/>
                     <input name="companyVATnumber" type="digits" minLength={8} maxLength={8}
+                    
                            placeholder="*(Optional) Company VAT" defaultValue={companyVatNumber}
                            onChange={handleInputChange}/>
+                           
                     <br/>
 
                     <div className="addressBox">
@@ -237,7 +256,12 @@ export function StageDelivery() {
                     <div id="phoneBox">
                         <input name="landcode" placeholder="Landcode" value="+45" disabled/>
 
-                        <input name="telephone" type="number" pattern="[0-9]{8}" minLength={8} maxLength={8}
+                        <input name="telephone" type="numbers" pattern='[0-9]{8}' minLength={8} maxLength={8} onInvalid={
+                            (event) => {
+                                event.currentTarget.setCustomValidity("Insert a phonenumber with 8 digets");
+                            } 
+                        }
+                        
                                placeholder="Telephone" defaultValue={phoneNumber} onChange={handleInputChange} required/>
                     </div>
                 </div>
