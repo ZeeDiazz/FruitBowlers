@@ -1,9 +1,5 @@
 import {createContext, useContext, useReducer} from "react";
 
-export interface ChoosePaymentProps {
-    isInvoiceEnabled: boolean;
-    totalDiscountedPrice: number; //Not in use right now. Could have been used in gift-card, but we decided not to.
-}
 export enum PaymentOption{
     NONE, CARD, GIFT_CARD, INVOICE, MobilePay
 }
@@ -22,8 +18,6 @@ type PaymentAction =
     | { type: 'changePaymentOption',  payload: {newOption:  PaymentOption}}
     | { type: 'togglePopUp',  payload: {toggle:  boolean}
 };
-
-
 
 const paymentReducer = (state: PaymentState, action: PaymentAction) => {
     switch (action.type) {

@@ -1,7 +1,21 @@
 // Type of state
 import {createContext, useContext, useReducer} from "react";
 
+interface Billing {
+    firstName: string | undefined;
+    lastName: string | undefined;
+    email: string | undefined;
+    phoneNumber: string|undefined;
+    zipcode: string|undefined;
+    companyVatNumber: string|undefined;
+    streetName: string | undefined;
+    cityName: string | undefined;
+    companyName: string | undefined;
+    sendToBilling: boolean | undefined;
+}
+
 interface DeliveryState {
+    //billing: Billing;
     firstName: string | undefined;
     lastName: string | undefined;
     email: string | undefined;
@@ -22,6 +36,18 @@ interface DeliveryState {
 }
 
 const deliveryState: DeliveryState = {
+    /*billing: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+        zipcode: '',
+        companyVatNumber: '',
+        streetName: '',
+        cityName: '',
+        companyName: '',
+        sendToBilling: true,
+    },*/
     firstName: '',
     lastName: '',
     email: '',
@@ -84,6 +110,10 @@ const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
         case 'email':
             return {
                 ...state,
+                /*billing: {
+                    ...state.billing,
+                    email: action.payload.email
+                },*/
                 email: action.payload.email,
             }
         case 'phoneNumber':
