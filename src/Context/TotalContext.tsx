@@ -1,15 +1,14 @@
 // Type of state
 import {createContext, useContext, useReducer} from "react";
-import * as diagnostics_channel from "diagnostics_channel";
 
 interface TotalState {
-    totalPrice: number;
+    totalPrice: string;
     totalQuantity: number;
 }
 
 // Initial state
 const initialTotalState: TotalState = {
-    totalPrice: 0,
+    totalPrice: '',
     totalQuantity: 0
 };
 

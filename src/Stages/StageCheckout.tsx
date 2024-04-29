@@ -45,7 +45,8 @@ export function StageCheckout() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({receiveEmail, commentText,
+                body: JSON.stringify({
+                    receiveEmail, commentText,
                     products, totalPrice, totalQuantity, paymentOption,
                     billingAddressValues,
                     sendToBilling,

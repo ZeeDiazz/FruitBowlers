@@ -278,7 +278,7 @@ export function StageDelivery() {
                             } 
                         }
                         
-                               placeholder="Telephone" defaultValue={phoneNumber} onChange={handleInputChange} required/>
+                               placeholder="Telephone" defaultValue={billingAddressValues.phoneNumber} onChange={handleInputChange} required/>
                     </div>
                 </div>
                 <div className="continue-container">

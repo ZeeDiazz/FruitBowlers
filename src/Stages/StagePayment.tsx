@@ -14,10 +14,10 @@ import {useDeliveryState} from "../Context/DeliveryContext.tsx";
 function ChoosePayment() {
     const {updateText, paymentOption, isPopUpActive} = usePaymentState();
     const dispatch = usePaymentDispatch();
-    const {companyVatNumber} = useDeliveryState();
+    const {billingAddressValues} = useDeliveryState();
 
     //From App.tsx. Listens to invoice input-number. If input is 8 characters it returns true.
-    const isInvoiceEnabled: boolean = companyVatNumber?.length === 8;
+    const isInvoiceEnabled: boolean = billingAddressValues.companyVatNumber ?.length === 8;
 
     //Controls gift-card pop up visibility.
     const [giftCardCopy, setGiftCardCopy] = useState<Partial<{
