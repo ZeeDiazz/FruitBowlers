@@ -7,7 +7,7 @@ import '../assets/Styles/large/App.css'
 import {giftCardPayment} from "../Components/giftCardPayment.ts";
 import {GiftCardPaymentResponse} from "../Components/giftCardPayment.ts";
 import {useNavigate} from "react-router-dom";
-import {ChoosePaymentProps, PaymentOption, usePaymentDispatch, usePaymentState} from "../Complex/PaymentContext.tsx";
+import {ChoosePaymentProps, PaymentOption, usePaymentDispatch, usePaymentState} from "../Context/PaymentContext.tsx";
 import {header} from "../Components/header.tsx";
 
 function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
