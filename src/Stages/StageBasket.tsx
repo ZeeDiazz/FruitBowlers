@@ -123,8 +123,8 @@ export function StageBasket() {
                     {productsError && <p>Error fetching products</p>}
                     {isProductsLoading || isUpgradesLoading ? <div className="error">Loading...</div> : productBoxItems}
                     {getTotalQuantity(products) === 0 && <p> Basket is empty </p>}
+                    {getTotalQuantity(products) != 0 ? <button className={"NudgeButton"} onClick={() => navigate('/Delivery')}>Continue</button> : <p>Reload page to restore basket </p>}
                 </div>
-                <button className={"NudgeButton"} onClick={() => navigate('/Delivery')}>Continue</button>
             </div>
             {/*isProductsLoading ?  <div className="error">Loading...</div> : <TotalBox products={products} />*/}
         </>
