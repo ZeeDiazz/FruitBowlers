@@ -1,7 +1,6 @@
 import { render, screen} from "@testing-library/react";
 import {beforeEach, describe, expect, it, vi} from "vitest";
 import {TotalBox} from "../Stages/StageTotal.tsx";
-import {TotalProvider} from "../Context/TotalContext.tsx";
 const productsDiscountsNotValid = [{
     "id": "apple-bag",
     "name": "Apples",
@@ -84,9 +83,7 @@ describe('TotalBox components', () => {
     })
     it('should display the correct values of the products when do discounts are available', () => {
         const { getByText } = render(
-           <TotalProvider>
-                <TotalBox products={productsDiscountsNotValid}/>
-           </TotalProvider>
+            <TotalBox products={productsDiscountsNotValid}/>
         );
 
         expect(getByText('Total Price: 25.00 DKK')).toBeInTheDocument();
@@ -94,9 +91,7 @@ describe('TotalBox components', () => {
     });
     it('should display the correct values of the products when local discount is available', () => {
         const { getByText } = render(
-            <TotalProvider>
-                <TotalBox products={productsLocalDiscountValid}/>
-            </TotalProvider>
+            <TotalBox products={productsLocalDiscountValid}/>
         );
 
         expect(getByText('Total Price: 45.00 DKK')).toBeInTheDocument();
@@ -104,9 +99,7 @@ describe('TotalBox components', () => {
     });
     it('should display the correct values of the products when local and global discount is available', () => {
         const { getByText } = render(
-            <TotalProvider>
-                <TotalBox products={productsLocalAndGlobalDiscountValid}/>
-            </TotalProvider>
+            <TotalBox products={productsLocalAndGlobalDiscountValid}/>
         );
 
         expect(getByText('Total Price: 405.00 DKK')).toBeInTheDocument();
@@ -114,9 +107,7 @@ describe('TotalBox components', () => {
     });
     it('should display the correct values of the products when price before any discount is 300', () => {
         const { getByText } = render(
-            <TotalProvider>
-                <TotalBox products={expensiveProduct}/>
-            </TotalProvider>
+            <TotalBox products={expensiveProduct}/>
         );
 
         expect(getByText('Total Price: 270.00 DKK')).toBeInTheDocument();
@@ -124,9 +115,7 @@ describe('TotalBox components', () => {
     });
     it('should display correct messages when basket is empty', () => {
         const { getByText } = render(
-            <TotalProvider>
-                <TotalBox products={emptyBasket}/>
-            </TotalProvider>
+            <TotalBox products={emptyBasket}/>
         );
 
         expect(getByText('Total Price: 0.00 DKK')).toBeInTheDocument();
@@ -136,9 +125,7 @@ describe('TotalBox components', () => {
     });
     it('should not display more than 2 decimals on discount number ', () => {
         render(
-            <TotalProvider>
-                <TotalBox products={floatingDiscountProduct}/>
-            </TotalProvider>
+            <TotalBox products={floatingDiscountProduct}/>
         );
 
         const paragraphElement = screen.getByTestId('discount-paragraph');
@@ -156,9 +143,7 @@ describe('TotalBox components', () => {
     });
     it('should not display more than 2 decimals on totalprice number ', () => {
         render(
-            <TotalProvider>
                 <TotalBox products={floatingTotalPriceProduct}/>
-            </TotalProvider>
         );
 
         const paragraphElement = screen.getByTestId('totalprice-paragraph');

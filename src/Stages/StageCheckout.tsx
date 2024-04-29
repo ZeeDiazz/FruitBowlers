@@ -7,14 +7,15 @@ import {useNavigate} from 'react-router-dom';
 import {useCheckoutDispatch, useCheckoutState} from "../Context/CheckoutContext.tsx";
 import {header} from "../Components/header.tsx";
 import {useBasketState} from "../Context/BasketContext.tsx";
-import {useTotalState} from "../Context/TotalContext.tsx";
 import {usePaymentState} from "../Context/PaymentContext.tsx";
 import {useDeliveryState} from "../Context/DeliveryContext.tsx";
+import {getTotalPriceDiscounted, getTotalQuantity} from "../Components/price.ts";
 
 export function StageCheckout() {
-    const {commentText, receiveEmail, hasPaid} = useCheckoutState();
+    const {commentText, receiveEmail} = useCheckoutState();
     const {products} = useBasketState();
-    const {totalPrice, totalQuantity} = useTotalState();
+    const totalPrice = getTotalPriceDiscounted(products);
+    const totalQuantity = getTotalQuantity(products);
     const {paymentOption} = usePaymentState();
     const {
         billingAddressValues,
