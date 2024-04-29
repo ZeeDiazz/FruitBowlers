@@ -237,8 +237,7 @@ export function StageDelivery() {
             </header>
             <div className={"stageBoxes"}>
 
-                <button onClick={() => navigate('/')}>Back to Basket</button>
-
+                <button onClick={() => navigate('/')} className="previous round">&#8249;</button>
                 <div className="title-container">
                     <img
                         src={`/images/stage2-fat.png`}
@@ -287,7 +286,7 @@ export function StageDelivery() {
 
                         <input name="telephone" type="numbers" pattern='[0-9]{8}' minLength={8} maxLength={8} onInvalid={
                             (event) => {
-                                event.currentTarget.setCustomValidity("Insert a phonenumber with 8 digets");
+                                event.currentTarget.setCustomValidity("Insert a phonenumber with 8 digits");
                             } 
                         }
                         
@@ -302,5 +301,6 @@ export function StageDelivery() {
             </form>
 
         </div>
+     </div>
     )
 }

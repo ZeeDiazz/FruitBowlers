@@ -68,7 +68,7 @@ export function StageCheckout() {
                     {header()}
                 </header>
                 <div className={"stageBoxes"}>
-                    <button onClick={() => navigate('/Payment')}>Back to Basket</button>
+                    <button onClick={() => navigate('/Payment')} className="previous round">&#8249;</button>
                     <div className="title-container">
                         <img
                             src={`/images/stage4-fat.png`}
@@ -109,6 +109,7 @@ export function StageCheckout() {
                         onChange={(e) => dispatch({type: 'CommentText', payload: {commentText: e.currentTarget.value}})}
                     />
                     <button className={"NudgeButton"} onClick={ServerCall}>Pay now</button>
+                    
                 </div>
             </nav>
         </div>
