@@ -4,21 +4,38 @@
     #totalBox {
         position: fixed;
         bottom: 0;
+        left: 0;
+        right: 0; /* Ensures it stretches across the bottom */
         border-radius: 0;
         background-color: rgb(214, 239, 255);
+        display: flex; /* Utilizes flexbox to center the price */
+        justify-content: center; /* Centers horizontally */
+        align-items: center; /* Centers vertically */
+        height: 50px; /* Adjust height as needed */
     }
 
-    #TotalTitle {
-        display: none;
+    #TotalTitle, #discountInfoBox, span {
+        display: none; /* Hides the total title, quantity, and discount info */
     }
-    #totalBox{
-        height: 2%;
-    }
-    span{
-        display: none;
-    }
-    .centered{
+
+    .centered {
         text-align: center;
+        width: 100%; /* Ensures the text spans the full width */
+        font-size: 1.2rem; /* Adjust font size as necessary */
     }
+    .NudgeButton {
+    margin: 20px 25% 20px 25%;
+    padding: 8px 0 4px 4px;
+    background-color: lightgreen;
+    border: none;
+    width: 50%;
+    height: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    align-self: center;
+    position: absolute;
+    z-index: 9999;
+    }
+
 }
         

@@ -5,6 +5,30 @@
         right: 10px;
         border: 2px solid black;
         border-radius: 10px;
+        background-color: #f5f5f5;
+        width: 380px; 
+        height: 150px;
+       
+    }
+    #totalBox > * {
+        margin: 10px;
+    }
+
+    #discountInfoBox {
+        position: relative;
+        background-color: rgb(192, 255, 234);
+        border: 1px solid black;
+        border-radius: 5px;
+        width: auto; 
+        height: auto;
+        overflow: hidden;
+        
+        z-index: 1; /* Ensure it stays on top of other content inside totalBox */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; 
+        align-items: center;
+    }
     }
     #totalBox > * {
         margin: 10px;

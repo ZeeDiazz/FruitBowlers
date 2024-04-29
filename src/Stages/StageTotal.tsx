@@ -20,12 +20,15 @@ export function TotalBox({products}: {products: Product[]} ){
     return (
         <div id="totalBox">
             <div id="totalBoxText">
+                <div id='discountInfoBox'>
+                    <p data-testid="discount-paragraph">{discountMessage}</p>
+                </div>
                 <h2 id="TotalTitle">Total</h2>
                 <span>
-                    <p>Total Quantity: {totalQuantity}</p>
-                    <p data-testid = "discount-paragraph">{discountMessage}</p>
+                    <p><b>Total Quantity:</b> {totalQuantity}</p>
+                    
                 </span>
-                <p className="centered" data-testid = "totalprice-paragraph">Total Price: {totalPrice + ' DKK'}</p>
+                <p className="centered" data-testid="totalprice-paragraph"><b>Total Price:</b> {totalPrice + ' DKK'}</p>
             </div>
         </div>
     )

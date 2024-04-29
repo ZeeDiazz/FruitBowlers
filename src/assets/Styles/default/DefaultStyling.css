@@ -126,6 +126,7 @@ p {
     border-radius: 10px;
     cursor: pointer;
     align-self: center;
+    
 }
 .NudgeButton:hover {
     background-color: #b6ffa0;
