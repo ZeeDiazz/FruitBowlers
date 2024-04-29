@@ -2,7 +2,7 @@ import './assets/Styles/large/App.css'
 import './Components/product.ts'
 import './Components/upgrade.tsx'
 import './assets/Styles/default/DefaultStyling.css'
-import { header } from "./Components/header.tsx";
+import {header} from "./Components/header.tsx";
 import {StageBasket} from "./Stages/StageBasket.tsx";
 import {TotalBox} from "./Stages/StageTotal.tsx";
 import {useBasketState} from "./Context/BasketContext.tsx";
@@ -15,7 +15,7 @@ export function App() {
                 {header()}
             </header>
             <main>
-                <StageBasket />
+                <StageBasket/>
                 <TotalBox products={products}/>
             </main>
         </>

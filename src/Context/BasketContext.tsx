@@ -18,14 +18,14 @@ const initialBasketState: BasketState = {
 type BasketAction =
     | { type: 'fetchingProduct' }
     | { type: 'fetchedProduct', payload: { products: Product[] } }
-    | { type: 'productsError', payload: { failed: boolean} }
-    | { type: 'quantityChange', payload: { products: Product[] }}
-    | {type: 'upgradeProduct', payload: { upgrade: Product[] } }
-;
+    | { type: 'productsError', payload: { failed: boolean } }
+    | { type: 'quantityChange', payload: { products: Product[] } }
+    | { type: 'upgradeProduct', payload: { upgrade: Product[] } }
+    ;
 
 // Reducer
 const basketReducer = (state: BasketState, action: BasketAction) => {
-    switch(action.type) {
+    switch (action.type) {
         case 'fetchingProduct':
             return {
                 ...state,
@@ -69,8 +69,9 @@ const BasketContext = createContext<BasketState | null>(null)
 const BasketDispatchContext = createContext<React.Dispatch<BasketAction> | null>(null)
 
 // Provider
-type BasketProviderProps = React.PropsWithChildren<{state?: BasketState}>
-export function BasketProvider({ children, state: explicitState }: BasketProviderProps) {
+type BasketProviderProps = React.PropsWithChildren<{ state?: BasketState }>
+
+export function BasketProvider({children, state: explicitState}: BasketProviderProps) {
     const [state, dispatch] = useReducer(
         basketReducer, explicitState || initialBasketState);
 

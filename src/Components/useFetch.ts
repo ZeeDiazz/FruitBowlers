@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 
-export async function fetchData (url: string): Promise<Product[]> {
+export async function fetchData(url: string): Promise<Product[]> {
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -14,7 +14,7 @@ export async function fetchData (url: string): Promise<Product[]> {
     }
 }
 
-export function useFetch (url: string): [Product[], boolean, boolean] {
+export function useFetch(url: string): [Product[], boolean, boolean] {
     const [data, setData] = useState<Product[]>();
     const [isLoading, setIsLoading] = useState(false);
     const [hasError, setHasError] = useState(false);

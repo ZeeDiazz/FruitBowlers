@@ -5,7 +5,7 @@ import {PaymentProvider} from "../Context/PaymentContext.tsx";
 import {Navigation, RouteObject} from "react-router-dom";
 import {DeliveryProvider} from "../Context/DeliveryContext.tsx";
 
-const mockedUsedNavigate:Mock<object[], Navigation> = vi.fn();
+const mockedUsedNavigate: Mock<object[], Navigation> = vi.fn();
 vi.mock('react-router-dom', () => ({
     ...vi.importActual('react-router-dom') as RouteObject,
     useNavigate: () => mockedUsedNavigate,

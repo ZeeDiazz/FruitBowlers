@@ -1,6 +1,6 @@
-import {describe,expect, it, vi, beforeEach} from "vitest";
-import { StageDelivery } from "../Stages/StageDelivery.tsx";
-import { render, screen,fireEvent} from "@testing-library/react";
+import {describe, it, vi, beforeEach} from "vitest";
+import {StageDelivery} from "../Stages/StageDelivery.tsx";
+import {render, screen, fireEvent} from "@testing-library/react";
 import {DeliveryProvider} from "../Context/DeliveryContext.tsx";
 import {RouteObject} from "react-router-dom";
 
@@ -18,12 +18,12 @@ describe('StageDelivery components', () => {
         vi.spyOn(window, "fetch").mockImplementation(async () => {
             return {
                 ok: true,
-                json: async () => ({ nr: '2650', navn: 'Hvidovre' }),
+                json: async () => ({nr: '2650', navn: 'Hvidovre'}),
             } as Response;
         });
         render(
             <DeliveryProvider>
-                <StageDelivery />
+                <StageDelivery/>
             </DeliveryProvider>
         );
         screen.getAllByText('Billing Address');

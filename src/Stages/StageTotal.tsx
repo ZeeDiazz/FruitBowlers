@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import {getDiscountMessage, getTotalPriceDiscounted, getTotalQuantity} from '../Components/price.ts'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/320px/SmallScreenTotalBox.css'
 import '../assets/Styles/large/TotalBox.css'
-export function TotalBox({products}: {products: Product[]} ){
+
+export function TotalBox({products}: { products: Product[] }) {
     const totalQuantity = getTotalQuantity(products);
     const totalPrice = getTotalPriceDiscounted(products);
 
     const [discountMessage, setDiscountMessage] = useState('loading');
     useEffect(() => {
-        if(products){
+        if (products) {
             setDiscountMessage(getDiscountMessage(getTotalPriceDiscounted(products)));
         }
     }, [products]);

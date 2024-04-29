@@ -1,22 +1,25 @@
 import {createContext, useContext, useReducer} from "react";
 
-export enum PaymentOption{
+export enum PaymentOption {
     NONE, CARD, GIFT_CARD, INVOICE, MobilePay
 }
+
 interface PaymentState {
     updateText: string;
     paymentOption: PaymentOption;
     isPopUpActive: boolean;
 }
+
 const initialPaymentState: PaymentState = {
     updateText: '  Gift card is case sensitive ',
     paymentOption: PaymentOption.NONE,
     isPopUpActive: false
 };
 type PaymentAction =
-    | { type: 'updateText', payload: {update: string}}
-    | { type: 'changePaymentOption',  payload: {newOption:  PaymentOption}}
-    | { type: 'togglePopUp',  payload: {toggle:  boolean}
+    | { type: 'updateText', payload: { update: string } }
+    | { type: 'changePaymentOption', payload: { newOption: PaymentOption } }
+    | {
+    type: 'togglePopUp', payload: { toggle: boolean }
 };
 
 const paymentReducer = (state: PaymentState, action: PaymentAction) => {
@@ -46,8 +49,9 @@ const PaymentContext = createContext<PaymentState | null>(null)
 const PaymentDispatchContext = createContext<React.Dispatch<PaymentAction> | null>(null)
 
 // Provider
-type PaymentProviderProps = React.PropsWithChildren<{state?: PaymentState}>
-export function PaymentProvider({ children, state: explicitState }: PaymentProviderProps) {
+type PaymentProviderProps = React.PropsWithChildren<{ state?: PaymentState }>
+
+export function PaymentProvider({children, state: explicitState}: PaymentProviderProps) {
     const [state, dispatch] = useReducer(
         paymentReducer, explicitState || initialPaymentState);
 

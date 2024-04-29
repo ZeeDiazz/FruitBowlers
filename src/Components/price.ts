@@ -1,14 +1,14 @@
-
-export function calculateLocalTotalPrice(products: Product[],index: number): number {
+export function calculateLocalTotalPrice(products: Product[], index: number): number {
     if (products[index].quantity >= products[index].discountQuantity) {
         return products[index].totalPrice * (1 - products[index].discountPercent / 100);
     }
-        return products[index].totalPrice;
-    }
-export function calculateTotalPrice(products: Product[]) : string {
+    return products[index].totalPrice;
+}
+
+export function calculateTotalPrice(products: Product[]): string {
     let totalPrice: number = 0;
     for (let i = 0; i < products.length; i++) {
-        totalPrice += calculateLocalTotalPrice(products,i);
+        totalPrice += calculateLocalTotalPrice(products, i);
     }
     if (totalPrice < 300) {
         return totalPrice.toFixed(2);
@@ -20,6 +20,7 @@ export function calculateTotalPrice(products: Product[]) : string {
 export function getTotalQuantity(products: Product[]): number {
     return products.reduce((acc, product) => acc + product.quantity, 0);
 }
+
 export function getTotalPriceDiscounted(products: Product[]): string {
     const totalPriceDiscounted: string = calculateTotalPrice(products);
     return totalPriceDiscounted.toString();

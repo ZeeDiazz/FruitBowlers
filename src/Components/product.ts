@@ -10,8 +10,3 @@ interface Product {
     totalPrice: number;
     quantity: number;
 }
-
-type ProductItemProps = {
-    product : Product;
-    totalAmount: number;
-}

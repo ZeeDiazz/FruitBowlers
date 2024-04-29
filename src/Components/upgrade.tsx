@@ -20,17 +20,17 @@ export const hasUpgradeOption = (product: Product, upgrades: Product[]): {
     moreExpensiveOption: Product | null;
     hasUpgrade: boolean, priceDifference: number
 } => {
-    if(product.upsellProductId != null){
+    if (product.upsellProductId != null) {
         const upgrade: Product | null = findMoreExpensiveProduct(product.upsellProductId, upgrades);
         if (upgrade !== null && upgrade.price > product.price) {
             const priceDifference: number = upgrade.price - product.price;  // does not take discount into account
-            return { hasUpgrade: true, priceDifference: priceDifference, moreExpensiveOption: upgrade };
+            return {hasUpgrade: true, priceDifference: priceDifference, moreExpensiveOption: upgrade};
         }
     }
-    return { hasUpgrade: false, priceDifference: 0, moreExpensiveOption: null };
+    return {hasUpgrade: false, priceDifference: 0, moreExpensiveOption: null};
 };
 
-export function handleUpgradeClick(products:Product[], newProduct: Product | null, quantity: number, index: number): Product[] {
+export function handleUpgradeClick(products: Product[], newProduct: Product | null, quantity: number, index: number): Product[] {
     const newProducts: Product[] = products.slice();
     if (newProduct) {
         newProducts[index] = newProduct;
@@ -40,8 +40,8 @@ export function handleUpgradeClick(products:Product[], newProduct: Product | nul
     return newProducts;
 }
 
-export const UpgradeButton: React.FC<UpgradeButtonProps> = ({ product, upgrades, onUpgradeClick }) => {
-    const { hasUpgrade, priceDifference } = hasUpgradeOption(product, upgrades);
+export const UpgradeButton: React.FC<UpgradeButtonProps> = ({product, upgrades, onUpgradeClick}) => {
+    const {hasUpgrade, priceDifference} = hasUpgradeOption(product, upgrades);
 
     return (
         <>
@@ -49,7 +49,7 @@ export const UpgradeButton: React.FC<UpgradeButtonProps> = ({ product, upgrades,
                 <button
                     className={"upgradeToOrganicButton"}
                     data-testid="upgrade-button"
-                    onClick={() =>  onUpgradeClick()}>
+                    onClick={() => onUpgradeClick()}>
                     Organic available! Change for {priceDifference} DKK a piece?
                 </button>
             )}

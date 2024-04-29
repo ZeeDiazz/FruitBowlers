@@ -1,4 +1,4 @@
-import {render} from "@testing-library/react";
+import {render, screen} from "@testing-library/react";
 import {describe, expect, it, vi} from "vitest";
 import {OrderCompleted} from "../Stages/StageComplete.tsx";
 import {RouteObject} from "react-router-dom";
@@ -16,6 +16,7 @@ describe('OrderCompleted stage', () => {
         );
         const orderCompletionText = getByTestId('orderCompletionText');
         expect(orderCompletionText.textContent).toBe('Your order is completed!');
+        expect(screen.getByText('Continue Shopping')).toBeInTheDocument();
     });
 
     it('should render image correctly', () => {

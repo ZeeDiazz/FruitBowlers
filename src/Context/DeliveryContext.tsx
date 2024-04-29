@@ -1,7 +1,7 @@
 // Type of state
 import {createContext, useContext, useReducer} from "react";
 
-interface DeliveryAddress{
+interface DeliveryAddress {
     firstName: string | undefined;
     lastName: string | undefined;
     email: string | undefined;
@@ -11,7 +11,7 @@ interface DeliveryAddress{
     cityName: string | undefined;
 }
 
-interface BillingAddress extends DeliveryAddress{
+interface BillingAddress extends DeliveryAddress {
     companyVatNumber: string | undefined;
     companyName: string | undefined;
 }
@@ -57,7 +57,7 @@ export type DeliveryAction =
     | { type: 'companyVatNumber'; payload: { companyVatNumber: string } }
     | { type: 'streetName'; payload: { streetName: string } }
     | { type: 'companyName'; payload: { companyName: string } }
-    | {type: 'sendToBilling'; payload: {sendToBilling:boolean}}
+    | { type: 'sendToBilling'; payload: { sendToBilling: boolean } }
     | { type: 'cityNameDelivery'; payload: { cityName: string } }
     | { type: 'firstNameDelivery'; payload: { firstName: string } }
     | { type: 'lastNameDelivery'; payload: { lastName: string } }
@@ -70,15 +70,15 @@ export type DeliveryAction =
 
 // Reducer
 const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
-    switch(action.type) {
+    switch (action.type) {
         case 'cityName':
-              return {
-                  ...state,
-                  billingAddressValues: {
-                      ...state.billingAddressValues,
-                      cityName: action.payload.cityName
-                  },
-              }
+            return {
+                ...state,
+                billingAddressValues: {
+                    ...state.billingAddressValues,
+                    cityName: action.payload.cityName
+                },
+            }
         case 'firstName':
             return {
                 ...state,
@@ -161,7 +161,7 @@ const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
         case 'firstNameDelivery':
             return {
                 ...state,
-                deliveryAddressValues:{
+                deliveryAddressValues: {
                     ...state.deliveryAddressValues,
                     firstNameDelivery: action.payload.firstName,
                 }
@@ -185,7 +185,7 @@ const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
         case 'phoneNumberDelivery':
             return {
                 ...state,
-                deliveryAddressValues:{
+                deliveryAddressValues: {
                     ...state.deliveryAddressValues,
                     phoneNumberDelivery: action.payload.phoneNumber,
                 }
@@ -193,7 +193,7 @@ const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
         case 'zipcodeDelivery':
             return {
                 ...state,
-                deliveryAddressValues:{
+                deliveryAddressValues: {
                     ...state.deliveryAddressValues,
                     zipcodeDelivery: action.payload.zipcode,
                 }
@@ -201,7 +201,7 @@ const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
         case 'streetNameDelivery':
             return {
                 ...state,
-                deliveryAddressValues:{
+                deliveryAddressValues: {
                     ...state.deliveryAddressValues,
                     streetNameDelivery: action.payload.streetName,
                 }
@@ -218,8 +218,9 @@ const DeliveryContext = createContext<DeliveryState | null>(null)
 const DeliveryDispatchContext = createContext<React.Dispatch<DeliveryAction> | null>(null)
 
 // Provider
-type DeliveryProviderProps = React.PropsWithChildren<{state?: DeliveryState}>
-export function DeliveryProvider({ children, state: explicitState }: DeliveryProviderProps) {
+type DeliveryProviderProps = React.PropsWithChildren<{ state?: DeliveryState }>
+
+export function DeliveryProvider({children, state: explicitState}: DeliveryProviderProps) {
     const [state, dispatch] = useReducer(
         deliveryReducer,
         explicitState || deliveryState

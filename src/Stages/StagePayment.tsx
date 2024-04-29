@@ -17,7 +17,7 @@ function ChoosePayment() {
     const {billingAddressValues} = useDeliveryState();
 
     //From App.tsx. Listens to invoice input-number. If input is 8 characters it returns true.
-    const isInvoiceEnabled: boolean = billingAddressValues.companyVatNumber ?.length === 8;
+    const isInvoiceEnabled: boolean = billingAddressValues.companyVatNumber?.length === 8;
 
     //Controls gift-card pop up visibility.
     const [giftCardCopy, setGiftCardCopy] = useState<Partial<{
@@ -41,9 +41,9 @@ function ChoosePayment() {
     }
 
 
-    function handleContinue(e: FormEvent){
+    function handleContinue(e: FormEvent) {
         e.preventDefault();
-        if(paymentOption === PaymentOption.NONE) {
+        if (paymentOption === PaymentOption.NONE) {
             return;
         }
         navigate('/Checkout');
@@ -57,165 +57,165 @@ function ChoosePayment() {
             <div className="stageBoxes">
                 <button onClick={() => navigate('/Delivery')} className="previous round">&#8249;</button>
 
-            <hgroup className="title-container">
-                <img
-                    src={`/images/stage3-fat.png`}
-                    alt="Step 1"
-                    className="stageIcons"
-                />
-                <h2>Payment</h2>
-            </hgroup>
+                <hgroup className="title-container">
+                    <img
+                        src={`/images/stage3-fat.png`}
+                        alt="Step 1"
+                        className="stageIcons"
+                    />
+                    <h2>Payment</h2>
+                </hgroup>
 
-            <nav className={"PaymentOptionsBox"}>
-                <section className="PaymentTypeOuterBox">
-                    <label className={"PaymentTypeBox"}>
-                        <div className={"PaymentText"}>
-                            <input
-                                type="radio"
-                                name="paymentMethod"
-                                value="card"
-                                checked={paymentOption===PaymentOption.CARD}
-                                onChange={() => handlePaymentMethodChange(PaymentOption.CARD)}
-                            />
-                            <p>Card </p>
-                        </div>
-                        <div className={"PaymentIcons"}>
-                            <img style={{}} alt={"Card payment option - Visa"}
-                                 src={"../../images/Payment icons/Visa_Brandmark_RGB_2021_PNG/Visa_Brandmark_Blue_RGB_2021.png"}/>
-                            <img style={{}} alt={"Card payment option - Mastercard"}
-                                 src={"../../images/Payment icons/Dankort logo/DK_Logo_CMYK.png"}/>
-                        </div>
-                    </label>
-                    {paymentOption === PaymentOption.CARD && (
-                        <form id="cardForm" className={"PaymentInputs"} method={"POST"}>
-                            <input
-                            type="text"
-                            inputMode="numeric"
-                            maxLength={16}
-                            minLength={16}
-                            placeholder="Card number (1234 5678 9012 3456)"
-                            pattern="\d{16}"
-    
-                        />
-                            <div className={"SubInputs"}>
-                                <input
-                                    type={"text"}
-                                    placeholder = {"MM/YY"}
-                                    pattern = "(0[1-9]|1[0-2])\/[0-9]{2}" //Virker ikke?
-                                
-                                />
-                                <input
-                                    type={"password"}
-                                    placeholder={"Security code (000)"}
-                                    maxLength={3}
-                                    minLength={3}
-                                />
-                            </div>
-                            <input
-                                type={"text"}
-                                placeholder={"Card holders name"}
-                            />
-                        </form>
-                    )}
-                </section>
-
-                <section className="PaymentTypeOuterBox">
-                    <label className={"PaymentTypeBox"}>
-                        <div className={"PaymentText"}>
-                            <input
-                                type="radio"
-                                name="paymentMethod"
-                                value="giftCard"
-                                checked={paymentOption===PaymentOption.GIFT_CARD}
-                                onChange={() => handlePaymentMethodChange(PaymentOption.GIFT_CARD)}
-                            />
-                            <p>Gift card </p>
-                        </div>
-                        <div className={"PaymentIcons"}>
-                            <img
-                                className="PaymentIcons"
-                                style={{height: '30px'}}
-                                alt="Payment option - Gift card"
-                                src={"/images/Payment icons/GiftCard.png"}
-                            />
-                        </div>
-                    </label>
-                    {paymentOption === PaymentOption.GIFT_CARD && (
-                        <div>
-                            <strong className={"ErrorText"}>
-                                <small>{updateText}</small>
-                            </strong>
-                            <form id="giftCard" className={"PaymentInputs"} onSubmit={HandleGiftCardRedeemClick}
-                                  method={"POST"}>
-                                <input
-                                    id={"giftCardNumber"}
-                                    type={"text"}
-                                    placeholder={"Gift card number"}
-                                />
-                                <input
-                                    id="giftCardPIN"
-                                    type={"number"}
-                                    placeholder={"Security pin"}
-                                    inputMode="numeric" // disables letters and some mobile keyboards will change to numeric
-                                />
-                                <button
-                                    name="giftCardSubmitButton"
-                                    type="submit"
-                                >
-                                    Redeem
-                                </button>
-                            </form>
-                        </div>
-
-                    )}
-                </section>
-
-                <section className="PaymentTypeOuterBox">
-                    <label className={"PaymentTypeBox"}>
-                        <div className={"PaymentText"}>
-                            <input
-                                type="radio"
-                                name="paymentMethod"
-                                value="mobilepay"
-                                checked={paymentOption===PaymentOption.MobilePay}
-                                onChange={() => handlePaymentMethodChange(PaymentOption.MobilePay)}
-                            />
-                            <p> MobilePay </p>
-                        </div>
-                        <div className={"PaymentIcons"}>
-                            <img
-                                className="PaymentIcons"
-                                style={{height: '35px'}}
-                                alt="Payment option - Mobile Pay"
-                                src="/images/Payment icons/MobilePayPNG/MobilePayLogo.png"
-                            />
-                        </div>
-
-                    </label>
-                </section>
-
-                {isInvoiceEnabled ?
-                    <div className="PaymentTypeOuterBox">
+                <nav className={"PaymentOptionsBox"}>
+                    <section className="PaymentTypeOuterBox">
                         <label className={"PaymentTypeBox"}>
                             <div className={"PaymentText"}>
                                 <input
                                     type="radio"
                                     name="paymentMethod"
-                                    value="invoice"
-                                    checked={paymentOption===PaymentOption.INVOICE}
-                                    onChange={() => handlePaymentMethodChange(PaymentOption.INVOICE)}
+                                    value="card"
+                                    checked={paymentOption === PaymentOption.CARD}
+                                    onChange={() => handlePaymentMethodChange(PaymentOption.CARD)}
                                 />
-                                <p>Invoice </p>
+                                <p>Card </p>
+                            </div>
+                            <div className={"PaymentIcons"}>
+                                <img style={{}} alt={"Card payment option - Visa"}
+                                     src={"../../images/Payment icons/Visa_Brandmark_RGB_2021_PNG/Visa_Brandmark_Blue_RGB_2021.png"}/>
+                                <img style={{}} alt={"Card payment option - Mastercard"}
+                                     src={"../../images/Payment icons/Dankort logo/DK_Logo_CMYK.png"}/>
                             </div>
                         </label>
-                    </div>
-                    : null
+                        {paymentOption === PaymentOption.CARD && (
+                            <form id="cardForm" className={"PaymentInputs"} method={"POST"}>
+                                <input
+                                    type="text"
+                                    inputMode="numeric"
+                                    maxLength={16}
+                                    minLength={16}
+                                    placeholder="Card number (1234 5678 9012 3456)"
+                                    pattern="\d{16}"
+
+                                />
+                                <div className={"SubInputs"}>
+                                    <input
+                                        type={"text"}
+                                        placeholder={"MM/YY"}
+                                        pattern="(0[1-9]|1[0-2])\/[0-9]{2}" //Virker ikke?
+
+                                    />
+                                    <input
+                                        type={"password"}
+                                        placeholder={"Security code (000)"}
+                                        maxLength={3}
+                                        minLength={3}
+                                    />
+                                </div>
+                                <input
+                                    type={"text"}
+                                    placeholder={"Card holders name"}
+                                />
+                            </form>
+                        )}
+                    </section>
+
+                    <section className="PaymentTypeOuterBox">
+                        <label className={"PaymentTypeBox"}>
+                            <div className={"PaymentText"}>
+                                <input
+                                    type="radio"
+                                    name="paymentMethod"
+                                    value="giftCard"
+                                    checked={paymentOption === PaymentOption.GIFT_CARD}
+                                    onChange={() => handlePaymentMethodChange(PaymentOption.GIFT_CARD)}
+                                />
+                                <p>Gift card </p>
+                            </div>
+                            <div className={"PaymentIcons"}>
+                                <img
+                                    className="PaymentIcons"
+                                    style={{height: '30px'}}
+                                    alt="Payment option - Gift card"
+                                    src={"/images/Payment icons/GiftCard.png"}
+                                />
+                            </div>
+                        </label>
+                        {paymentOption === PaymentOption.GIFT_CARD && (
+                            <div>
+                                <strong className={"ErrorText"}>
+                                    <small>{updateText}</small>
+                                </strong>
+                                <form id="giftCard" className={"PaymentInputs"} onSubmit={HandleGiftCardRedeemClick}
+                                      method={"POST"}>
+                                    <input
+                                        id={"giftCardNumber"}
+                                        type={"text"}
+                                        placeholder={"Gift card number"}
+                                    />
+                                    <input
+                                        id="giftCardPIN"
+                                        type={"number"}
+                                        placeholder={"Security pin"}
+                                        inputMode="numeric" // disables letters and some mobile keyboards will change to numeric
+                                    />
+                                    <button
+                                        name="giftCardSubmitButton"
+                                        type="submit"
+                                    >
+                                        Redeem
+                                    </button>
+                                </form>
+                            </div>
+
+                        )}
+                    </section>
+
+                    <section className="PaymentTypeOuterBox">
+                        <label className={"PaymentTypeBox"}>
+                            <div className={"PaymentText"}>
+                                <input
+                                    type="radio"
+                                    name="paymentMethod"
+                                    value="mobilepay"
+                                    checked={paymentOption === PaymentOption.MobilePay}
+                                    onChange={() => handlePaymentMethodChange(PaymentOption.MobilePay)}
+                                />
+                                <p> MobilePay </p>
+                            </div>
+                            <div className={"PaymentIcons"}>
+                                <img
+                                    className="PaymentIcons"
+                                    style={{height: '35px'}}
+                                    alt="Payment option - Mobile Pay"
+                                    src="/images/Payment icons/MobilePayPNG/MobilePayLogo.png"
+                                />
+                            </div>
+
+                        </label>
+                    </section>
+
+                    {isInvoiceEnabled ?
+                        <div className="PaymentTypeOuterBox">
+                            <label className={"PaymentTypeBox"}>
+                                <div className={"PaymentText"}>
+                                    <input
+                                        type="radio"
+                                        name="paymentMethod"
+                                        value="invoice"
+                                        checked={paymentOption === PaymentOption.INVOICE}
+                                        onChange={() => handlePaymentMethodChange(PaymentOption.INVOICE)}
+                                    />
+                                    <p>Invoice </p>
+                                </div>
+                            </label>
+                        </div>
+                        : null
+                    }
+                </nav>
+                {isPopUpActive &&  //Shows when a gift-card is successfully called
+                    <GiftCardPopUp></GiftCardPopUp>
                 }
-            </nav>
-            {isPopUpActive &&  //Shows when a gift-card is successfully called
-                <GiftCardPopUp></GiftCardPopUp>
-            }
-            <button type="submit" className={"NudgeButton"} onClick={handleContinue}>Continue</button>
+                <button type="submit" className={"NudgeButton"} onClick={handleContinue}>Continue</button>
             </div>
         </div>
     );

@@ -1,5 +1,6 @@
 import {describe, expect, it} from "vitest";
 import * as price from '../Components/price.ts'
+
 const products = [{
     "id": "apple-bag",
     "name": "Apples",
@@ -11,7 +12,7 @@ const products = [{
     "upsellProductId": "organic apple-bag",
     "totalPrice": 25,
     "quantity": 1
-},{
+}, {
     "id": "banana-bag",
     "name": "Banana bag",
     "price": 15,
@@ -22,7 +23,7 @@ const products = [{
     "upsellProductId": null,
     "totalPrice": 360,
     "quantity": 24
-},{
+}, {
     "id": "kiwi",
     "name": "Kiwi",
     "price": 10,
@@ -64,11 +65,11 @@ const edgeProduct = [{
 describe('price functions', () => {
     it('should calculate price of product and apply discount if the quantity is equal or above the discount quantity', () => {
         // quantity is above discountQuanity
-        const bananaExpected = price.calculateLocalTotalPrice(products,1);
+        const bananaExpected = price.calculateLocalTotalPrice(products, 1);
         //quantity is equal to discountQuanity
         const kiwiExpected = price.calculateLocalTotalPrice(products, 2);
         //quantity is below discountQuantity
-        const appleExpected = price.calculateLocalTotalPrice(products,0);
+        const appleExpected = price.calculateLocalTotalPrice(products, 0);
 
         expect(bananaExpected).toBe(324);
         expect(kiwiExpected).toBe(5);
@@ -84,14 +85,14 @@ describe('price functions', () => {
         expect(expectedTotalMixed).toBe('318.60');
         expect(expectedTotalWhenEqual).toBe('270.00');
         expect(expectedTotalEdge).toBe('150.00');
-   });
+    });
     it('should handle quantity change properly by setting both the quantity and  the total price', () => {
         // when remove an item quantity and totalprice should be zero
         const removedProduct: Product[] = price.handleQuantityChange(expensiveProduct, 0, 0,);
         // when an item gets added
         const addedProduct: Product[] = price.handleQuantityChange(edgeProduct, 0, 1);
         // when item gets decremented
-        const discardedProduct: Product[] = price.handleQuantityChange(products,1,-1);
+        const discardedProduct: Product[] = price.handleQuantityChange(products, 1, -1);
 
         expect(removedProduct[0].quantity).toBe(0);
         expect(removedProduct[0].totalPrice).toBe(0);

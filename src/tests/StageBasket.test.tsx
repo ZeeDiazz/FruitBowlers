@@ -40,9 +40,9 @@ describe('StageBasket components', () => {
         vi.restoreAllMocks();
     });
     it('should display loading message when products are loading', async () => {
-        const { getAllByText } = render(
+        const {getAllByText} = render(
             <BasketProvider>
-                <StageBasket />
+                <StageBasket/>
             </BasketProvider>
         );
         expect(getAllByText('Loading...').length).toBeGreaterThan(0);
@@ -54,9 +54,9 @@ describe('StageBasket components', () => {
                 json: async () => [],
             } as Response;
         });
-        const { getAllByText } = render(
+        const {getAllByText} = render(
             <BasketProvider>
-                <StageBasket />
+                <StageBasket/>
             </BasketProvider>
         );
         await waitFor(() => {
@@ -71,9 +71,9 @@ describe('StageBasket components', () => {
                 json: async () => productData,
             } as Response;
         });
-        const { getAllByText } = render(
+        const {getAllByText} = render(
             <BasketProvider>
-                <StageBasket />
+                <StageBasket/>
             </BasketProvider>
         );
         await waitFor(() => {
@@ -90,9 +90,9 @@ describe('StageBasket components', () => {
                 json: async () => productData,
             } as Response;
         });
-        const{ getAllByTestId } = render(
+        const {getAllByTestId} = render(
             <BasketProvider>
-                <StageBasket />
+                <StageBasket/>
             </BasketProvider>
         );
         await waitFor(() => {
@@ -112,9 +112,9 @@ describe('StageBasket components', () => {
                 json: async () => productData,
             } as Response;
         });
-        const{ getAllByTestId } = render(
+        const {getAllByTestId} = render(
             <BasketProvider>
-                <StageBasket />
+                <StageBasket/>
             </BasketProvider>
         );
         await waitFor(() => {
@@ -134,9 +134,9 @@ describe('StageBasket components', () => {
                 json: async () => productData,
             } as Response;
         });
-        const{ getAllByTestId } = render(
+        const {getAllByTestId} = render(
             <BasketProvider>
-                <StageBasket />
+                <StageBasket/>
             </BasketProvider>
         );
         await waitFor(() => {
@@ -156,42 +156,42 @@ describe('StageBasket components', () => {
                 json: async () => productData,
             } as Response;
         });
-        const{ getAllByTestId } = render(
+        const {getAllByTestId} = render(
             <BasketProvider>
-                <StageBasket />
-            </BasketProvider> );
+                <StageBasket/>
+            </BasketProvider>);
         await waitFor(() => {
             return screen.queryByText('Loading...') === null;
         })
-        const  removeButton= getAllByTestId('remove-button')[0];
+        const removeButton = getAllByTestId('remove-button')[0];
         await user.click(removeButton)
 
         const apples = "Apples"
         expect(screen.queryByText(apples)).not.toBeInTheDocument();
     })
     it.skip('should render the upgrade option with the fetched data', async () => {
-        const base : string= 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/';
+        const base: string = 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/';
         const productsUrl: string = base + 'main/productsList.json';
         const upgradesUrl: string = base + 'main/upgradesList.json';
 
         vi.spyOn(window, "fetch").mockImplementation(async (url) => {
-            if(url === productsUrl){
+            if (url === productsUrl) {
                 return {
                     ok: true,
                     json: async () => productData,
                 } as Response;
-            } else if (url == upgradesUrl){
+            } else if (url == upgradesUrl) {
                 return {
                     ok: true,
                     json: async () => upgradesData,
                 } as Response;
-            } else{
+            } else {
                 throw new Error('Invalid url');
             }
         });
-        const { getAllByText } = render(
+        const {getAllByText} = render(
             <BasketProvider>
-                <StageBasket />
+                <StageBasket/>
             </BasketProvider>
         );
         await screen.findByText('Organic available! Change for 5 DKK a piece?');
@@ -199,29 +199,29 @@ describe('StageBasket components', () => {
         expect(getAllByText('Organic available! Change for 5 DKK a piece?').length).toBeGreaterThan(0);
     });
     it.skip('should upgrade the products when upgrade button is pressed while remaining the same quantity', async () => {
-        const base : string= 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/';
+        const base: string = 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/';
         const productsUrl: string = base + 'main/productsList.json';
         const upgradesUrl: string = base + 'main/upgradesList.json';
         const user = userEvent.setup();
 
         vi.spyOn(window, "fetch").mockImplementation(async (url) => {
-            if(url === productsUrl){
+            if (url === productsUrl) {
                 return {
                     ok: true,
                     json: async () => productData,
                 } as Response;
-            } else if (url == upgradesUrl){
+            } else if (url == upgradesUrl) {
                 return {
                     ok: true,
                     json: async () => upgradesData,
                 } as Response;
-            } else{
+            } else {
                 throw new Error('Invalid url');
             }
         });
-        const { getAllByText, getAllByTestId} = render(
+        const {getAllByText, getAllByTestId} = render(
             <BasketProvider>
-                <StageBasket />
+                <StageBasket/>
             </BasketProvider>
         );
         await screen.findByText('Apples');
@@ -231,7 +231,7 @@ describe('StageBasket components', () => {
         expect(quantity).toBe(2);
         expect(getAllByText('Organic available! Change for 5 DKK a piece?').length).toBeGreaterThan(0);
 
-        const  upgradeButton = getAllByTestId('upgrade-button')[0];
+        const upgradeButton = getAllByTestId('upgrade-button')[0];
         await user.click(upgradeButton);
         expect(quantity).toBe(2);
         expect(getAllByText('Organic apples from Denmark').length).toBeGreaterThan(0);

@@ -27,19 +27,19 @@ const upgrades: Product[] = [{
 }]
 describe('Upgrade functions', () => {
     it('should handle upgrade properly by setting the new product with previous quantity and new total price', () => {
-        const newProduct : Product= upgrades[0];
+        const newProduct: Product = upgrades[0];
         const prevQuantity = products[0].quantity;
-        const upgradedProduct = upgrade.handleUpgradeClick(products, newProduct,prevQuantity, 0);
+        const upgradedProduct = upgrade.handleUpgradeClick(products, newProduct, prevQuantity, 0);
         expect(upgradedProduct[0].quantity).toBe(prevQuantity);
         expect(upgradedProduct[0].totalPrice).toBe(30);
         expect(upgradedProduct[0].id).toBe('organic apple-bag');
         // TODO handle edge cases
     });
     it('should find a more expensive option if available', () => {
-       const upsellId = products[0].upsellProductId;
-       const upgradeOption = upgrade.findMoreExpensiveProduct(upsellId, upgrades);
-       expect(upgradeOption?.id).toBe('organic apple-bag');
-       // TODO handle edge cases
+        const upsellId = products[0].upsellProductId;
+        const upgradeOption = upgrade.findMoreExpensiveProduct(upsellId, upgrades);
+        expect(upgradeOption?.id).toBe('organic apple-bag');
+        // TODO handle edge cases
     });
     it('should find more expensive option return the pricedifference and the upgrade', () => {
         const upgradeOption = upgrade.hasUpgradeOption(products[0], upgrades);
