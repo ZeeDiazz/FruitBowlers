@@ -1,6 +1,6 @@
-import {describe, it, vi, beforeEach} from "vitest";
+import {describe,expect, it, vi, beforeEach} from "vitest";
 import { StageDelivery } from "../Stages/StageDelivery.tsx";
-import { render, screen} from "@testing-library/react";
+import { render, screen,fireEvent} from "@testing-library/react";
 import {DeliveryProvider} from "../Context/DeliveryContext.tsx";
 import {RouteObject} from "react-router-dom";
 
@@ -28,4 +28,15 @@ describe('StageDelivery components', () => {
         );
         screen.getAllByText('Billing Address');
     });
+    it('should not navigate  to Payment if form not validated ', () => {
+        render(
+            <DeliveryProvider>
+                <StageDelivery/>
+            </DeliveryProvider>
+        );
+        const Button = screen.getByText('Continue');
+        fireEvent.submit(Button);
+        screen.getAllByText('Billing Address');
+    });
+
 })
