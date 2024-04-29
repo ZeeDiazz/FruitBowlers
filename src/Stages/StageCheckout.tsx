@@ -12,7 +12,7 @@ import {useDeliveryState} from "../Context/DeliveryContext.tsx";
 import {getTotalPriceDiscounted, getTotalQuantity} from "../Components/price.ts";
 
 export function StageCheckout() {
-    const {commentText, receiveEmail} = useCheckoutState();
+    const {commentText, receiveEmail, hasPaid} = useCheckoutState();
     const {products} = useBasketState();
     const totalPrice = getTotalPriceDiscounted(products);
     const totalQuantity = getTotalQuantity(products);
