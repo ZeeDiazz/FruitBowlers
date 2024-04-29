@@ -17,23 +17,9 @@ export function StageCheckout() {
     const {totalPrice, totalQuantity} = useTotalState();
     const {paymentOption} = usePaymentState();
     const {
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        zipcode,
-        companyVatNumber,
-        streetName,
-        cityName,
-        companyName,
+        billingAddressValues,
         sendToBilling,
-        firstNameDelivery,
-        lastNameDelivery,
-        streetNameDelivery,
-        emailDelivery,
-        cityNameDelivery,
-        phoneNumberDelivery,
-        zipcodeDelivery
+        deliveryAddressValues
     } = useDeliveryState();
 
     const dispatch = useCheckoutDispatch();
@@ -61,7 +47,10 @@ export function StageCheckout() {
                 },
                 body: JSON.stringify({receiveEmail, commentText,
                     products, totalPrice, totalQuantity, paymentOption,
-                    firstName,lastName,email,phoneNumber,zipcode,companyVatNumber,companyName,streetName,cityName,sendToBilling,firstNameDelivery,lastNameDelivery,emailDelivery,phoneNumberDelivery,streetNameDelivery,cityNameDelivery,zipcodeDelivery})
+                    billingAddressValues,
+                    sendToBilling,
+                    deliveryAddressValues
+                })
             });
             if(logResponse.ok){
                 dispatch({ type: 'HasPaid', payload: {hasPaid:true} });
