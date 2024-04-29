@@ -2,7 +2,7 @@ import {render, screen, waitFor} from "@testing-library/react";
 import {describe, expect, it, vi, beforeEach} from "vitest";
 import {StageBasket} from "../Stages/StageBasket.tsx";
 import userEvent from "@testing-library/user-event";
-import {BasketProvider} from "../Complex/BasketContext.tsx";
+import {BasketProvider} from "../Context/BasketContext.tsx";
 
 const mockedUsedNavigate = vi.fn();
 vi.mock('react-router-dom', () => ({

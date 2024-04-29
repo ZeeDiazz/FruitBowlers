@@ -1,7 +1,7 @@
 import {describe, it, vi, beforeEach} from "vitest";
 import { StageDelivery } from "../Stages/StageDelivery.tsx";
 import { render, screen} from "@testing-library/react";
-import {DeliveryProvider} from "../Complex/DeliveryContext.tsx";
+import {DeliveryProvider} from "../Context/DeliveryContext.tsx";
 
 const mockedUsedNavigate = vi.fn();
 vi.mock('react-router-dom', () => ({

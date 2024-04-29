@@ -1,7 +1,7 @@
 import { render, screen} from "@testing-library/react";
 import {beforeEach, describe, expect, it, vi} from "vitest";
 import {TotalBox} from "../Stages/StageTotal.tsx";
-import {TotalProvider} from "../Complex/TotalContext.tsx";
+import {TotalProvider} from "../Context/TotalContext.tsx";
 const productsDiscountsNotValid = [{
     "id": "apple-bag",
     "name": "Apples",

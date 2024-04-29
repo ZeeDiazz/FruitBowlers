@@ -1,7 +1,6 @@
 import {describe, expect, it} from "vitest";
 import * as upgrade from '../Components/upgrade.tsx'
 
-
 const products: Product[] = [{
     "id": "apple-bag",
     "name": "Apples",
