@@ -18,30 +18,46 @@ export function StageCheckout() {
     useEffect(() => {
         setNavigating(false);
     }, []);
+
+    const [jumpAnimation, setJumpAnimation] = useState(false);
+
     //TODO need to implement this correct
     async function ServerCall (e: FormEvent){
-        e.preventDefault()
-        const logUrl = 'https://eopdtwzz2bt0la6.m.pipedream.net';
+        if(isChecked){
+            e.preventDefault()
+            const logUrl = 'https://eopdtwzz2bt0la6.m.pipedream.net';
 
-        const logResponse = await fetch(logUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({receiveEmail, commentText})
-        });
-        if(logResponse.ok){
-            dispatch({ type: 'HasPaid', payload: {hasPaid:true} });
-            navigate('/OrderSubmitted');
-        }
-        else {
-            dispatch({ type: 'HasPaid', payload: {hasPaid:false} });
-            console.error("Failed to log search", logResponse.statusText)
+            const logResponse = await fetch(logUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({receiveEmail, commentText})
+            });
+            if(logResponse.ok){
+                dispatch({ type: 'HasPaid', payload: {hasPaid:true} });
+                navigate('/OrderSubmitted');
+            }
+            else {
+                dispatch({ type: 'HasPaid', payload: {hasPaid:false} });
+                console.error("Failed to log search", logResponse.statusText)
+            }
+        } else {
+             setJumpAnimation(true);
         }
     }
 
+    //When the method ServerCall is called, it sets the animation state to false
+    useEffect(() => {
+        setTimeout(() => {
+            setJumpAnimation(false);
+        }, 1000);
+
+    }, [ServerCall]);
+
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setIsChecked(event.target.checked);
+        setJumpAnimation(false);
         console.log("state of isChecked: " + event.target.checked);
     }
 
@@ -62,7 +78,7 @@ export function StageCheckout() {
                         <h2>Checkout</h2>
                     </div>
                     {!isChecked && (
-                        <p style={{color: "red", marginLeft: '20px', fontSize: '12px'}}>* You need to accept terms</p>
+                        <p style={{ color: "red", marginLeft: '20px', fontSize: '12px', animation: jumpAnimation ? 'jump 0.5s 1 ease-in-out' : 'none' }}>* You need to accept terms</p>
                     )}
                     <label className={"CheckBoxWithDescription"}>
                         <input

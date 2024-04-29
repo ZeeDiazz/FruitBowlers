@@ -3,3 +3,18 @@
 
 }
 
+/*Jump animation*/
+@keyframes jump {
+    /*Start position*/
+    0% {
+        transform: translateY(0);
+    }
+    /*middle position*/
+    50% {
+        transform: translateY(-6px);
+    }
+    /*End position*/
+    100% {
+        transform: translateY(0);
+    }
+}
