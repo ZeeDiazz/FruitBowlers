@@ -10,25 +10,10 @@ import {header} from "../Components/header.tsx";
 
 
 export function StageDelivery() {
-
     const {
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        zipcode,
-        companyVatNumber,
-        streetName,
-        cityName,
-        companyName,
+        billingAddressValues,
         sendToBilling,
-        firstNameDelivery,
-        lastNameDelivery,
-        streetNameDelivery,
-        emailDelivery,
-        cityNameDelivery,
-        phoneNumberDelivery,
-        zipcodeDelivery
+        deliveryAddressValues
     } = useDeliveryState();
     const dispatch = useDeliveryDispatch();
 
@@ -121,12 +106,12 @@ export function StageDelivery() {
                     <h2 id="title">Delivery address</h2>
                     <div id="inputBox">
                         <input name="firstNameDelivery" type="text" placeholder="First Name"
-                               defaultValue={firstNameDelivery} onChange={handleInputChange} required/>
+                               defaultValue={deliveryAddressValues.firstName} onChange={handleInputChange} required/>
                         <br/>
                         <input name="lastNameDelivery" type="text" placeholder="Last Name"
-                               defaultValue={lastNameDelivery} onChange={handleInputChange} required/>
+                               defaultValue={deliveryAddressValues.lastName} onChange={handleInputChange} required/>
                         <br/>
-                        <input name="emailDelivery" type="email" placeholder="Email" defaultValue={emailDelivery}
+                        <input name="emailDelivery" type="email" placeholder="Email" defaultValue={deliveryAddressValues.email}
                                onChange={handleInputChange} required/>
                         <br/>
                         <div className="addressBox">
@@ -136,22 +121,25 @@ export function StageDelivery() {
 
                             {hasErrorDelivery && customError()}
                             <input name="zipcodeDelivery" pattern="\d*" type="number" placeholder="ZipCode"
-                                   defaultValue={zipcodeDelivery}
+                                   defaultValue={deliveryAddressValues.zipcode}
                                    onChange={e => validateZipCode(e.target.value.toString(), "zipcodeDelivery")}
                                    required/>
 
-                                <input name="cityDelivery" placeholder="City" defaultValue={cityNameDelivery} required/>
-                                <br/>
-                                <input name="streetNameDelivery" type="text" placeholder="Street Name" defaultValue={streetNameDelivery} onChange={handleInputChange} required/>
-                            </div>
+                            <input name="cityDelivery" placeholder="City" defaultValue={deliveryAddressValues.cityName} required/>
                             <br/>
-                            <div id="phoneBox">
-                                <input name="landcode" placeholder="Landcode" value="+45" disabled/>
-                                <input name="telephoneDelivery" type="digits" pattern="[0-9]{8}" defaultValue={phoneNumberDelivery}
-                                       minLength={8} maxLength={8} placeholder="Telephone" onChange={handleInputChange} required/>
-                            </div>
-                            {submitButton(!diff)}
+                            <input name="streetNameDelivery" type="text" placeholder="Street Name"
+                                   defaultValue={deliveryAddressValues.streetName} onChange={handleInputChange} required/>
                         </div>
+                        <br/>
+                        <div id="phoneBox">
+                            <input name="landcode" placeholder="Landcode" value="+45" disabled/>
+                            <input name="telephoneDelivery" type="digits" pattern="[0-9]{10}"
+                                   defaultValue={deliveryAddressValues.phoneNumber}
+                                   minLength={8} maxLength={8} placeholder="Telephone" onChange={handleInputChange}
+                                   required/>
+                        </div>
+                        {submitButton(!diff)}
+                    </div>
                 </>
             );
         }
@@ -249,19 +237,19 @@ export function StageDelivery() {
                 <form onSubmit={handleSubmit}>
                     <div id="inputBox">
                         <input name="firstName" pattern="[a-zA-Z]+" type="text" placeholder="First Name"
-                               defaultValue={firstName} onChange={handleInputChange} required/>
+                               defaultValue={billingAddressValues.firstName} onChange={handleInputChange} required/>
                         <br/>
-                        <input name="lastName" type="text" placeholder="Last Name" defaultValue={lastName}
+                        <input name="lastName" type="text" placeholder="Last Name" defaultValue={billingAddressValues.lastName}
                                onChange={handleInputChange} required/>
                         <br/>
-                        <input name="email" type="email" placeholder="Email" defaultValue={email}
+                        <input name="email" type="email" placeholder="Email" defaultValue={billingAddressValues.email}
                                onChange={handleInputChange} required/>
                         <br/>
 
                         <input name="companyName" type="text" placeholder="*(Optional) Company Name"
-                               defaultValue={companyName} onChange={handleInputChange}/>
+                               defaultValue={billingAddressValues.companyName} onChange={handleInputChange}/>
                         <input name="companyVATnumber" type="digits" minLength={8} maxLength={8}
-                               placeholder="*(Optional) Company VAT" defaultValue={companyVatNumber}
+                               placeholder="*(Optional) Company VAT" defaultValue={billingAddressValues.companyVatNumber}
                                onChange={handleInputChange}/>
                         <br/>
 
@@ -272,12 +260,12 @@ export function StageDelivery() {
 
                             {hasError && customError()}
                             <input name="zipcode" pattern="\d*" type="number" placeholder="ZipCode"
-                                   defaultValue={zipcode}
+                                   defaultValue={billingAddressValues.zipcode}
                                    onChange={e => validateZipCode(e.target.value.toString(), "zipcodeBilling")}/>
 
-                            <input name="city" placeholder="City" defaultValue={cityName} required/>
+                            <input name="city" placeholder="City" defaultValue={billingAddressValues.cityName} required/>
                             <br/>
-                            <input name="streetName" type="text" placeholder="Street Name" defaultValue={streetName}
+                            <input name="streetName" type="text" placeholder="Street Name" defaultValue={billingAddressValues.streetName}
                                    onChange={handleInputChange} required/>
                         </div>
                         <br/>

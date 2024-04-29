@@ -7,15 +7,17 @@ import '../assets/Styles/large/App.css'
 import {giftCardPayment} from "../Components/giftCardPayment.ts";
 import {GiftCardPaymentResponse} from "../Components/giftCardPayment.ts";
 import {useNavigate} from "react-router-dom";
-import {ChoosePaymentProps, PaymentOption, usePaymentDispatch, usePaymentState} from "../Context/PaymentContext.tsx";
+import {PaymentOption, usePaymentDispatch, usePaymentState} from "../Context/PaymentContext.tsx";
 import {header} from "../Components/header.tsx";
+import {useDeliveryState} from "../Context/DeliveryContext.tsx";
 
-function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
+function ChoosePayment() {
     const {updateText, paymentOption, isPopUpActive} = usePaymentState();
     const dispatch = usePaymentDispatch();
+    const {companyVatNumber} = useDeliveryState();
 
     //From App.tsx. Listens to invoice input-number. If input is 8 characters it returns true.
-    const isInvoiceEnabled: boolean = choosePaymentProps.isInvoiceEnabled;
+    const isInvoiceEnabled: boolean = companyVatNumber?.length === 8;
 
     //Controls gift-card pop up visibility.
     const [giftCardCopy, setGiftCardCopy] = useState<Partial<{

@@ -1,44 +1,49 @@
 // Type of state
 import {createContext, useContext, useReducer} from "react";
 
-interface DeliveryState {
+interface DeliveryAddress{
     firstName: string | undefined;
     lastName: string | undefined;
     email: string | undefined;
-    phoneNumber: string|undefined;
-    zipcode: string|undefined;
-    companyVatNumber: string|undefined;
+    phoneNumber: string | undefined;
+    zipcode: string | undefined;
     streetName: string | undefined;
     cityName: string | undefined;
+}
+
+interface BillingAddress extends DeliveryAddress{
+    companyVatNumber: string | undefined;
     companyName: string | undefined;
+}
+
+interface DeliveryState {
+    billingAddressValues: BillingAddress;
     sendToBilling: boolean | undefined;
-    firstNameDelivery: string | undefined;
-    lastNameDelivery: string | undefined;
-    emailDelivery: string | undefined;
-    phoneNumberDelivery: string|undefined;
-    zipcodeDelivery: string|undefined;
-    streetNameDelivery: string | undefined;
-    cityNameDelivery: string | undefined;
+    deliveryAddressValues: DeliveryAddress;
 }
 
 const deliveryState: DeliveryState = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: '',
-    zipcode: '',
-    companyVatNumber: '',
-    streetName: '',
-    cityName: '',
-    companyName: '',
+    billingAddressValues: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+        zipcode: '',
+        companyVatNumber: '',
+        streetName: '',
+        cityName: '',
+        companyName: '',
+    },
     sendToBilling: true,
-    firstNameDelivery: '',
-    lastNameDelivery: '',
-    emailDelivery: '',
-    phoneNumberDelivery: '',
-    zipcodeDelivery: '',
-    streetNameDelivery: '',
-    cityNameDelivery: '',
+    deliveryAddressValues: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+        zipcode: '',
+        streetName: '',
+        cityName: '',
+    }
 };
 
 // Type of actions
@@ -69,47 +74,76 @@ const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
         case 'cityName':
               return {
                   ...state,
-                  cityName: action.payload.cityName,
+                  billingAddressValues: {
+                      ...state.billingAddressValues,
+                      cityName: action.payload.cityName
+                  },
               }
         case 'firstName':
             return {
                 ...state,
-                firstName: action.payload.firstName,
+                billingAddressValues: {
+                    ...state.billingAddressValues,
+                    firstName: action.payload.firstName
+                },
             }
         case 'lastName':
             return {
                 ...state,
-                lastName: action.payload.lastName,
+                billingAddressValues: {
+                    ...state.billingAddressValues,
+                    lastName: action.payload.lastName
+                },
             }
         case 'email':
             return {
                 ...state,
-                email: action.payload.email,
+                billingAddressValues: {
+                    ...state.billingAddressValues,
+                    email: action.payload.email
+                },
             }
         case 'phoneNumber':
             return {
                 ...state,
-                phoneNumber: action.payload.phoneNumber,
+                billingAddressValues: {
+                    ...state.billingAddressValues,
+                    phoneNumber: action.payload.phoneNumber
+                },
+
             };
         case 'zipcode':
             return {
                 ...state,
-                zipcode: action.payload.zipcode,
+                billingAddressValues: {
+                    ...state.billingAddressValues,
+                    zipcode: action.payload.zipcode,
+                },
             };
         case 'companyVatNumber':
             return {
                 ...state,
-                companyVatNumber: action.payload.companyVatNumber,
+                billingAddressValues: {
+                    ...state.billingAddressValues,
+                    companyVatNumber: action.payload.companyVatNumber,
+                },
             };
         case 'streetName':
             return {
                 ...state,
-                streetName: action.payload.streetName,
+                billingAddressValues: {
+                    ...state.billingAddressValues,
+                    streetName: action.payload.streetName,
+                },
             };
         case 'companyName':
             return {
                 ...state,
-                companyName: action.payload.companyName,
+                billingAddressValues: {
+                    ...state.billingAddressValues,
+                    companyName: action.payload.companyName,
+                },
+
             };
         case "sendToBilling":
             return {
@@ -119,37 +153,58 @@ const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
         case 'cityNameDelivery':
             return {
                 ...state,
-                cityNameDelivery: action.payload.cityName,
+                deliveryAddressValues: {
+                    ...state.deliveryAddressValues,
+                    cityNameDelivery: action.payload.cityName,
+                }
             };
         case 'firstNameDelivery':
             return {
                 ...state,
-                firstNameDelivery: action.payload.firstName,
+                deliveryAddressValues:{
+                    ...state.deliveryAddressValues,
+                    firstNameDelivery: action.payload.firstName,
+                }
             };
         case 'lastNameDelivery':
             return {
                 ...state,
-                lastNameDelivery: action.payload.lastName,
+                deliveryAddressValues: {
+                    ...state.deliveryAddressValues,
+                    lastNameDelivery: action.payload.lastName,
+                }
             };
         case 'emailDelivery':
             return {
                 ...state,
-                emailDelivery: action.payload.email,
+                deliveryAddressValues: {
+                    ...state.deliveryAddressValues,
+                    emailDelivery: action.payload.email,
+                }
             };
         case 'phoneNumberDelivery':
             return {
                 ...state,
-                phoneNumberDelivery: action.payload.phoneNumber,
+                deliveryAddressValues:{
+                    ...state.deliveryAddressValues,
+                    phoneNumberDelivery: action.payload.phoneNumber,
+                }
             };
         case 'zipcodeDelivery':
             return {
                 ...state,
-                zipcodeDelivery: action.payload.zipcode,
+                deliveryAddressValues:{
+                    ...state.deliveryAddressValues,
+                    zipcodeDelivery: action.payload.zipcode,
+                }
             };
         case 'streetNameDelivery':
             return {
                 ...state,
-                streetNameDelivery: action.payload.streetName,
+                deliveryAddressValues:{
+                    ...state.deliveryAddressValues,
+                    streetNameDelivery: action.payload.streetName,
+                }
             };
         default:
             return state;
