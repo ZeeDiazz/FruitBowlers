@@ -1,7 +1,6 @@
 import {render} from "@testing-library/react";
 import {describe, expect, it, vi} from "vitest";
 import {OrderCompleted} from "../Stages/StageComplete.tsx";
-import userEvent from "@testing-library/user-event";
 
 const mockedUsedNavigate = vi.fn();
 vi.mock('react-router-dom', () => ({
@@ -24,11 +23,6 @@ describe('OrderCompleted stage', () => {
         );
         const successImage = getByAltText('OrderCompleted');
         expect(successImage).toBeInTheDocument();
-        expect(successImage).toBe(OrderCompleted);
     });
-
-
-
-
 });
 
