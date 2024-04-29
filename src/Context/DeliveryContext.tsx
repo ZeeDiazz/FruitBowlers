@@ -155,7 +155,7 @@ const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
                 ...state,
                 deliveryAddressValues: {
                     ...state.deliveryAddressValues,
-                    cityNameDelivery: action.payload.cityName,
+                    cityName: action.payload.cityName,
                 }
             };
         case 'firstNameDelivery':
@@ -163,7 +163,7 @@ const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
                 ...state,
                 deliveryAddressValues: {
                     ...state.deliveryAddressValues,
-                    firstNameDelivery: action.payload.firstName,
+                    firstName: action.payload.firstName,
                 }
             };
         case 'lastNameDelivery':
@@ -171,7 +171,7 @@ const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
                 ...state,
                 deliveryAddressValues: {
                     ...state.deliveryAddressValues,
-                    lastNameDelivery: action.payload.lastName,
+                    lastName: action.payload.lastName,
                 }
             };
         case 'emailDelivery':
@@ -179,7 +179,7 @@ const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
                 ...state,
                 deliveryAddressValues: {
                     ...state.deliveryAddressValues,
-                    emailDelivery: action.payload.email,
+                    email: action.payload.email,
                 }
             };
         case 'phoneNumberDelivery':
@@ -187,7 +187,7 @@ const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
                 ...state,
                 deliveryAddressValues: {
                     ...state.deliveryAddressValues,
-                    phoneNumberDelivery: action.payload.phoneNumber,
+                    phoneNumber: action.payload.phoneNumber,
                 }
             };
         case 'zipcodeDelivery':
@@ -195,7 +195,7 @@ const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
                 ...state,
                 deliveryAddressValues: {
                     ...state.deliveryAddressValues,
-                    zipcodeDelivery: action.payload.zipcode,
+                    zipcode: action.payload.zipcode,
                 }
             };
         case 'streetNameDelivery':
@@ -203,7 +203,7 @@ const deliveryReducer = (state: DeliveryState, action: DeliveryAction) => {
                 ...state,
                 deliveryAddressValues: {
                     ...state.deliveryAddressValues,
-                    streetNameDelivery: action.payload.streetName,
+                   streetName: action.payload.streetName,
                 }
             };
         default:
