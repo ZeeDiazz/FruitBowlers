@@ -1,7 +1,7 @@
 /*Optimized for screen 320px*/
 @media screen and (max-width: 768px) {
     .stageBoxes{
-        margin-bottom: 5%;
+        margin-bottom: 35%;
     }
     .productImg {
         height: 50px;
