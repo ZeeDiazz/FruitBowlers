@@ -72,6 +72,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
                                 type="radio"
                                 name="paymentMethod"
                                 value="card"
+                                checked={paymentOption===PaymentOption.CARD}
                                 onChange={() => handlePaymentMethodChange(PaymentOption.CARD)}
                             />
                             <p>Card </p>
@@ -114,6 +115,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
                                 type="radio"
                                 name="paymentMethod"
                                 value="giftCard"
+                                checked={paymentOption===PaymentOption.GIFT_CARD}
                                 onChange={() => handlePaymentMethodChange(PaymentOption.GIFT_CARD)}
                             />
                             <p>Gift card </p>
@@ -164,6 +166,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
                                 type="radio"
                                 name="paymentMethod"
                                 value="mobilepay"
+                                checked={paymentOption===PaymentOption.MobilePay}
                                 onChange={() => handlePaymentMethodChange(PaymentOption.MobilePay)}
                             />
                             <p> MobilePay </p>
@@ -188,6 +191,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
                                     type="radio"
                                     name="paymentMethod"
                                     value="invoice"
+                                    checked={paymentOption===PaymentOption.INVOICE}
                                     onChange={() => handlePaymentMethodChange(PaymentOption.INVOICE)}
                                 />
                                 <p>Invoice </p>
