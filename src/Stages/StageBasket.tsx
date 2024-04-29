@@ -1,5 +1,5 @@
 import {
-    calculateLocalTotalPrice,
+    calculateLocalTotalPrice, getTotalQuantity,
     handleQuantityChange
 } from "../Components/price.ts";
 import {handleUpgradeClick, hasUpgradeOption, UpgradeButton} from "../Components/upgrade.tsx"
@@ -122,6 +122,7 @@ export function StageBasket() {
                 <div id="productBox">
                     {productsError && <p>Error fetching products</p>}
                     {isProductsLoading || isUpgradesLoading ? <div className="error">Loading...</div> : productBoxItems}
+                    {getTotalQuantity(products) === 0 && <p> Basket is empty </p>}
                 </div>
                 <button className={"NudgeButton"} onClick={() => navigate('/Delivery')}>Continue</button>
             </div>
