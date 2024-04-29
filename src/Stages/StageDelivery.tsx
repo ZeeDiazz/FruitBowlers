@@ -1,8 +1,9 @@
 import '../assets/Styles/large/StageDelivery.css'
+import '../assets/Styles/large/App.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/320px/SmallScreenDelivery.css'
 import '../assets/Styles/default/DefaultStyling.css'
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from 'react-router-dom';
 import {useDeliveryDispatch, useDeliveryState} from "../Context/DeliveryContext.tsx";
 import {header} from "../Components/header.tsx";
@@ -32,6 +33,10 @@ export function StageDelivery() {
     const dispatch = useDeliveryDispatch();
 
     const navigate = useNavigate();
+    const [navigating, setNavigating] = useState(true);
+    useEffect(() => {
+        setNavigating(false);
+    }, []);
 
     const [hasError, setHasError] = useState(false);
     const [hasErrorDelivery, setHasErrorDelivery] = useState(false);
@@ -220,7 +225,7 @@ export function StageDelivery() {
     }
 
     return (
-        <>
+        <div className={`page ${navigating ? "navigating" : "navigated"}`}>
             <header>
                 {header()}
             </header>
@@ -286,6 +291,6 @@ export function StageDelivery() {
                     {deliveryAddress(!sendToBilling)}
                 </form>
             </div>
-        </>
+        </div>
     )
 }

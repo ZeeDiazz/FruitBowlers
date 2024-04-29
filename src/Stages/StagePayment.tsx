@@ -3,6 +3,7 @@ import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
+import '../assets/Styles/large/App.css'
 import {giftCardPayment} from "../Components/giftCardPayment.ts";
 import {GiftCardPaymentResponse} from "../Components/giftCardPayment.ts";
 import {useNavigate} from "react-router-dom";
@@ -51,12 +52,16 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
     //Controls which payment is chosen and ensures maximum one at a time.
     const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
     const navigate = useNavigate();
+    const [navigating, setNavigating] = useState(true);
+    useEffect(() => {
+        setNavigating(false);
+    }, []);
     const handlePaymentMethodChange = (paymentOption: PaymentOption): void => {
         setPaymentOption(paymentOption)
     };
 
     return (
-        <>
+        <div className={`page ${navigating ? "navigating" : "navigated"}`}>
             <header>
                 {header()}
             </header>
@@ -209,7 +214,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
             }
             <button type="submit" className={"NudgeButton"} onClick={() => navigate('/Checkout')}>Continue</button>
             </body>
-        </>
+        </div>
     );
 
     async function HandleGiftCardRedeemClick(event: FormEvent) {

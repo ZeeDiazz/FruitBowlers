@@ -1,5 +1,6 @@
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/default/DefaultStyling.css'
+import '../assets/Styles/large/App.css'
 import '../assets/Styles/default/DefaultStylingOrderCompleted.css'
 import {header} from "../Components/header.tsx";
 import {useNavigate} from "react-router-dom";
@@ -8,6 +9,10 @@ import {useEffect, useState} from "react";
 
 export function OrderCompleted() {
     const navigate = useNavigate();
+    const [navigating, setNavigating] = useState(true);
+    useEffect(() => {
+        setNavigating(false);
+    }, []);
     const [loading, setLoading] = useState(true);
 
     //Refresh as we doesn't have a shoping page
@@ -25,8 +30,7 @@ export function OrderCompleted() {
     }, []);
 
     return (
-        <>
-
+        <div className={`page ${navigating ? "navigating" : "navigated"}`}>
             <header>
                 {header()}
             </header>
@@ -48,6 +52,6 @@ export function OrderCompleted() {
                 {/*If we had a website, the user would be able to continue shopping*/}
                 <button className={"NudgeButton"} onClick={() => refreshPage()}>Continue Shopping</button>
             </nav>
-        </>
+        </div>
     )
 }
