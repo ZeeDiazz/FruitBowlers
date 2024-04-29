@@ -1,4 +1,4 @@
-import {FormEvent, useEffect, useReducer, useState} from "react";
+import {FormEvent, useEffect, useState} from "react";
 import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
@@ -6,48 +6,32 @@ import '../Stages/StageTotal.tsx'
 import {giftCardPayment} from "../Components/giftCardPayment.ts";
 import {GiftCardPaymentResponse} from "../Components/giftCardPayment.ts";
 import {useNavigate} from "react-router-dom";
-
-
-interface ChoosePaymentProps {
-    isInvoiceEnabled: boolean;
-    totalDiscountedPrice: number; //Not in use right now. Could have been used in gift-card, but we decided not to.
-}
-enum PaymentOption{
-    NONE, CARD, GIFT_CARD, INVOICE, MobilePay
-}
-interface State {
-    text: string;
-}
-interface Action {
-    type: string,
-    payload: string
-}
-function reducer(state: State, action: Action) {
-    switch (action.type) {
-        case 'updateText':
-            return { ...state, text: action.payload };
-        default:
-            return state;
-    }
-}
+import {ChoosePaymentProps, PaymentOption, usePaymentDispatch, usePaymentState} from "../Complex/PaymentContext.tsx";
 
 function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
-    const [state, dispatch] = useReducer(reducer, { text: ' Gift card number is case sensitive ' });
+    const {updateText, paymentOption,  isPopUpActive} =  usePaymentState();
+    const dispatch = usePaymentDispatch();
 
     //From App.tsx. Listens to invoice input-number. If input is 8 characters it returns true.
     const isInvoiceEnabled: boolean = choosePaymentProps.isInvoiceEnabled;
 
     //Controls gift-card pop up visibility.
-    const [isPopUpActive, setIsPopUpActive] = useState(false);
+    //const [isPopUpActive, setIsPopUpActive] = useState(false);
     const [giftCardCopy, setGiftCardCopy] = useState<Partial< {
         currentCredit: number, currency:string}>>({ currentCredit: undefined, currency: '' });
 
     //Controls which payment is chosen and ensures maximum one at a time.
-    const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
+    //const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
     const navigate = useNavigate();
     const handlePaymentMethodChange = (paymentOption: PaymentOption):void => {
-        setPaymentOption(paymentOption)
+        dispatch({type: "changePaymentOption", payload: { newOption: paymentOption}})
     };
+    const handleTextUpdate = (newText: string): void => {
+        dispatch({type: "updateText", payload: { update: newText}})
+    }
+    const togglePopUp = (toggle: boolean): void => {
+        dispatch( {type:  "togglePopUp", payload: { toggle: toggle}})
+    }
 
     return (
         <body className="stageBoxes">
@@ -127,7 +111,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
                 {paymentOption === PaymentOption.GIFT_CARD && (
                     <div>
                         <strong className={"ErrorText"}>
-                            <small>{state.text}</small>
+                            <small>{updateText}</small>
                         </strong>
                         <form id="giftCard" className={"PaymentInputs"} onSubmit={HandleGiftCardRedeemClick}
                               method={"POST"}>
@@ -208,19 +192,19 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
         const userTypedGiftCardPIN: HTMLInputElement = document.getElementById('giftCardPIN') as HTMLInputElement;
 
         if (userTypedGiftCardNumber != null && userTypedGiftCardPIN != null) {
-            dispatch({ type: 'updateText', payload: 'You have to fill in the name and PIN' });
-
+            handleTextUpdate('You have to fill  in the name and PIN');
             if (userTypedGiftCardNumber.value.length < 3 || userTypedGiftCardPIN.value.length < 3) {
-                dispatch({ type: 'updateText', payload: 'Invalid Number or PIN' });
+                handleTextUpdate('Invalid Number or PIN');
+                dispatch({ type: 'updateText', payload: {update: 'Invalid Number or PIN'} });
             } else {
                 await giftCardPayment(userTypedGiftCardNumber.value, userTypedGiftCardPIN.value)
                     .then((result: GiftCardPaymentResponse): void => {
                         if ('error' in result) {
                             console.error('Error:', result.error);
-                            dispatch({ type: 'updateText', payload: 'The input did not match a gift-card. Please try again'});
+                            handleTextUpdate('The input did not match a gift-card. Please try again');
                         } else {
-                            dispatch({ type: 'updateText', payload: ''});
-                            setIsPopUpActive(true);
+                            handleTextUpdate('');
+                            togglePopUp(true);
                             // Clone the giftCard object
                             const clonedGiftCard:{currentCredit: number, currency: string } = { ...result.giftCard };
                             // updates shown giftCard with result and closes the input field
@@ -230,7 +214,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        dispatch({ type: 'updateText', payload: 'Something went wrong. Please try again later'});
+                        handleTextUpdate('Something went wrong. Please try again later')
                     });
             }
         }
@@ -266,7 +250,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
             <div className={"WholeGiftCardPopUp"}>
                 <div className={"HAndButton"}>
                     <h3>Your gift card is ready</h3>
-                    <button onClick={()=> setIsPopUpActive(false)}>
+                    <button onClick={()=> togglePopUp(false)}>
                         Cancel
                     </button>
                 </div>
