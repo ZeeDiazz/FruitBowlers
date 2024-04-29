@@ -118,7 +118,7 @@ export function StageDelivery() {
                             <br/>
                             <div id="phoneBox">
                                 <input name="landcode" placeholder="Landcode" value="+45" disabled/>
-                                <input name="telephoneDelivery" type="digits" pattern="\d*" defaultValue={phoneNumberDelivery}
+                                <input name="telephoneDelivery" type="digits" pattern="[0-9]{10}" defaultValue={phoneNumberDelivery}
                                        minLength={8} maxLength={8} placeholder="Telephone" onChange={handleInputChange} required/>
                             </div>
                             {submitButton(!diff)}
@@ -237,7 +237,7 @@ export function StageDelivery() {
                     <div id="phoneBox">
                         <input name="landcode" placeholder="Landcode" value="+45" disabled/>
 
-                        <input name="telephone" type="number" pattern="\d*" minLength={8} maxLength={8}
+                        <input name="telephone" type="number" pattern="[0-9]{8}" minLength={8} maxLength={8}
                                placeholder="Telephone" defaultValue={phoneNumber} onChange={handleInputChange} required/>
                     </div>
                 </div>

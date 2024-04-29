@@ -328,3 +328,21 @@ p {
         opacity: 100%;
     }
 }
+
+/********Styling for back-button*********/
+  
+.previous {
+    background-color: #ffffff;
+    color: black;
+    width: 40px;
+    height: 40px;
+    margin: 2px;
+    border-width: 2px;
+  }
+  
+.round {
+    border-radius: 30%;
+    width: 40px;
+    height: 40px;
+    margin: 2px;
+  }

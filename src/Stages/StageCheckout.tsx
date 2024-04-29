@@ -37,7 +37,7 @@ export function StageCheckout() {
     return (
         <nav>
             <div className={"stageBoxes"}>
-                <button onClick={() => navigate('/Payment')}>Back to Basket</button>
+            <button onClick={() => navigate('/Payment')} className="previous round">&#8249;</button>
                 <div className="title-container">
                     <img
                         src={`/images/stage4-fat.png`}
