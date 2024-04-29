@@ -12,6 +12,7 @@ import {useDeliveryState} from "../Context/DeliveryContext.tsx";
 import {getTotalPriceDiscounted, getTotalQuantity} from "../Components/price.ts";
 
 export function StageCheckout() {
+    /*Data that is to be sent to the user*/
     const {commentText, receiveEmail, hasPaid} = useCheckoutState();
     const {products} = useBasketState();
     const totalPrice = getTotalPriceDiscounted(products);
@@ -22,7 +23,7 @@ export function StageCheckout() {
         sendToBilling,
         deliveryAddressValues
     } = useDeliveryState();
-
+    /*Data that is to be sent to the user end*/
     const dispatch = useCheckoutDispatch();
 
     const [isChecked, setIsChecked] = useState(false);
@@ -34,8 +35,10 @@ export function StageCheckout() {
         dispatch({type:'HasPaid',payload:{hasPaid:hasPaid}});
     }, []);
 
+
     const [jumpAnimation, setJumpAnimation] = useState(false);
 
+    //The ServerCall is only called when the user has checked Accept term...
     async function ServerCall(e: FormEvent) {
         if (isChecked) {
             e.preventDefault()
