@@ -12,7 +12,7 @@ import {usePaymentState} from "../Context/PaymentContext.tsx";
 import {useDeliveryState} from "../Context/DeliveryContext.tsx";
 
 export function StageCheckout() {
-    const { commentText,receiveEmail,hasPaid } = useCheckoutState();
+    const {commentText, receiveEmail, hasPaid} = useCheckoutState();
     const {products} = useBasketState();
     const {totalPrice, totalQuantity} = useTotalState();
     const {paymentOption} = usePaymentState();
@@ -30,14 +30,13 @@ export function StageCheckout() {
     const [navigating, setNavigating] = useState(true);
     useEffect(() => {
         setNavigating(false);
-        dispatch({type:'HasPaid',payload:{hasPaid:hasPaid}});
+        //dispatch({type:'HasPaid',payload:{hasPaid:hasPaid}});
     }, []);
 
     const [jumpAnimation, setJumpAnimation] = useState(false);
 
-    //TODO need to implement this correct
-    async function ServerCall (e: FormEvent){
-        if(isChecked){
+    async function ServerCall(e: FormEvent) {
+        if (isChecked) {
             e.preventDefault()
             const logUrl = 'https://eopdtwzz2bt0la6.m.pipedream.net';
 
@@ -54,16 +53,15 @@ export function StageCheckout() {
                     deliveryAddressValues
                 })
             });
-            if(logResponse.ok){
-                dispatch({ type: 'HasPaid', payload: {hasPaid:true} });
+            if (logResponse.ok) {
+                dispatch({type: 'HasPaid', payload: {hasPaid: true}});
                 navigate('/OrderSubmitted');
-            }
-            else {
-                dispatch({ type: 'HasPaid', payload: {hasPaid:false} });
+            } else {
+                dispatch({type: 'HasPaid', payload: {hasPaid: false}});
                 console.error("Failed to log search", logResponse.statusText)
             }
         } else {
-             setJumpAnimation(true);
+            setJumpAnimation(true);
         }
     }
 
@@ -98,7 +96,12 @@ export function StageCheckout() {
                         <h2>Checkout</h2>
                     </div>
                     {!isChecked && (
-                        <p style={{ color: "red", marginLeft: '20px', fontSize: '12px', animation: jumpAnimation ? 'jump 0.5s 1 ease-in-out' : 'none' }}>* You need to accept terms</p>
+                        <p style={{
+                            color: "red",
+                            marginLeft: '20px',
+                            fontSize: '12px',
+                            animation: jumpAnimation ? 'jump 0.5s 1 ease-in-out' : 'none'
+                        }}>* You need to accept terms</p>
                     )}
                     <label className={"CheckBoxWithDescription"}>
                         <input
@@ -129,7 +132,7 @@ export function StageCheckout() {
                         onChange={(e) => dispatch({type: 'CommentText', payload: {commentText: e.currentTarget.value}})}
                     />
                     <button className={"NudgeButton"} onClick={ServerCall}>Submit Order</button>
-                    
+
                 </div>
             </nav>
         </div>

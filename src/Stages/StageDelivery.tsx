@@ -111,7 +111,8 @@ export function StageDelivery() {
                         <input name="lastNameDelivery" type="text" placeholder="Last Name"
                                defaultValue={deliveryAddressValues.lastName} onChange={handleInputChange} required/>
                         <br/>
-                        <input name="emailDelivery" type="email" placeholder="Email" defaultValue={deliveryAddressValues.email}
+                        <input name="emailDelivery" type="email" placeholder="Email"
+                               defaultValue={deliveryAddressValues.email}
                                onChange={handleInputChange} required/>
                         <br/>
                         <div className="addressBox">
@@ -125,15 +126,18 @@ export function StageDelivery() {
                                    onChange={e => validateZipCode(e.target.value.toString(), "zipcodeDelivery")}
                                    required/>
 
-                            <input name="cityDelivery" placeholder="City" defaultValue={deliveryAddressValues.cityName} required/>
+                            <input name="cityDelivery" placeholder="City" defaultValue={deliveryAddressValues.cityName}
+                                   required/>
                             <br/>
                             <input name="streetNameDelivery" type="text" placeholder="Street Name"
-                                   defaultValue={deliveryAddressValues.streetName} onChange={handleInputChange} required/>
+                                   defaultValue={deliveryAddressValues.streetName} onChange={handleInputChange}
+                                   required/>
                         </div>
                         <br/>
                         <div id="phoneBox">
                             <input name="landcode" placeholder="Landcode" value="+45" disabled/>
-                            <input name="telephoneDelivery" type="numbers" pattern='[0-9]{8}' minLength={8} maxLength={8}
+                            <input name="telephoneDelivery" type="numbers" pattern='[0-9]{8}' minLength={8}
+                                   maxLength={8}
                                    onInvalid={
                                        (event) => {
                                            event.currentTarget.setCustomValidity("Insert a phonenumber with 8 digits");
@@ -197,7 +201,7 @@ export function StageDelivery() {
         event.currentTarget.setCustomValidity('');
     };
 
-    /**/
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -240,7 +244,8 @@ export function StageDelivery() {
                         <input name="firstName" pattern="[a-zA-Z]+" type="text" placeholder="First Name"
                                defaultValue={billingAddressValues.firstName} onChange={handleInputChange} required/>
                         <br/>
-                        <input name="lastName" type="text" placeholder="Last Name" defaultValue={billingAddressValues.lastName}
+                        <input name="lastName" type="text" placeholder="Last Name"
+                               defaultValue={billingAddressValues.lastName}
                                onChange={handleInputChange} required/>
                         <br/>
                         <input name="email" type="email" placeholder="Email" defaultValue={billingAddressValues.email}
@@ -250,7 +255,8 @@ export function StageDelivery() {
                         <input name="companyName" type="text" placeholder="*(Optional) Company Name"
                                defaultValue={billingAddressValues.companyName} onChange={handleInputChange}/>
                         <input name="companyVATnumber" type="digits" minLength={8} maxLength={8}
-                               placeholder="*(Optional) Company VAT" defaultValue={billingAddressValues.companyVatNumber}
+                               placeholder="*(Optional) Company VAT"
+                               defaultValue={billingAddressValues.companyVatNumber}
                                onChange={handleInputChange}/>
                         <br/>
 
@@ -264,31 +270,35 @@ export function StageDelivery() {
                                    defaultValue={billingAddressValues.zipcode}
                                    onChange={e => validateZipCode(e.target.value.toString(), "zipcodeBilling")}/>
 
-                            <input name="city" placeholder="City" defaultValue={billingAddressValues.cityName} required/>
+                            <input name="city" placeholder="City" defaultValue={billingAddressValues.cityName}
+                                   required/>
                             <br/>
-                            <input name="streetName" type="text" placeholder="Street Name" defaultValue={billingAddressValues.streetName}
+                            <input name="streetName" type="text" placeholder="Street Name"
+                                   defaultValue={billingAddressValues.streetName}
                                    onChange={handleInputChange} required/>
                         </div>
                         <br/>
                         <div id="phoneBox">
                             <input name="landcode" placeholder="Landcode" value="+45" disabled/>
 
-                        <input name="telephone2" type="numbers" pattern='[0-9]{8}' minLength={8} maxLength={8} onInvalid={
-                            (event) => {
-                                event.currentTarget.setCustomValidity("Insert a phoneNumber with 8 digits");
-                                }
-                            }
-                        placeholder="Telephone" defaultValue={billingAddressValues.phoneNumber} onChange={handleInputChange} required/>
+                            <input name="telephone2" type="numbers" pattern='[0-9]{8}' minLength={8} maxLength={8}
+                                   onInvalid={
+                                       (event) => {
+                                           event.currentTarget.setCustomValidity("Insert a phoneNumber with 8 digits");
+                                       }
+                                   }
+                                   placeholder="Telephone" defaultValue={billingAddressValues.phoneNumber}
+                                   onChange={handleInputChange} required/>
+                        </div>
                     </div>
-                </div>
-                <div className="continue-container">
-                    {checkbox(!sendToBilling)}
-                </div>
-                {submitButton(!sendToBilling)}
-                {deliveryAddress(!sendToBilling)}
-            </form>
+                    <div className="continue-container">
+                        {checkbox(!sendToBilling)}
+                    </div>
+                    {submitButton(!sendToBilling)}
+                    {deliveryAddress(!sendToBilling)}
+                </form>
 
+            </div>
         </div>
-     </div>
     )
 }
