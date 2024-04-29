@@ -18,7 +18,7 @@ const initialCheckoutState: CheckoutState = {
 type CheckoutAction =
     |{ type: 'CommentText', payload : { commentText: string}}
     |{ type: 'ReceiveEmail', payload : { receiveEmail: boolean}}
-    |{ type: 'HasPaid', payload : { hasPaid: boolean}}
+    |{ type: 'HasPaid', payload : { hasPaid: boolean|undefined}}
     ;
 
 // Reducer

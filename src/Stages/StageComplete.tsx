@@ -42,13 +42,13 @@ export function OrderCompleted() {
                             id={"OrderCompletedImg"}
                         />
                     </div>
-                    <h1 className="h3 font-weight-medium"  data-testid="loadingIcon">Your order is completed!</h1>
+                    <h1 className="h3 font-weight-medium"  data-testid="orderCompletionText">Your order is completed!</h1>
                 <p>
                     Thank you for your order! Your order is being processed and will be completed soon. You will
                     not receive an email confirmation when your order is completed.
                 </p>
                 {/*If we had a website, the user would be able to continue shopping*/}
-                <button className={"NudgeButton"} onClick={() => refreshPage()}>Continue Shopping</button>
+                <button className={"NudgeButton"} data-testid="button" onClick={() => refreshPage()}>Continue Shopping</button>
             </nav>
         </div>
     )

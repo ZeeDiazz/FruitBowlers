@@ -30,7 +30,7 @@ export function StageCheckout() {
     const [navigating, setNavigating] = useState(true);
     useEffect(() => {
         setNavigating(false);
-        //dispatch({type:'HasPaid',payload:{hasPaid:hasPaid}});
+        dispatch({type:'HasPaid',payload:{hasPaid:hasPaid}});
     }, []);
 
     const [jumpAnimation, setJumpAnimation] = useState(false);
