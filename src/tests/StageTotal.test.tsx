@@ -86,7 +86,7 @@ describe('TotalBox components', () => {
             <TotalBox products={productsDiscountsNotValid}/>
         );
 
-        expect(getByText('Total Price: 25.00 DKK')).toBeInTheDocument();
+        expect(getByText('25.00 DKK')).toBeInTheDocument();
         expect(getByText('Get 10% discount when buying for 275.00 DKK more!'));
     });
     it('should display the correct values of the products when local discount is available', () => {
@@ -94,7 +94,7 @@ describe('TotalBox components', () => {
             <TotalBox products={productsLocalDiscountValid}/>
         );
 
-        expect(getByText('Total Price: 45.00 DKK')).toBeInTheDocument();
+        expect(getByText('45.00 DKK')).toBeInTheDocument();
         expect(getByText('Get 10% discount when buying for 255.00 DKK more!'));
     });
     it('should display the correct values of the products when local and global discount is available', () => {
@@ -102,7 +102,7 @@ describe('TotalBox components', () => {
             <TotalBox products={productsLocalAndGlobalDiscountValid}/>
         );
 
-        expect(getByText('Total Price: 405.00 DKK')).toBeInTheDocument();
+        expect(getByText('405.00 DKK')).toBeInTheDocument();
         expect(getByText('You get 10% discount!'));
     });
     it('should display the correct values of the products when price before any discount is 300', () => {
@@ -110,7 +110,7 @@ describe('TotalBox components', () => {
             <TotalBox products={expensiveProduct}/>
         );
 
-        expect(getByText('Total Price: 270.00 DKK')).toBeInTheDocument();
+        expect(getByText('270.00 DKK')).toBeInTheDocument();
         expect(getByText('Get 10% discount when buying for 30.00 DKK more!'));
     });
     it('should display correct messages when basket is empty', () => {
@@ -118,9 +118,9 @@ describe('TotalBox components', () => {
             <TotalBox products={emptyBasket}/>
         );
 
-        expect(getByText('Total Price: 0.00 DKK')).toBeInTheDocument();
+        expect(getByText('0.00 DKK')).toBeInTheDocument();
         expect(getByText('Get 10% discount when buying for 300.00 DKK more!'));
-        expect(getByText('Total Quantity: 0')).toBeInTheDocument();
+        expect(getByText('0')).toBeInTheDocument();
 
     });
     it('should not display more than 2 decimals on discount number ', () => {
