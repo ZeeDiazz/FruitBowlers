@@ -15,20 +15,18 @@ export function OrderCompleted() {
     }, []);
     const [loading, setLoading] = useState(true);
 
-    //Refresh as we doesn't have a shoping page
+    //Refresh as we doesn't have a shopping page
     const refreshPage = () => {
         navigate(0);
     }
 
     useEffect(() => {
-        const timeout = setTimeout(() => {
+        setTimeout(() => {
             setLoading(false);
         }, 1000);
 
-        // Clear timeout on component unmount
-        return () => clearTimeout(timeout);
     }, []);
-
+    
     return (
         <div className={`page ${navigating ? "navigating" : "navigated"}`}>
             <header>
