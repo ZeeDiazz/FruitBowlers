@@ -3,10 +3,11 @@ import {describe, expect, it, vi, beforeEach} from "vitest";
 import {StageBasket} from "../Stages/StageBasket.tsx";
 import userEvent from "@testing-library/user-event";
 import {BasketProvider} from "../Context/BasketContext.tsx";
+import {RouteObject} from "react-router-dom";
 
 const mockedUsedNavigate = vi.fn();
 vi.mock('react-router-dom', () => ({
-    ...vi.importActual('react-router-dom') as any,
+    ...vi.importActual('react-router-dom') as RouteObject,
     useNavigate: () => mockedUsedNavigate,
 }));
 const productData = [{

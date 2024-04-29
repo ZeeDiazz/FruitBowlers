@@ -3,16 +3,13 @@ import {getDiscountMessage, getTotalPriceDiscounted, getTotalQuantity} from '../
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/320px/SmallScreenTotalBox.css'
 import '../assets/Styles/large/TotalBox.css'
-import {useTotalDispatch, useTotalState} from "../Context/TotalContext.tsx";
-
 export function TotalBox({products}: {products: Product[]} ){
-    const {totalQuantity, totalPrice} = useTotalState();
-    const dispatch = useTotalDispatch();
+    const totalQuantity = getTotalQuantity(products);
+    const totalPrice = getTotalPriceDiscounted(products);
+
     const [discountMessage, setDiscountMessage] = useState('loading');
     useEffect(() => {
         if(products){
-            dispatch({type: 'TotalPrice', payload: {priceAmount: getTotalPriceDiscounted(products)}});
-            dispatch({type: 'TotalQuantity', payload: {quantityAmount: getTotalQuantity(products)}});
             setDiscountMessage(getDiscountMessage(getTotalPriceDiscounted(products)));
         }
     }, [products]);
