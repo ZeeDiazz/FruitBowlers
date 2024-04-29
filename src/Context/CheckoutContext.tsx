@@ -3,19 +3,22 @@ import {createContext, useContext, useReducer} from "react";
 
 interface CheckoutState {
    commentText: string|undefined;
-    receiveEmail: boolean;
+   receiveEmail: boolean;
+   hasPaid?:boolean;
 }
 
 // Initial state
 const initialCheckoutState: CheckoutState = {
-   commentText: "",
+    commentText: "",
     receiveEmail: false,
+    hasPaid: false,
 };
 
 // Type of actions
 type CheckoutAction =
     |{ type: 'CommentText', payload : { commentText: string}}
     |{ type: 'ReceiveEmail', payload : { receiveEmail: boolean}}
+    |{ type: 'HasPaid', payload : { hasPaid: boolean}}
     ;
 
 // Reducer
@@ -31,6 +34,11 @@ const checkoutReducer = (state: CheckoutState, action: CheckoutAction) => {
                 ...state,
                 receiveEmail: action.payload.receiveEmail,
             }
+        case 'HasPaid':
+            return {
+                ...state,
+                hasPaid: action.payload.hasPaid,
+            }
         default:
             return state;
     }
@@ -44,7 +52,7 @@ const CheckoutDispatchContext = createContext<React.Dispatch<CheckoutAction> | n
 
 // Provider
 type CheckoutProviderProps = React.PropsWithChildren<{state?: CheckoutState}>
-export function CheckoutProvider({ children, state: explicitState }: CheckoutProviderProps) {
+export function CheckoutProvider({ children, state: explicitState}: CheckoutProviderProps) {
     const [state, dispatch] = useReducer(
         checkoutReducer, explicitState || initialCheckoutState);
 
