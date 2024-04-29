@@ -133,10 +133,14 @@ export function StageDelivery() {
                         <br/>
                         <div id="phoneBox">
                             <input name="landcode" placeholder="Landcode" value="+45" disabled/>
-                            <input name="telephoneDelivery" type="digits" pattern="[0-9]{10}"
-                                   defaultValue={deliveryAddressValues.phoneNumber}
-                                   minLength={8} maxLength={8} placeholder="Telephone" onChange={handleInputChange}
-                                   required/>
+                            <input name="telephoneDelivery" type="numbers" pattern='[0-9]{8}' minLength={8} maxLength={8}
+                                   onInvalid={
+                                       (event) => {
+                                           event.currentTarget.setCustomValidity("Insert a phonenumber with 8 digits");
+                                       }
+                                   }
+                                   placeholder="Telephone" defaultValue={billingAddressValues.phoneNumber}
+                                   onChange={handleInputChange} required/>
                         </div>
                         {submitButton(!diff)}
                     </div>
