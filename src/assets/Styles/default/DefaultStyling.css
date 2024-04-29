@@ -15,7 +15,6 @@ p {
 .productDescriptionBox{
     color: rgb(121, 121, 121);
 }
-
 .nudgeButton {
     margin-bottom: 10px;
     padding: 5px;
@@ -23,11 +22,9 @@ p {
     border: 0;
     border-radius: 10px;
 }
-
 .productChangeNavigation span {
     margin: 0 5px 0 5px;
 }
-
 .productImg {
     height: 50px;
     width: 50px;
@@ -309,6 +306,7 @@ p {
     background: #04AA6D; /* Green background */
     cursor: pointer; /* Cursor on hover */
 }
+
 /********ANIMATION OF GIFT-CARD*********/
 
 @keyframes glow {
@@ -334,9 +332,21 @@ p {
         opacity: 100%;
     }
 }
+/********ANIMATION for transitions frompage to page*********/
 
+.page {
+    transition: opacity 0.4s ease-in;
+}
+
+.page.navigating {
+    opacity: 0;
+}
+
+.page.navigated {
+    opacity: 1;
+}
 /********Styling for back-button*********/
-  
+
 .previous {
     background-color: #ffffff;
     color: black;
@@ -345,7 +355,7 @@ p {
     margin: 2px;
     border-width: 2px;
   }
-  
+
 .round {
     border-radius: 30%;
     width: 40px;

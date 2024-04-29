@@ -10,7 +10,7 @@ import '../assets/Styles/default/DefaultStyling.css'
 import {useFetch} from "../Components/useFetch.ts";
 import {useNavigate} from 'react-router-dom';
 import {useEffect, useRef} from "react";
-import {useBasketDispatch, useBasketState} from "../Complex/BasketContext.tsx";
+import {useBasketDispatch, useBasketState} from "../Context/BasketContext.tsx";
 
 export function StageBasket() {
     const base : string= 'https://raw.githubusercontent.com/ZeeDiazz/FruitBowlers/';

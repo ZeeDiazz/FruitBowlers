@@ -3,10 +3,12 @@ import '../assets/Styles/large/StageBasket.css'
 import '../assets/Styles/default/DefaultStyling.css'
 import '../assets/Styles/320px/SmallScreen.css'
 import '../Stages/StageTotal.tsx'
+import '../assets/Styles/large/App.css'
 import {giftCardPayment} from "../Components/giftCardPayment.ts";
 import {GiftCardPaymentResponse} from "../Components/giftCardPayment.ts";
 import {useNavigate} from "react-router-dom";
 import {ChoosePaymentProps, PaymentOption, usePaymentDispatch, usePaymentState} from "../Complex/PaymentContext.tsx";
+import {header} from "../Components/header.tsx";
 
 function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
     const {updateText, paymentOption,  isPopUpActive} =  usePaymentState();
@@ -16,13 +18,15 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
     const isInvoiceEnabled: boolean = choosePaymentProps.isInvoiceEnabled;
 
     //Controls gift-card pop up visibility.
-    //const [isPopUpActive, setIsPopUpActive] = useState(false);
     const [giftCardCopy, setGiftCardCopy] = useState<Partial< {
         currentCredit: number, currency:string}>>({ currentCredit: undefined, currency: '' });
 
     //Controls which payment is chosen and ensures maximum one at a time.
-    //const [paymentOption, setPaymentOption] = useState<PaymentOption>(PaymentOption.NONE);
-    const navigate = useNavigate();
+   const navigate = useNavigate();
+    const [navigating, setNavigating] = useState(true);
+    useEffect(() => {
+        setNavigating(false);
+    }, []);
     const handlePaymentMethodChange = (paymentOption: PaymentOption):void => {
         dispatch({type: "changePaymentOption", payload: { newOption: paymentOption}})
     };
@@ -34,9 +38,13 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
     }
 
     return (
+        <div className={`page ${navigating ? "navigating" : "navigated"}`}>
+            <header>
+                {header()}
+            </header>
         <body className="stageBoxes">
         <button onClick={() => navigate('/Delivery')} className="previous round">&#8249;</button>
-       
+
         <hgroup className="title-container">
             <img
                 src={`/images/stage3-fat.png`}
@@ -184,6 +192,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
         }
         <button type="submit" className={"NudgeButton"} onClick={() => navigate('/Checkout')} >Continue</button>
         </body>
+            </div>
     );
 
     async function HandleGiftCardRedeemClick(event: FormEvent){
@@ -234,7 +243,8 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps ) {
                             // Call decrementSlider recursively after a delay
                             setTimeout(decrementSlider, 2); //Delay for animated fallback
                         }
-                    }; decrementSlider();
+                    };
+                    decrementSlider();
                 } else {
                     //@TODO: else slider == 100 {call HandleGiftCardRedemption}
                 }

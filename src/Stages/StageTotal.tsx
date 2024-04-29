@@ -3,7 +3,7 @@ import {getDiscountMessage, getTotalPriceDiscounted, getTotalQuantity} from '../
 import '../assets/Styles/320px/SmallScreen.css'
 import '../assets/Styles/320px/SmallScreenTotalBox.css'
 import '../assets/Styles/large/TotalBox.css'
-import {useTotalDispatch, useTotalState} from "../Complex/TotalContext.tsx";
+import {useTotalDispatch, useTotalState} from "../Context/TotalContext.tsx";
 
 export function TotalBox({products}: {products: Product[]} ){
     const {totalQuantity, totalPrice} = useTotalState();
