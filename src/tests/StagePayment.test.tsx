@@ -1,4 +1,4 @@
-import {fireEvent, render, screen} from "@testing-library/react";
+import {render, screen} from "@testing-library/react";
 import {describe, expect, it, vi} from "vitest";
 import Payment from '../Stages/StagePayment.tsx';
 import {PaymentProvider} from "../Complex/PaymentContext.tsx";

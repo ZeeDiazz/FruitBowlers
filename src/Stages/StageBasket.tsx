@@ -18,7 +18,7 @@ export function StageBasket() {
     const upgradesUrl: string = base + 'main/upgradesList.json';
 
     const { products, isProductsLoading, productsError } = useBasketState();
-    const [upgrades, , isUpgradesLoading, upgradesError] = useFetch(upgradesUrl);
+    const [upgrades, isUpgradesLoading, upgradesError] = useFetch(upgradesUrl);
     const navigate = useNavigate();
 
     const dispatch = useBasketDispatch();
