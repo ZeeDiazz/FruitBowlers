@@ -30,6 +30,7 @@ export function StageCheckout() {
     const [navigating, setNavigating] = useState(true);
     useEffect(() => {
         setNavigating(false);
+        dispatch({type:'HasPaid',payload:{hasPaid:hasPaid}});
     }, []);
 
     const [jumpAnimation, setJumpAnimation] = useState(false);
@@ -127,7 +128,7 @@ export function StageCheckout() {
                         defaultValue={commentText}
                         onChange={(e) => dispatch({type: 'CommentText', payload: {commentText: e.currentTarget.value}})}
                     />
-                    <button className={"NudgeButton"} onClick={ServerCall}>Pay now</button>
+                    <button className={"NudgeButton"} onClick={ServerCall}>Submit Order</button>
                     
                 </div>
             </nav>

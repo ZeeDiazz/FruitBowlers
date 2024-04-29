@@ -26,7 +26,7 @@ export function OrderCompleted() {
         }, 1000);
 
     }, []);
-    
+
     return (
         <div className={`page ${navigating ? "navigating" : "navigated"}`}>
             <header>
@@ -34,15 +34,15 @@ export function OrderCompleted() {
             </header>
             <nav className={"OrderCompleted"}>
                 <div id={"loader"} style={{display: loading ? "block" : "none"}}/>
-                <div style={{display: loading ? "none" : "block"}}>
-                    <img
-                        src={`/images/Success.png`}
-                        alt="OrderCompleted"
-                        className="orderIcons"
-                        id={"OrderCompletedImg"}
-                    />
-                </div>
-                <h1 className="h3 font-weight-medium">Your order is completed!</h1>
+                    <div style={{display: loading ? "none" : "block"}}>
+                        <img
+                            src={`/images/Success.png`}
+                            alt="OrderCompleted"
+                            className="orderIcons"
+                            id={"OrderCompletedImg"}
+                        />
+                    </div>
+                    <h1 className="h3 font-weight-medium"  data-testid="loadingIcon">Your order is completed!</h1>
                 <p>
                     Thank you for your order! Your order is being processed and will be completed soon. You will
                     not receive an email confirmation when your order is completed.

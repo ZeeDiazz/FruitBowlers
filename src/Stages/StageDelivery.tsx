@@ -194,7 +194,7 @@ export function StageDelivery() {
     const handleInputChange = (event: React.FormEvent<HTMLInputElement>) => {
         updateInputValue(event, event.currentTarget.name);
 
-        event.currentTarget.setCustomValidity('')
+        event.currentTarget.setCustomValidity('');
     };
 
     /**/
@@ -206,12 +206,9 @@ export function StageDelivery() {
             alert("Please correct the errors before continuing.");
             return; // Prevent navigation if there are errors.
         }
-
-
         if (isValid) {
             navigate('/Payment');
         }
-        
     };
 
     function validateForm(): Promise<boolean> {
@@ -276,13 +273,12 @@ export function StageDelivery() {
                         <div id="phoneBox">
                             <input name="landcode" placeholder="Landcode" value="+45" disabled/>
 
-                        <input name="telephone" type="numbers" pattern='[0-9]{8}' minLength={8} maxLength={8} onInvalid={
+                        <input name="telephone2" type="numbers" pattern='[0-9]{8}' minLength={8} maxLength={8} onInvalid={
                             (event) => {
-                                event.currentTarget.setCustomValidity("Insert a phonenumber with 8 digits");
-                            } 
-                        }
-                        
-                               placeholder="Telephone" defaultValue={billingAddressValues.phoneNumber} onChange={handleInputChange} required/>
+                                event.currentTarget.setCustomValidity("Insert a phoneNumber with 8 digits");
+                                }
+                            }
+                        placeholder="Telephone" defaultValue={billingAddressValues.phoneNumber} onChange={handleInputChange} required/>
                     </div>
                 </div>
                 <div className="continue-container">
