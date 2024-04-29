@@ -54,8 +54,8 @@ function ChoosePayment() {
             <header>
                 {header()}
             </header>
-            <body className="stageBoxes">
-            <button onClick={() => navigate('/Delivery')} className="previous round">&#8249;</button>
+            <div className="stageBoxes">
+                <button onClick={() => navigate('/Delivery')} className="previous round">&#8249;</button>
 
             <hgroup className="title-container">
                 <img
@@ -207,7 +207,7 @@ function ChoosePayment() {
                 <GiftCardPopUp></GiftCardPopUp>
             }
             <button type="submit" className={"NudgeButton"} onClick={handleContinue}>Continue</button>
-            </body>
+            </div>
         </div>
     );
 
