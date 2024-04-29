@@ -29,8 +29,4 @@
         justify-content: center; 
         align-items: center;
     }
-    }
-    #totalBox > * {
-        margin: 10px;
-    }
 }
