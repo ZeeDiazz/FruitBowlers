@@ -47,7 +47,7 @@ export const UpgradeButton: React.FC<UpgradeButtonProps> = ({ product, upgrades,
         <>
             {hasUpgrade && (
                 <button
-                    className={"nudgeButton"}
+                    className={"upgradeToOrganicButton"}
                     data-testid="upgrade-button"
                     onClick={() =>  onUpgradeClick()}>
                     Organic available! Change for {priceDifference} DKK a piece?

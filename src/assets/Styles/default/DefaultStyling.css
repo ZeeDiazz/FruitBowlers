@@ -256,6 +256,15 @@ p {
         margin: 4px;
     }
 }
+/*************organic upgrade button***************/
+.upgradeToOrganicButton {
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #95f195;
+    border: 0;
+    border-radius: 10px;
+}
+
 /*************SLIDER FOR GIFT-CARD REDEMPTION***************/
 .slideContainer {
     width: 100%;
