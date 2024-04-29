@@ -95,7 +95,7 @@ describe('StageBasket components', () => {
                 <StageBasket/>
             </BasketProvider>
         );
-        await waitFor(() => {
+        await waitFor((): boolean => {
             return screen.queryByText('Loading...') === null;
         })
         const plusButton = getAllByTestId('increase-button')[0];
