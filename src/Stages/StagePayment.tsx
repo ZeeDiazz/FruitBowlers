@@ -38,6 +38,15 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
         dispatch({type: "togglePopUp", payload: {toggle: toggle}})
     }
 
+
+    function handleContinue(e: FormEvent){
+        e.preventDefault();
+        if(paymentOption === PaymentOption.NONE) {
+            return;
+        }
+        navigate('/Checkout');
+    }
+
     return (
         <div className={`page ${navigating ? "navigating" : "navigated"}`}>
             <header>
@@ -191,7 +200,7 @@ function ChoosePayment(choosePaymentProps: ChoosePaymentProps) {
             {isPopUpActive &&  //Shows when a gift-card is successfully called
                 <GiftCardPopUp></GiftCardPopUp>
             }
-            <button type="submit" className={"NudgeButton"} onClick={() => navigate('/Checkout')}>Continue</button>
+            <button type="submit" className={"NudgeButton"} onClick={handleContinue}>Continue</button>
             </body>
         </div>
     );
