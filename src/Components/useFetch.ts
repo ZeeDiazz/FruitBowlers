@@ -14,7 +14,7 @@ export async function fetchData (url: string): Promise<Product[]> {
     }
 }
 
-export function useFetch (url: string): [Product[], (data: Product[]) => void, boolean, boolean] {
+export function useFetch (url: string): [Product[], boolean, boolean] {
     const [data, setData] = useState<Product[]>();
     const [isLoading, setIsLoading] = useState(false);
     const [hasError, setHasError] = useState(false);
@@ -32,5 +32,5 @@ export function useFetch (url: string): [Product[], (data: Product[]) => void, b
             });
     }, [url]);
 
-    return [data as Product[], setData, isLoading, hasError];
+    return [data as Product[], isLoading, hasError];
 }

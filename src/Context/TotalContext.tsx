@@ -25,12 +25,12 @@ const totalReducer = (state: TotalState, action: TotalAction) => {
             return {
                 ...state,
                 totalPrice: action.payload.priceAmount,
-            }
+            };
         case 'TotalQuantity':
             return {
                 ...state,
                 totalQuantity: action.payload.quantityAmount,
-            }
+            };
         default:
             return state;
     }

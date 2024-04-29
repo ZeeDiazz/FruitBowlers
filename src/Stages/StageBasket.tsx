@@ -18,7 +18,7 @@ export function StageBasket() {
     const upgradesUrl: string = base + 'main/upgradesList.json';
 
     const { products, isProductsLoading, productsError } = useBasketState();
-    const [upgrades, , isUpgradesLoading, upgradesError] = useFetch(upgradesUrl);
+    const [upgrades, isUpgradesLoading, upgradesError] = useFetch(upgradesUrl);
     const navigate = useNavigate();
 
     const dispatch = useBasketDispatch();
@@ -30,6 +30,9 @@ export function StageBasket() {
         try {
             const response = await fetch(url);
             const fetchedProducts = await response.json();
+            if (!response.ok) {
+                throw new Error('Network response was not ok, tried to access: ' + url);
+            }
             dispatch({ type: "fetchedProduct", payload: { products: fetchedProducts } });
         } catch (error) {
             dispatch({ type: "productsError", payload: { failed: true } }); // Set error message
