@@ -1,4 +1,4 @@
-import {describe, expect, it, vi, beforeEach} from "vitest";
+import {describe, it, vi, beforeEach} from "vitest";
 import { StageDelivery } from "../Stages/StageDelivery.tsx";
 import { render, screen} from "@testing-library/react";
 import {DeliveryProvider} from "../Complex/DeliveryContext.tsx";
@@ -20,7 +20,7 @@ describe('StageDelivery components', () => {
                 json: async () => ({ nr: '2650', navn: 'Hvidovre' }),
             } as Response;
         });
-        const { getAllByText } = render(
+        render(
             <DeliveryProvider>
                 <StageDelivery />
             </DeliveryProvider>

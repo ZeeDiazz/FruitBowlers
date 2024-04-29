@@ -1,16 +1,15 @@
 // Type of state
 import {createContext, useContext, useReducer} from "react";
-import * as diagnostics_channel from "diagnostics_channel";
 
 interface TotalState {
-    totalPrice: number;
+    totalPrice: string;
     totalQuantity: number;
 }
 
 // Initial state
 const initialTotalState: TotalState = {
-    totalPrice: 0,
-    totalQuantity: 0
+    totalPrice: '0',
+    totalQuantity: 0,
 };
 
 // Type of actions
@@ -26,12 +25,12 @@ const totalReducer = (state: TotalState, action: TotalAction) => {
             return {
                 ...state,
                 totalPrice: action.payload.priceAmount,
-            }
+            };
         case 'TotalQuantity':
             return {
                 ...state,
                 totalQuantity: action.payload.quantityAmount,
-            }
+            };
         default:
             return state;
     }

@@ -30,6 +30,9 @@ export function StageBasket() {
         try {
             const response = await fetch(url);
             const fetchedProducts = await response.json();
+            if (!response.ok) {
+                throw new Error('Network response was not ok, tried to access: ' + url);
+            }
             dispatch({ type: "fetchedProduct", payload: { products: fetchedProducts } });
         } catch (error) {
             dispatch({ type: "productsError", payload: { failed: true } }); // Set error message
