@@ -48,7 +48,7 @@ export function OrderCompleted() {
                     not receive an email confirmation when your order is completed.
                 </p>
                 {/*If we had a website, the user would be able to continue shopping*/}
-                <button className={"NudgeButton"} data-testid="button" onClick={() => refreshPage()}>Continue Shopping</button>
+                <button className={"ContinueButton"} data-testid="button" onClick={() => refreshPage()}>Continue Shopping</button>
             </nav>
         </div>
     )

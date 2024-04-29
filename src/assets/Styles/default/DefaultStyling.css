@@ -136,6 +136,18 @@ p {
 .NudgeButton:active {
     transform: translateY(4px);
 }
+.ContinueButton {
+    margin: 20px 25% 20px 25%;
+    padding: 8px 0 4px 4px;
+    background-color: lightgreen;
+    border: none;
+    width: 50%;
+    height: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    align-self: center;
+
+}
 .CheckBoxWithDescription {
     display: flex;
     margin: 10px;
